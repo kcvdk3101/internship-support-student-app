@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   text: {
-    ...Theme.fonts.headline.h1,
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.white.primary,
   },
 })

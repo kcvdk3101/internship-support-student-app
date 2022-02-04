@@ -7,7 +7,7 @@ type Props = {}
 const Home = (props: Props) => {
   return (
     <View>
-      <Text style={styles.homeText}>Link to Home Screen</Text>
+      <View style={styles.homeBox} />
     </View>
   )
 }
@@ -15,8 +15,10 @@ const Home = (props: Props) => {
 export default Home
 
 const styles = StyleSheet.create({
-  homeText: {
-    fontFamily: 'OpenSans-Regular',
-    color: Theme.palette.red.signOut,
+  homeBox: {
+    ...Theme.shadow.depth2,
+    width: 200,
+    height: 200,
+    backgroundColor: Theme.palette.red.signOut,
   },
 })
