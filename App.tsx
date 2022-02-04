@@ -1,12 +1,11 @@
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
-import { Provider } from 'react-redux'
-import { store } from './src/app/store'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font'
 import { useState } from 'react'
-import AppLoading from 'expo-app-loading'
-import Home from './src/Home'
-import Theme from './src/utils/Theme'
+import { StatusBar } from 'react-native'
+import HomeScreen from './src/screens/home/HomeScreen'
+import OnboardingScreen from './src/screens/onboarding/OnboardingScreen'
 
 const fetchFonts = () =>
   Font.loadAsync({
@@ -17,6 +16,8 @@ const fetchFonts = () =>
     'OpenSans-Regular': require('./src/assets/fonts/OpenSans/OpenSans-Regular.ttf'),
     'OpenSans-SemiBold': require('./src/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'),
   })
+
+const Stack = createStackNavigator()
 
 export default function App() {
   const [loadedAsset, setLoadedAsset] = useState(false)
@@ -32,25 +33,15 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>
-        Open up App.tsx to start working on your app!
-      </Text>
-      <Home />
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar backgroundColor="#7166D9" />
+
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
+          <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Theme.palette.main.primary,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  text: {
-    ...Theme.fonts.body.body1,
-    color: Theme.palette.white.primary,
-  },
-})
