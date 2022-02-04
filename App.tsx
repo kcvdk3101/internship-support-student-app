@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { StyleSheet } from 'react-native'
+import { StatusBar, StyleSheet } from 'react-native'
 import { Provider } from 'react-redux'
 import { store } from './src/app/store'
 import OnboardingScreen from './src/screens/onboarding/OnboardingScreen'
@@ -11,6 +11,8 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
     <Provider store={store}>
+      <StatusBar backgroundColor="#7166D9" />
+
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Onboarding Screen" component={OnboardingScreen} />
