@@ -4,8 +4,12 @@ import AppLoading from 'expo-app-loading'
 import * as Font from 'expo-font'
 import { useState } from 'react'
 import { StatusBar } from 'react-native'
+import { Provider } from 'react-redux'
+import { store } from './src/app/store'
+import AccountScreen from './src/screens/account/AccountScreen'
 import HomeScreen from './src/screens/home/HomeScreen'
 import OnboardingScreen from './src/screens/onboarding/OnboardingScreen'
+import Theme from './src/utils/Theme'
 
 const fetchFonts = () =>
   Font.loadAsync({
@@ -33,15 +37,16 @@ export default function App() {
   }
 
   return (
-    <>
-      <StatusBar backgroundColor="#7166D9" />
+    <Provider store={store}>
+      <StatusBar backgroundColor={Theme.palette.main.primary} />
 
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="AccountScreen" component={AccountScreen} />
           <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-    </>
+    </Provider>
   )
 }
