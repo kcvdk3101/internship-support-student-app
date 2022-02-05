@@ -36,10 +36,10 @@ const AccountScreen = (props: Props) => {
           <Text>Edit Profile</Text>
         </TouchableOpacity>
       </View>
-      <Text>{user.firstName}</Text>
+      {/* <Text>{user.firstName}</Text>
       <Text>{user.lastName}</Text>
       <Text>{user.phone}</Text>
-      <Text>{user.email}</Text>
+      <Text>{user.email}</Text> */}
     </SafeAreaView>
   )
 }
@@ -90,5 +90,9 @@ const styles = StyleSheet.create({
   },
   btnEditImage: {
     tintColor: Theme.palette.white.primary,
+  },
+
+  btnEditProfile: {
+    marginHorizontal: 16,
   },
 })
