@@ -15,22 +15,17 @@ import EditProfileButton from './components/EditProfileButton'
 import LogOutButton from './components/LogOutButton'
 import Avatar from './components/Avatar'
 import { cvData } from '../../utils/CVData'
+import ButtonCreateCV from './components/CVList/ButtonCreateCV'
+import CVItem from './components/CVList/CVItem'
 
 type Props = {}
-
-const renderItem = (item: { name: string; createdAt: string }) => (
-  <View>
-    <Text>{item.name}</Text>
-    <Text>{item.createdAt}</Text>
-  </View>
-)
 
 const AccountScreen = (props: Props) => {
   const user = useAppSelector((state) => state.auth.user)
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView nestedScrollEnabled={true}>
         <Text style={styles.heading}>Profile</Text>
         {/* Avatar */}
         <Avatar user={user} />
@@ -40,12 +35,21 @@ const AccountScreen = (props: Props) => {
 
         <View style={styles.cvContainer}>
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
-          <FlatList data={cvData} renderItem={({ item }) => renderItem(item)} />
-          <View>
-            <TouchableOpacity>
-              <Text>upload / create new cv</Text>
-            </TouchableOpacity>
-          </View>
+
+          {/* CV List */}
+          <ScrollView>
+            {cvData.map((cv, index) => (
+              <CVItem
+                key={index}
+                name={cv.name}
+                createdAt={cv.createdAt}
+                createdBy={cv.createdBy}
+              />
+            ))}
+          </ScrollView>
+
+          {/* Button Upload */}
+          <ButtonCreateCV />
         </View>
 
         {/* Logout Button */}
