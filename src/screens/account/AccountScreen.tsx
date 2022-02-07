@@ -1,8 +1,22 @@
-import { StyleSheet, Text, View, SafeAreaView, Image } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  FlatList,
+} from 'react-native'
 import React from 'react'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import EditProfileButton from './components/EditProfileButton'
+import LogOutButton from './components/LogOutButton'
+import Avatar from './components/Avatar'
+import { cvData } from '../../utils/CVData'
+import ButtonCreateCV from './components/CVList/ButtonCreateCV'
+import CVItem from './components/CVList/CVItem'
 
 type Props = {}
 
@@ -11,35 +25,36 @@ const AccountScreen = (props: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.heading}>Profile</Text>
-      <View style={styles.profile}>
-        <View style={styles.avatarContainer}>
-          <View style={styles.btnEdit}>
-            <TouchableOpacity>
-              <Image
-                style={styles.btnEditImage}
-                source={require('../../assets/images/icon-edit.png')}
+      <ScrollView nestedScrollEnabled={true}>
+        <Text style={styles.heading}>Profile</Text>
+        {/* Avatar */}
+        <Avatar user={user} />
+
+        {/* Edit Profile Button */}
+        <EditProfileButton />
+
+        <View style={styles.cvContainer}>
+          <Text style={styles.cvHeading}>CV / cover cetter</Text>
+
+          {/* CV List */}
+          <ScrollView>
+            {cvData.map((cv, index) => (
+              <CVItem
+                key={index}
+                name={cv.name}
+                createdAt={cv.createdAt}
+                createdBy={cv.createdBy}
               />
-            </TouchableOpacity>
-          </View>
-          <Image style={styles.avatar} source={{ uri: user.image }} />
+            ))}
+          </ScrollView>
+
+          {/* Button Upload */}
+          <ButtonCreateCV />
         </View>
-        <Text style={styles.profileText}>
-          {user.firstName} {user.lastName}
-        </Text>
-      </View>
-      <View>
-        <TouchableOpacity>
-          <View>
-            <Image source={require('../../assets/images/icon-person.png')} />
-          </View>
-          <Text>Edit Profile</Text>
-        </TouchableOpacity>
-      </View>
-      <Text>{user.firstName}</Text>
-      <Text>{user.lastName}</Text>
-      <Text>{user.phone}</Text>
-      <Text>{user.email}</Text>
+
+        {/* Logout Button */}
+        <LogOutButton />
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -57,38 +72,16 @@ const styles = StyleSheet.create({
     ...Theme.fonts.headline.h4,
     color: Theme.palette.white.primary,
   },
-  profile: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  cvContainer: {
+    marginTop: 30,
+    backgroundColor: Theme.palette.white.primary,
+    padding: 15,
+    marginHorizontal: 16,
+    borderRadius: 10,
   },
-  profileText: {
-    marginTop: 35,
-    ...Theme.fonts.headline.h4,
-    ...Theme.shadow.depth2,
-    color: Theme.palette.white.primary,
-  },
-  avatarContainer: {
-    position: 'relative',
-    ...Theme.shadow.depth3,
-  },
-  avatar: {
-    width: 165,
-    height: 165,
-    borderRadius: 100,
-  },
-  btnEdit: {
-    zIndex: 2,
-    position: 'absolute',
-    bottom: -10,
-    right: 0,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 100,
-    padding: 10,
-    backgroundColor: Theme.palette.main.fourth,
-  },
-  btnEditImage: {
-    tintColor: Theme.palette.white.primary,
+  cvHeading: {
+    ...Theme.fonts.headline.h6,
+    color: Theme.palette.main.fourth,
+    marginBottom: 10,
   },
 })
