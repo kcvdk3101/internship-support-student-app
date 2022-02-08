@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import React from 'react'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import { splashSlides } from '../../../utils/SplashData'
+import { splashSlides } from '../../../db/SplashData'
 import Theme from '../../../utils/Theme'
 
 type IndicatorListProps = {

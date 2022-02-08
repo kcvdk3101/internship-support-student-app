@@ -14,7 +14,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import EditProfileButton from './components/EditProfileButton'
 import LogOutButton from './components/LogOutButton'
 import Avatar from './components/Avatar'
-import { cvData } from '../../utils/CVData'
+import { cvData } from '../../db/CVData'
 import ButtonCreateCV from './components/CVList/ButtonCreateCV'
 import CVItem from './components/CVList/CVItem'
 

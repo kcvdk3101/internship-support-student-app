@@ -11,7 +11,7 @@ import {
   Text,
   View,
 } from 'react-native'
-import { splashSlides } from '../../utils/SplashData'
+import { splashSlides } from '../../db/SplashData'
 import Theme from '../../utils/Theme'
 import IndicatorList from './components/IndicatorList'
 
