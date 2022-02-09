@@ -5,6 +5,7 @@ import { StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
 import { store } from './src/app/store'
 import AppNavigator from './src/navigation/AppNavigator'
+import LoadAssets from './src/utils/FetchAssets'
 import Theme from './src/utils/Theme'
 
 const fetchFonts = () =>
@@ -23,7 +24,7 @@ export default function App() {
   if (!loadedAsset) {
     return (
       <AppLoading
-        startAsync={fetchFonts}
+        startAsync={async () => LoadAssets()}
         onFinish={() => setLoadedAsset(true)}
         onError={() => setLoadedAsset(false)}
       />

@@ -2,7 +2,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import React, { useEffect, useRef, useState } from 'react'
-import { StyleSheet } from 'react-native'
 import { IS_FIRST_TIME } from '../constant'
 import { useAppSelector } from '../hooks/redux'
 import OnboardingNavigator from './navigator/OnboardingNavigator'
@@ -41,5 +40,3 @@ const AppNavigator: React.FC = () => {
 }
 
 export default AppNavigator
-
-const styles = StyleSheet.create({})
