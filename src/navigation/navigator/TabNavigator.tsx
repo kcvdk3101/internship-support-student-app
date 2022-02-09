@@ -1,19 +1,19 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Theme from '../utils/Theme'
+import Theme from '../../utils/Theme'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import HomeScreen from '../screens/home/HomeScreen'
-import CompanyScreen from '../screens/company/CompanyScreen'
-import CVScreen from '../screens/cv/CVScreen'
-import AccountScreen from '../screens/account/AccountScreen'
+import HomeScreen from '../../screens/home/HomeScreen'
+import CompanyScreen from '../../screens/company/CompanyScreen'
+import CVScreen from '../../screens/cv/CVScreen'
+import AccountScreen from '../../screens/account/AccountScreen'
 
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="Home"
       screenOptions={{
         headerShown: false,
         tabBarActiveTintColor: Theme.palette.main.third,
