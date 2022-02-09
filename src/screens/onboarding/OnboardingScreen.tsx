@@ -12,8 +12,10 @@ import {
   View,
 } from 'react-native'
 import { splashSlides } from '../../db/SplashData'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import IndicatorList from './components/IndicatorList'
+import { openedApp } from '../../features/authenticationSlice'
 
 type OnboardingScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -42,6 +44,9 @@ const renderItem = (item: FlatListProps) => {
 
 const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0)
+  const isFirstTimeOpen = useAppSelector((state) => state.auth.isFirstTimeOpen)
+
+  const dispatch = useAppDispatch()
 
   const flatListRef = useRef<FlatList>(null)
   const updateCurrentSlideIndex = (
@@ -68,6 +73,10 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
     setCurrentSlideIndex(lastSlideIndex)
   }
 
+  const startOpenApp = async () => {
+    dispatch(openedApp(!isFirstTimeOpen))
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -84,6 +93,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
         navigation={navigation}
         goToNextSlide={goToNextSlide}
         skip={skip}
+        startOpenApp={startOpenApp}
       />
     </SafeAreaView>
   )

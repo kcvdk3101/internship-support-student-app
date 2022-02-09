@@ -15,6 +15,7 @@ type IndicatorListProps = {
   navigation: NavigationProp<ParamListBase>
   goToNextSlide: () => void
   skip: () => void
+  startOpenApp: () => void
 }
 
 const { height } = Dimensions.get('window')
@@ -24,6 +25,7 @@ const IndicatorList: React.FC<IndicatorListProps> = ({
   navigation,
   goToNextSlide,
   skip,
+  startOpenApp,
 }) => {
   return (
     <View style={styles.indicatorContainer}>
@@ -44,10 +46,7 @@ const IndicatorList: React.FC<IndicatorListProps> = ({
       <View style={styles.btnGroupContainer}>
         {currentSlideIndex == splashSlides.length - 1 ? (
           <View style={styles.btnGetStarted}>
-            <TouchableOpacity
-              style={styles.btn}
-              onPress={() => navigation.navigate('HomeScreen')}
-            >
+            <TouchableOpacity style={styles.btn} onPress={startOpenApp}>
               <Text style={styles.btnText}>get started</Text>
             </TouchableOpacity>
           </View>
