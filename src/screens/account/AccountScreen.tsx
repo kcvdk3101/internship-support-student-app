@@ -1,22 +1,13 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  SafeAreaView,
-  Image,
-  ScrollView,
-  FlatList,
-} from 'react-native'
 import React from 'react'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import ButtonCreateCV from '../../components/buttons/ButtonCreateCV'
+import CVCard from '../../components/cards/CVCard'
+import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import Avatar from './components/Avatar'
 import EditProfileButton from './components/EditProfileButton'
 import LogOutButton from './components/LogOutButton'
-import Avatar from './components/Avatar'
-import { cvData } from '../../db/CVData'
-import ButtonCreateCV from './components/CVList/ButtonCreateCV'
-import CVItem from './components/CVList/CVItem'
 
 type Props = {}
 
@@ -39,7 +30,7 @@ const AccountScreen = (props: Props) => {
           {/* CV List */}
           <ScrollView>
             {cvData.map((cv, index) => (
-              <CVItem
+              <CVCard
                 key={index}
                 name={cv.name}
                 createdAt={cv.createdAt}
