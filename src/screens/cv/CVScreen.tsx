@@ -1,9 +1,10 @@
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import Theme from '../../utils/Theme'
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { cvData } from '../../db/CVData'
+import ButtonCreateCV from '../../components/buttons/ButtonCreateCV'
 import CVCard from '../../components/cards/CVCard'
+import { cvData } from '../../db/CVData'
+import Theme from '../../utils/Theme'
 
 type CVScreenProps = {}
 
@@ -28,6 +29,14 @@ const CVScreen: React.FC<CVScreenProps> = () => {
           ))}
         </ScrollView>
       </ScrollView>
+      <View
+        style={{
+          padding: 15,
+          backgroundColor: 'transparent',
+        }}
+      >
+        <ButtonCreateCV />
+      </View>
     </SafeAreaView>
   )
 }
