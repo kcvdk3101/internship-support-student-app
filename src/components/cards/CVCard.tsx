@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
-import Theme from '../../../../utils/Theme'
+import Theme from '../../utils/Theme'
 
 type CVItemProps = {
   name: string
@@ -9,7 +9,7 @@ type CVItemProps = {
   createdBy: string
 }
 
-const CVItem: React.FC<CVItemProps> = ({ name, createdAt, createdBy }) => {
+const CVCard: React.FC<CVItemProps> = ({ name, createdAt, createdBy }) => {
   return (
     <View style={styles.cvItemContainer}>
       <View
@@ -23,7 +23,7 @@ const CVItem: React.FC<CVItemProps> = ({ name, createdAt, createdBy }) => {
         <TouchableOpacity>
           <Image
             style={styles.deleteIcon}
-            source={require('../../../../assets/images/icon-delete.png')}
+            source={require('../../assets/images/icon-delete.png')}
           />
         </TouchableOpacity>
       </View>
@@ -31,35 +31,35 @@ const CVItem: React.FC<CVItemProps> = ({ name, createdAt, createdBy }) => {
         <View style={styles.flex}>
           <Image
             style={styles.icon}
-            source={require('../../../../assets/images/icon-bolt.png')}
+            source={require('../../assets/images/icon-bolt.png')}
           />
           <Text style={styles.text}>{createdAt}</Text>
         </View>
-        <View style={styles.flex}>
+        <View
+          style={[
+            styles.flex,
+            {
+              marginTop: 8,
+            },
+          ]}
+        >
           <Image
             style={styles.icon}
-            source={require('../../../../assets/images/icon-upload.png')}
+            source={require('../../assets/images/icon-upload.png')}
           />
           <Text style={styles.text}>{createdBy}</Text>
         </View>
       </View>
-      <View style={styles.btnGroup}>
-        <View style={styles.btnItem}>
-          <TouchableOpacity>
-            <Text style={styles.btnItemText}>preview</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.btnItem}>
-          <TouchableOpacity>
-            <Text style={styles.btnItemText}>change</Text>
-          </TouchableOpacity>
-        </View>
+      <View style={styles.btnItem}>
+        <TouchableOpacity>
+          <Text style={styles.btnItemText}>preview</Text>
+        </TouchableOpacity>
       </View>
     </View>
   )
 }
 
-export default CVItem
+export default CVCard
 
 const styles = StyleSheet.create({
   cvItemContainer: {
@@ -93,18 +93,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  btnGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginTop: 15,
-    ...Theme.shadow.depth5,
-  },
   btnItem: {
     justifyContent: 'center',
     alignItems: 'center',
     flex: 1,
-    marginHorizontal: 5,
+    marginTop: 15,
     paddingVertical: 5,
     borderWidth: 1,
     borderColor: Theme.palette.white.secondary,

@@ -1,11 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import Theme from '../../../../utils/Theme'
+import Theme from '../../utils/Theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-type Props = {}
-
-const ButtonCreateCV = (props: Props) => {
+const ButtonCreateCV: React.FC = () => {
   return (
     <View style={styles.btnCreateCV}>
       <TouchableOpacity>
