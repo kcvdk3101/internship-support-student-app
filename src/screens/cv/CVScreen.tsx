@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import ButtonCreateCV from '../../components/buttons/ButtonCreateCV'
+import CreateCVButton from '../../components/buttons/CreateCVButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import Theme from '../../utils/Theme'
@@ -35,7 +35,7 @@ const CVScreen: React.FC<CVScreenProps> = () => {
           backgroundColor: 'transparent',
         }}
       >
-        <ButtonCreateCV />
+        <CreateCVButton />
       </View>
     </SafeAreaView>
   )
