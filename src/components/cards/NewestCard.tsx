@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     height: 160,
   },
   companyName: {
-    ...Theme.fonts.headline.h5,
+    ...Theme.fonts.headline.h6,
     color: Theme.palette.main.primary,
   },
   companyDesc: {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import ButtonChip from '../../components/buttons/ChipButton'
+import CompanyCard from '../../components/cards/CompanyCard'
 import NewestCard from '../../components/cards/NewestCard'
 import { keywordData } from '../../db/KeywordData'
 import Theme from '../../utils/Theme'
@@ -23,12 +24,18 @@ const CompanyScreen = (props: Props) => {
           ))}
         </View>
       </View>
-      <View style={styles.newestGroup}>
+      <View>
         <Text style={styles.heading}>newest</Text>
         <NewestCard />
       </View>
-      <View style={styles.popularCompaniesGroup}>
+      <View>
         <Text style={styles.heading}>popular comapanies</Text>
+        <View style={styles.popularCompaniesGroup}>
+          <CompanyCard />
+          <CompanyCard />
+          <CompanyCard />
+          <CompanyCard />
+        </View>
       </View>
     </ScrollView>
   )
@@ -40,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 20,
-    marginHorizontal: 15,
+    paddingHorizontal: 15,
   },
   heading: {
     textTransform: 'capitalize',
@@ -54,6 +61,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
-  newestGroup: {},
-  popularCompaniesGroup: {},
+  popularCompaniesGroup: {
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
 })
