@@ -2,6 +2,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
 import { StyleSheet } from 'react-native'
+import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
 import CVScreen from '../../screens/cv/CVScreen'
@@ -11,6 +12,8 @@ import Theme from '../../utils/Theme'
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -56,17 +59,23 @@ const TabNavigator = () => {
           headerShown: false,
         }}
       />
-      <Tab.Screen
-        name="Account"
-        component={AccountScreen}
-        options={{
-          tabBarLabel: 'Account',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
-          ),
-          headerShown: false,
-        }}
-      />
+      {isAuthenticated && (
+        <Tab.Screen
+          name="Account"
+          component={AccountScreen}
+          options={{
+            tabBarLabel: 'Account',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons
+                name="account"
+                color={color}
+                size={size}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+      )}
     </Tab.Navigator>
   )
 }

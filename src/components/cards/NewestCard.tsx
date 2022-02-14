@@ -4,34 +4,48 @@ import { keywordData } from '../../db/KeywordData'
 import Theme from '../../utils/Theme'
 import ChipButton from '../buttons/ChipButton'
 
-type Props = {}
+type KeyWord = {
+  name: string
+  bgColor: string
+  txtColor: string
+}
 
-const NewestCard = (props: Props) => {
+type NewestCardProps = {
+  card: {
+    banner: string
+    name: string
+    desc: string
+    image: string
+    jobs: number
+    kw: KeyWord[]
+  }
+}
+
+const NewestCard: React.FC<NewestCardProps> = ({ card }) => {
   return (
     <View style={styles.cardContainer}>
       <Image
         style={styles.image}
-        source={{ uri: 'https://picsum.photos/200' }}
+        source={{ uri: card.banner }}
         resizeMode="cover"
       />
       <View style={styles.cardBody}>
-        <Text style={styles.companyName}>Company Name</Text>
+        <Text style={styles.companyName}>{card.name}</Text>
         <Text numberOfLines={2} style={styles.companyDesc}>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Provident,
-          ipsa quibusdam? Obcaecati, doloribus placeat? Expedita ratione fugiat
-          praesentium, quis minima iusto cum laudantium deserunt reiciendis,
-          voluptatum voluptate laborum, veritatis quasi.
+          {card.desc}
         </Text>
         <View style={styles.jobAvailableContainer}>
           <Image
             style={styles.jobAvailableImage}
-            source={require('../../assets/images/icon-company.png')}
+            source={{ uri: card.image }}
             resizeMode="contain"
           />
-          <Text style={styles.jobAvailable}>11 Jobs Available</Text>
+          <Text style={styles.jobAvailable}>
+            {card.jobs} {card.jobs > 1 ? 'Jobs' : 'Job'} Available
+          </Text>
         </View>
         <View style={styles.skillList}>
-          {keywordData.map((kw, index) => (
+          {card.kw.map((kw, index) => (
             <ChipButton
               key={index}
               name={kw.name}
@@ -55,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: Theme.palette.white.primary,
     ...Theme.shadow.depth1,
-    marginVertical: 16,
+    marginBottom: 16,
   },
   cardBody: {
     marginVertical: 12,
