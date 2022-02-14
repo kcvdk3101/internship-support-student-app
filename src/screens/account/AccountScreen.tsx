@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import ButtonCreateCV from '../../components/buttons/ButtonCreateCV'
+import CreateCVButton from '../../components/buttons/CreateCVButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
@@ -40,7 +40,7 @@ const AccountScreen = (props: Props) => {
           </ScrollView>
 
           {/* Button Upload */}
-          <ButtonCreateCV />
+          <CreateCVButton />
         </View>
 
         {/* Logout Button */}

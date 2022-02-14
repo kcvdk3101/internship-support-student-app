@@ -3,7 +3,7 @@ import React from 'react'
 import Theme from '../../utils/Theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
-const ButtonCreateCV: React.FC = () => {
+const CreateCVButton: React.FC = () => {
   return (
     <View style={styles.btnCreateCV}>
       <TouchableOpacity>
@@ -13,7 +13,7 @@ const ButtonCreateCV: React.FC = () => {
   )
 }
 
-export default ButtonCreateCV
+export default CreateCVButton
 
 const styles = StyleSheet.create({
   btnCreateCV: {
