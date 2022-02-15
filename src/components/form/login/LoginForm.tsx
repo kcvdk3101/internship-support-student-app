@@ -1,18 +1,137 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import React from 'react'
+import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import Theme from '../../../utils/Theme'
+import { Ionicons } from '@expo/vector-icons'
+import LoginButton from '../../buttons/LoginButton'
 
-type Props = {}
+type LoginFormProps = {
+  handleShowModal: () => void
+  handleLogin: () => void
+}
 
-const deviceHeight = Dimensions.get('screen').height
+const height = Dimensions.get('screen').height
 
-const LoginForm = (props: Props) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  handleLogin,
+  handleShowModal,
+}) => {
   return (
-    <View>
-      <Text>LoginForm</Text>
+    <View style={styles.root}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.content}
+      >
+        <View>
+          <Ionicons name="arrow-back" onPress={handleShowModal} size={24} />
+          <Text style={styles.title}>Welcome!</Text>
+        </View>
+        <Text style={styles.subtitle}>Sign in to your account</Text>
+
+        <TextInput
+          autoCapitalize="none"
+          autoCompleteType="email"
+          autoCorrect={false}
+          keyboardType="email-address"
+          returnKeyType="next"
+          style={styles.textInput}
+          textContentType="username"
+          placeholder="Email"
+          placeholderTextColor={Theme.palette.white.primary}
+          // onChangeText={(email) => setEmail(email)}
+        />
+
+        <TextInput
+          autoCapitalize="none"
+          autoCompleteType="password"
+          autoCorrect={false}
+          returnKeyType="done"
+          textContentType="password"
+          secureTextEntry
+          style={styles.textInput}
+          placeholder="Password"
+          placeholderTextColor={Theme.palette.white.primary}
+          // onChangeText={(password) => setPassword(password)}
+        />
+
+        <View style={styles.forgotPasswordContainer}>
+          <Text style={styles.textButton}>Forgot password?</Text>
+        </View>
+
+        <LoginButton handleLogin={handleLogin} isAlignCenter={false} />
+      </KeyboardAvoidingView>
     </View>
   )
 }
 
 export default LoginForm
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  root: {
+    justifyContent: 'center',
+    backgroundColor: Theme.palette.white.primary,
+    maxHeight: height * 0.6,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    ...Theme.shadow.depth2,
+  },
+  content: {
+    justifyContent: 'center',
+  },
+  forgotPasswordContainer: {
+    alignItems: 'flex-end',
+    marginBottom: 8,
+  },
+  form: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Theme.palette.black.primary,
+    borderRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    marginBottom: 8,
+  },
+  label: {
+    color: 'rgba(235, 235, 245, 0.6)',
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 20,
+    width: 80,
+  },
+  subtitle: {
+    color: Theme.palette.black.primary,
+    ...Theme.fonts.body.body1,
+    marginBottom: 16,
+  },
+  textButton: {
+    color: Theme.palette.black.primary,
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 20,
+  },
+  textInput: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Theme.palette.black.primary,
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 8,
+    color: Theme.palette.paragraph.primary,
+    ...Theme.fonts.body.body1,
+  },
+  title: {
+    color: Theme.palette.main.fourth,
+    ...Theme.fonts.headline.h5,
+  },
+})

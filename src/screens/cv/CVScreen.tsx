@@ -1,4 +1,5 @@
-import React from 'react'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React, { useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CreateCVButton from '../../components/buttons/CreateCVButton'
@@ -7,14 +8,23 @@ import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
+import LoginScreen from '../login/LoginScreen'
 
-type CVScreenProps = {}
+type CVScreenProps = {
+  navigation: NavigationProp<ParamListBase>
+}
 
-const CVScreen: React.FC<CVScreenProps> = () => {
+const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+
+  const [showModal, setShowModal] = useState(false)
 
   const handleLogin = () => {
     console.log('clicked')
+  }
+
+  const handleShowModal = () => {
+    setShowModal(!showModal)
   }
 
   return (
@@ -67,8 +77,14 @@ const CVScreen: React.FC<CVScreenProps> = () => {
           >
             Login to create or edit your CV
           </Text>
-          <LoginButton handleLogin={handleLogin} />
+          <LoginButton handleLogin={handleShowModal} isAlignCenter={true} />
         </View>
+      )}
+      {showModal && (
+        <LoginScreen
+          handleLogin={handleLogin}
+          handleShowModal={handleShowModal}
+        />
       )}
     </SafeAreaView>
   )
