@@ -15,7 +15,6 @@ type NewestCardProps = {
     banner: string
     name: string
     desc: string
-    image: string
     jobs: number
     kw: KeyWord[]
   }
@@ -37,7 +36,7 @@ const NewestCard: React.FC<NewestCardProps> = ({ card }) => {
         <View style={styles.jobAvailableContainer}>
           <Image
             style={styles.jobAvailableImage}
-            source={{ uri: card.image }}
+            source={require('../../assets/images/icon-company.png')}
             resizeMode="contain"
           />
           <Text style={styles.jobAvailable}>

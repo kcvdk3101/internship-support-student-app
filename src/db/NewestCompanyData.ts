@@ -3,7 +3,6 @@ export const newestCompany = [
     banner: 'https://picsum.photos/200',
     name: 'Company Name',
     desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    image: 'https://picsum.photos/200',
     jobs: 11,
     kw: [
       {
@@ -27,7 +26,6 @@ export const newestCompany = [
     banner: 'https://picsum.photos/200',
     name: 'Company Name',
     desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    image: 'https://picsum.photos/200',
     jobs: 11,
     kw: [
       {
@@ -51,7 +49,6 @@ export const newestCompany = [
     banner: 'https://picsum.photos/200',
     name: 'Company Name',
     desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    image: 'https://picsum.photos/200',
     jobs: 11,
     kw: [
       {
@@ -75,7 +72,6 @@ export const newestCompany = [
     banner: 'https://picsum.photos/200',
     name: 'Company Name',
     desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    image: 'https://picsum.photos/200',
     jobs: 11,
     kw: [
       {
@@ -99,7 +95,6 @@ export const newestCompany = [
     banner: 'https://picsum.photos/200',
     name: 'Company Name',
     desc: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit.',
-    image: 'https://picsum.photos/200',
     jobs: 11,
     kw: [
       {
