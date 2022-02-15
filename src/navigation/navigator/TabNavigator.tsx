@@ -1,7 +1,10 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import SearchButton from '../../components/buttons/SearchButton'
 import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
@@ -38,13 +41,21 @@ const TabNavigator = () => {
         name="Company"
         component={CompanyScreen}
         options={{
-          tabBarLabel: 'Company',
+          // title: 'Company',
+          // tabBarLabel: 'Company',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="select-group"
               color={color}
               size={size}
             />
+          ),
+          header: () => (
+            <View style={{ backgroundColor: Theme.palette.main.primary }}>
+              <SafeAreaView>
+                <SearchButton />
+              </SafeAreaView>
+            </View>
           ),
         }}
       />
@@ -82,4 +93,10 @@ const TabNavigator = () => {
 
 export default TabNavigator
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  companyHeader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+  },
+})
