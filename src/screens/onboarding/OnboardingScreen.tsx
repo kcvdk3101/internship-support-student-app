@@ -49,6 +49,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
   const dispatch = useAppDispatch()
 
   const flatListRef = useRef<FlatList>(null)
+
   const updateCurrentSlideIndex = (
     event: NativeSyntheticEvent<NativeScrollEvent>,
   ) => {

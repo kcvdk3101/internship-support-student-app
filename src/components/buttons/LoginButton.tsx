@@ -4,14 +4,23 @@ import Theme from '../../utils/Theme'
 // import Theme from '../../../utils/Theme'
 
 type LoginButtonProps = {
+  isAlignCenter: boolean
   handleLogin: () => void
 }
 
-const LoginButton: React.FC<LoginButtonProps> = ({ handleLogin }) => {
+const LoginButton: React.FC<LoginButtonProps> = ({
+  isAlignCenter,
+  handleLogin,
+}) => {
   return (
     <View style={styles.loginContainer}>
       <TouchableOpacity
-        style={styles.btnLogin}
+        style={[
+          styles.btnLogin,
+          {
+            alignSelf: isAlignCenter ? 'center' : 'stretch',
+          },
+        ]}
         activeOpacity={0.9}
         onPress={handleLogin}
       >
@@ -30,7 +39,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 100,
-    alignSelf: 'center',
   },
   btnLogin: {
     flexDirection: 'row',

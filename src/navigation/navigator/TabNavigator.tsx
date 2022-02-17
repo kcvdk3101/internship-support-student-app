@@ -41,8 +41,6 @@ const TabNavigator = () => {
         name="Company"
         component={CompanyScreen}
         options={{
-          // title: 'Company',
-          // tabBarLabel: 'Company',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="select-group"
