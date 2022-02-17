@@ -8,7 +8,7 @@ import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
-import LoginScreen from '../login/LoginScreen'
+import AuthenticationScreen from '../authentication/AuthenticationScreen'
 
 type CVScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -81,7 +81,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
         </View>
       )}
       {showModal && (
-        <LoginScreen
+        <AuthenticationScreen
           handleLogin={handleLogin}
           handleShowModal={handleShowModal}
         />

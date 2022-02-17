@@ -15,83 +15,73 @@ import { Ionicons } from '@expo/vector-icons'
 import LoginButton from '../../buttons/LoginButton'
 
 type LoginFormProps = {
-  handleShowModal: () => void
   handleLogin: () => void
+  handleDisplayFPScreen: () => void
 }
 
 const height = Dimensions.get('screen').height
 
 const LoginForm: React.FC<LoginFormProps> = ({
   handleLogin,
-  handleShowModal,
+  handleDisplayFPScreen,
 }) => {
   return (
-    <View style={styles.root}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.content}
-      >
-        <View>
-          <Ionicons name="arrow-back" onPress={handleShowModal} size={24} />
-          <Text style={styles.title}>Welcome!</Text>
-        </View>
-        <Text style={styles.subtitle}>Sign in to your account</Text>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.content}
+    >
+      <View>
+        <Text style={styles.title}>Welcome!</Text>
+      </View>
+      <Text style={styles.subtitle}>Sign in to your account</Text>
 
-        <TextInput
-          autoCapitalize="none"
-          autoCompleteType="email"
-          autoCorrect={false}
-          keyboardType="email-address"
-          returnKeyType="next"
-          style={styles.textInput}
-          textContentType="username"
-          placeholder="Email"
-          placeholderTextColor={Theme.palette.white.primary}
-          // onChangeText={(email) => setEmail(email)}
-        />
+      <TextInput
+        autoCapitalize="none"
+        autoCompleteType="email"
+        autoCorrect={false}
+        keyboardType="email-address"
+        returnKeyType="next"
+        style={styles.textInput}
+        textContentType="username"
+        placeholder="Email"
+        placeholderTextColor={Theme.palette.white.primary}
+        // onChangeText={(email) => setEmail(email)}
+      />
 
-        <TextInput
-          autoCapitalize="none"
-          autoCompleteType="password"
-          autoCorrect={false}
-          returnKeyType="done"
-          textContentType="password"
-          secureTextEntry
-          style={styles.textInput}
-          placeholder="Password"
-          placeholderTextColor={Theme.palette.white.primary}
-          // onChangeText={(password) => setPassword(password)}
-        />
+      <TextInput
+        autoCapitalize="none"
+        autoCompleteType="password"
+        autoCorrect={false}
+        returnKeyType="done"
+        textContentType="password"
+        secureTextEntry
+        style={styles.textInput}
+        placeholder="Password"
+        placeholderTextColor={Theme.palette.white.primary}
+        // onChangeText={(password) => setPassword(password)}
+      />
 
-        <View style={styles.forgotPasswordContainer}>
+      <View style={styles.forgotPasswordContainer}>
+        <Pressable onPress={handleDisplayFPScreen}>
           <Text style={styles.textButton}>Forgot password?</Text>
-        </View>
+        </Pressable>
+      </View>
 
-        <LoginButton handleLogin={handleLogin} isAlignCenter={false} />
-      </KeyboardAvoidingView>
-    </View>
+      <LoginButton handleLogin={handleLogin} isAlignCenter={false} />
+    </KeyboardAvoidingView>
   )
 }
 
 export default LoginForm
 
 const styles = StyleSheet.create({
-  root: {
-    justifyContent: 'center',
-    backgroundColor: Theme.palette.white.primary,
-    maxHeight: height * 0.6,
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    ...Theme.shadow.depth2,
-  },
   content: {
     justifyContent: 'center',
   },
   forgotPasswordContainer: {
     alignItems: 'flex-end',
-    marginBottom: 8,
+    marginTop: 8,
+    marginBottom: 16,
   },
   form: {
     flexDirection: 'row',
