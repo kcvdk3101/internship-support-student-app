@@ -1,12 +1,5 @@
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native'
 import React, { useState } from 'react'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import Theme from '../../../utils/Theme'
 import GeneralButton from '../../buttons/GeneralButton'
 
@@ -16,16 +9,14 @@ const ForgotPasswordForm = (props: Props) => {
   const [email, setEmail] = useState<string>('')
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.content}
-    >
+    <View style={styles.content}>
       <View>
         <Text style={styles.title}>Sent us your school email</Text>
         <Text style={styles.subtitle}>We will reset your password</Text>
       </View>
 
       <TextInput
+        autoCapitalize="none"
         autoCompleteType="email"
         autoCorrect={false}
         keyboardType="email-address"
@@ -34,7 +25,8 @@ const ForgotPasswordForm = (props: Props) => {
         textContentType="username"
         placeholder="Email"
         placeholderTextColor={Theme.palette.white.primary}
-        // onChangeText={(email) => setEmail(email)}
+        value={email}
+        onChangeText={(email) => setEmail(email)}
       />
 
       <GeneralButton
@@ -42,7 +34,7 @@ const ForgotPasswordForm = (props: Props) => {
         label="Send"
         isAlignCenter={false}
       />
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 

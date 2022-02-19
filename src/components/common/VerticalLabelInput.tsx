@@ -1,11 +1,15 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
+import { StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 
-const VerticalLabelInput = () => {
+type VerticalLabelInputProps = {
+  label: string
+}
+
+const VerticalLabelInput: React.FC<VerticalLabelInputProps> = ({ label }) => {
   return (
     <View>
-      <Text>VerticalLabelInput</Text>
-      <TextInput />
+      <Text>{label}</Text>
+      <TextInput autoCapitalize="none" />
     </View>
   )
 }

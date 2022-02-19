@@ -1,33 +1,23 @@
 import React, { useState } from 'react'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import Theme from '../../../utils/Theme'
 import GeneralButton from '../../buttons/GeneralButton'
 
 type LoginFormProps = {
-  handleLogin: () => void
   handleDisplayFPScreen: () => void
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({
-  handleLogin,
-  handleDisplayFPScreen,
-}) => {
+const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
   const [email, setEmail] = useState<string>('')
   const [password, setPassword] = useState<string>('')
 
+  const handleLogin = () => {
+    console.log('clicked')
+  }
+
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-      style={styles.content}
-    >
+    <View style={styles.content}>
       <View>
         <Text style={styles.title}>Welcome!</Text>
       </View>
@@ -43,7 +33,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
         textContentType="username"
         placeholder="Email"
         placeholderTextColor={Theme.palette.white.primary}
-        // onChangeText={(email) => setEmail(email)}
+        value={email}
+        onChangeText={(email) => setEmail(email)}
       />
 
       <TextInput
@@ -56,7 +47,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
         style={styles.textInput}
         placeholder="Password"
         placeholderTextColor={Theme.palette.white.primary}
-        // onChangeText={(password) => setPassword(password)}
+        value={password}
+        onChangeText={(password) => setPassword(password)}
       />
 
       <View style={styles.forgotPasswordContainer}>
@@ -71,7 +63,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         label="Sign in"
         isAlignCenter={false}
       />
-    </KeyboardAvoidingView>
+    </View>
   )
 }
 
@@ -79,7 +71,7 @@ export default LoginForm
 
 const styles = StyleSheet.create({
   content: {
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
   },
   forgotPasswordContainer: {
     alignItems: 'flex-end',

@@ -6,7 +6,6 @@ import Theme from '../../../utils/Theme'
 
 type LoginScreenProps = {
   handleShowModal: () => void
-  handleLogin: () => void
   handleDisplayFPScreen: () => void
 }
 
@@ -14,7 +13,6 @@ const height = Dimensions.get('screen').height
 
 const LoginScreen: React.FC<LoginScreenProps> = ({
   handleShowModal,
-  handleLogin,
   handleDisplayFPScreen,
 }) => {
   return (
@@ -35,10 +33,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
         size={30}
         style={{ width: 50 }}
       />
-      <LoginForm
-        handleLogin={handleLogin}
-        handleDisplayFPScreen={handleDisplayFPScreen}
-      />
+      <LoginForm handleDisplayFPScreen={handleDisplayFPScreen} />
     </View>
   )
 }

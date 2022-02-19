@@ -19,10 +19,6 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   const [showModal, setShowModal] = useState(false)
 
-  const handleLogin = () => {
-    console.log('clicked')
-  }
-
   const handleShowModal = () => {
     setShowModal(!showModal)
   }
@@ -85,12 +81,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           />
         </View>
       )}
-      {showModal && (
-        <AuthenticationScreen
-          handleLogin={handleLogin}
-          handleShowModal={handleShowModal}
-        />
-      )}
+      {showModal && <AuthenticationScreen handleShowModal={handleShowModal} />}
     </SafeAreaView>
   )
 }

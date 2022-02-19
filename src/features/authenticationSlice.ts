@@ -5,20 +5,13 @@ import { FIRST_TIME_OPEN_VALUE, IS_FIRST_TIME } from '../constant'
 import { User } from '../models/user'
 
 type AuthenticationSliceStateProps = {
-  user: User
+  user: User | null
   isAuthenticated: boolean
   isFirstTimeOpen: boolean
 }
 
 const initialState: AuthenticationSliceStateProps = {
-  user: {
-    firstName: 'Khoi',
-    lastName: 'Vuong',
-    phone: '0934105563',
-    email: '18DH110815@st.huflit.edu.vn',
-    image: 'https://picsum.photos/200',
-    cvList: [],
-  },
+  user: null,
   isAuthenticated: false,
   isFirstTimeOpen: false,
 }
@@ -34,6 +27,7 @@ const authenticationSlice = createSlice({
       )
       state.isFirstTimeOpen = true
     },
+    login(state, action) {},
   },
   extraReducers: {},
 })

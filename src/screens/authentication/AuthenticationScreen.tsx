@@ -1,28 +1,27 @@
 import React, { useRef, useState } from 'react'
 import {
   Dimensions,
+  KeyboardAvoidingView,
   Modal,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  Platform,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native'
-import LoginForm from '../../components/form/login/LoginForm'
 import Theme from '../../utils/Theme'
 import ForgotPasswordScreen from './components/ForgotPasswordScreen'
 import LoginScreen from './components/LoginScreen'
 
 type AuthenticationScreenProps = {
   handleShowModal: () => void
-  handleLogin: () => void
 }
 
 const width = Dimensions.get('screen').width
 
 const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
   handleShowModal,
-  handleLogin,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0)
   const [displayFPScreen, setDisplayFPScreen] = useState<boolean>(false)
@@ -65,19 +64,20 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
           scrollEnabled={false}
           onMomentumScrollEnd={updateCurrentSlideIndex}
         >
-          <View
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{
               width: width,
               justifyContent: 'flex-end',
             }}
           >
             <LoginScreen
-              handleLogin={handleLogin}
               handleShowModal={handleShowModal}
               handleDisplayFPScreen={handleDisplayFPScreen}
             />
-          </View>
-          <View
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{
               width: width,
               justifyContent: 'flex-end',
@@ -87,7 +87,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
               goBackSlide={goBackSlide}
               handleShowModal={handleShowModal}
             />
-          </View>
+          </KeyboardAvoidingView>
         </ScrollView>
       </Modal>
     </View>
@@ -97,6 +97,9 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
 export default AuthenticationScreen
 
 const styles = StyleSheet.create({
+  content: {
+    justifyContent: 'flex-end',
+  },
   button: {
     alignItems: 'center',
     backgroundColor: 'rgb(93, 95, 222)',

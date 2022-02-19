@@ -1,13 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
-import { createStackNavigator } from '@react-navigation/stack'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { IS_FIRST_TIME } from '../constant'
 import { useAppSelector } from '../hooks/redux'
 import OnboardingNavigator from './navigator/OnboardingNavigator'
 import TabNavigator from './navigator/TabNavigator'
-
-const Stack = createStackNavigator()
 
 const AppNavigator: React.FC = () => {
   const isFirstTimeOpen = useAppSelector((state) => state.auth.isFirstTimeOpen)
@@ -20,12 +17,13 @@ const AppNavigator: React.FC = () => {
     setValue(firstOpen)
   }
 
-  const clearStorageData = async () => {
-    await AsyncStorage.clear() // use this for testing
-  }
+  // FUNCTION USED FOR TESTING FIRST TIME OPEN APP
+  // const clearStorageData = async () => {
+  //   await AsyncStorage.clear()
+  // }
 
   useEffect(() => {
-    clearStorageData()
+    // clearStorageData()
     isFirstTime()
   }, [])
 
