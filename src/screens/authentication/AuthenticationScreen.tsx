@@ -62,7 +62,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
           style={{ backgroundColor: Theme.palette.background.modal }}
           horizontal
           pagingEnabled
-          bounces={false}
+          scrollEnabled={false}
           onMomentumScrollEnd={updateCurrentSlideIndex}
         >
           <View
@@ -81,7 +81,6 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
             style={{
               width: width,
               justifyContent: 'flex-end',
-              // marginLeft: 20,
             }}
           >
             <ForgotPasswordScreen
