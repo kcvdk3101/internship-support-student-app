@@ -20,6 +20,9 @@ export default {
     red: {
       signOut: '#EC1E20',
     },
+    background: {
+      modal: '#000000AA',
+    },
   },
 
   fonts: {

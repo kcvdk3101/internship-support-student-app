@@ -17,8 +17,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
   handleLogin,
   handleDisplayFPScreen,
 }) => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
   return (
     <View
       style={{
@@ -37,16 +35,6 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
         size={30}
         style={{ width: 50 }}
       />
-
-      {/* <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          marginBottom: 10,
-        }}
-      >
-        <Ionicons name="arrow-forward" onPress={handleShowModal} size={30} />
-      </View> */}
       <LoginForm
         handleLogin={handleLogin}
         handleDisplayFPScreen={handleDisplayFPScreen}

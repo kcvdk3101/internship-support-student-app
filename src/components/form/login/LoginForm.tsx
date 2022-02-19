@@ -1,30 +1,28 @@
+import React, { useState } from 'react'
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Platform,
   Pressable,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
-import React from 'react'
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
+import { TextInput } from 'react-native-gesture-handler'
 import Theme from '../../../utils/Theme'
-import { Ionicons } from '@expo/vector-icons'
-import LoginButton from '../../buttons/LoginButton'
+import GeneralButton from '../../buttons/GeneralButton'
 
 type LoginFormProps = {
   handleLogin: () => void
   handleDisplayFPScreen: () => void
 }
 
-const height = Dimensions.get('screen').height
-
 const LoginForm: React.FC<LoginFormProps> = ({
   handleLogin,
   handleDisplayFPScreen,
 }) => {
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -67,7 +65,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
         </Pressable>
       </View>
 
-      <LoginButton handleLogin={handleLogin} isAlignCenter={false} />
+      <GeneralButton
+        bgColor={Theme.palette.main.primary}
+        onPress={handleLogin}
+        label="Sign in"
+        isAlignCenter={false}
+      />
     </KeyboardAvoidingView>
   )
 }

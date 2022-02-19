@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native'
 import LoginForm from '../../components/form/login/LoginForm'
+import Theme from '../../utils/Theme'
 import ForgotPasswordScreen from './components/ForgotPasswordScreen'
 import LoginScreen from './components/LoginScreen'
 
@@ -58,9 +59,8 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
       <Modal animationType="slide" transparent={true} visible={true}>
         <ScrollView
           ref={scrollRef}
-          style={{ backgroundColor: '#000000AA' }}
+          style={{ backgroundColor: Theme.palette.background.modal }}
           horizontal
-          alwaysBounceHorizontal
           pagingEnabled
           bounces={false}
           onMomentumScrollEnd={updateCurrentSlideIndex}
@@ -81,9 +81,13 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
             style={{
               width: width,
               justifyContent: 'flex-end',
+              // marginLeft: 20,
             }}
           >
-            <ForgotPasswordScreen />
+            <ForgotPasswordScreen
+              goBackSlide={goBackSlide}
+              handleShowModal={handleShowModal}
+            />
           </View>
         </ScrollView>
       </Modal>

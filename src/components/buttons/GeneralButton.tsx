@@ -3,49 +3,59 @@ import React from 'react'
 import Theme from '../../utils/Theme'
 // import Theme from '../../../utils/Theme'
 
-type LoginButtonProps = {
+type GeneralButtonProps = {
   isAlignCenter: boolean
-  handleLogin: () => void
+  bgColor: string
+  label: string
+  onPress?: () => void
 }
 
-const LoginButton: React.FC<LoginButtonProps> = ({
+const GeneralButton: React.FC<GeneralButtonProps> = ({
   isAlignCenter,
-  handleLogin,
+  bgColor,
+  label,
+  onPress,
 }) => {
   return (
-    <View style={styles.loginContainer}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: bgColor,
+        },
+      ]}
+    >
       <TouchableOpacity
         style={[
-          styles.btnLogin,
+          styles.btn,
           {
             alignSelf: isAlignCenter ? 'center' : 'stretch',
           },
         ]}
         activeOpacity={0.9}
-        onPress={handleLogin}
+        onPress={onPress}
       >
-        <Text style={styles.loginText}>Sign In</Text>
+        <Text style={styles.text}>{label}</Text>
       </TouchableOpacity>
     </View>
   )
 }
 
-export default LoginButton
+export default GeneralButton
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  container: {
     ...Theme.shadow.depth2,
-    backgroundColor: Theme.palette.main.primary,
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 100,
   },
-  btnLogin: {
+  btn: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  loginText: {
+  text: {
     color: Theme.palette.white.primary,
     ...Theme.fonts.headline.h6,
   },

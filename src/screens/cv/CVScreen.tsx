@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import CreateCVButton from '../../components/buttons/CreateCVButton'
-import LoginButton from '../../components/buttons/LoginButton'
+import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
@@ -77,7 +77,12 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           >
             Login to create or edit your CV
           </Text>
-          <LoginButton handleLogin={handleShowModal} isAlignCenter={true} />
+          <GeneralButton
+            bgColor={Theme.palette.main.primary}
+            onPress={handleShowModal}
+            label="Sign in"
+            isAlignCenter={true}
+          />
         </View>
       )}
       {showModal && (
