@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import Theme from '../../utils/Theme'
-import CompDetailInfo from '../items/CompDetailInfo'
+import CompDetailInfo from '../common/CompDetailInfo'
 
 type CompanyCardProps = {
   company: {
