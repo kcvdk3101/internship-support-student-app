@@ -8,16 +8,6 @@ import AppNavigator from './src/navigation/AppNavigator'
 import LoadAssets from './src/utils/FetchAssets'
 import Theme from './src/utils/Theme'
 
-const fetchFonts = () =>
-  Font.loadAsync({
-    'Roboto-Bold': require('./src/assets/fonts/Roboto/Roboto-Bold.ttf'),
-    'Roboto-Regular': require('./src/assets/fonts/Roboto/Roboto-Regular.ttf'),
-
-    'OpenSans-Bold': require('./src/assets/fonts/OpenSans/OpenSans-Bold.ttf'),
-    'OpenSans-Regular': require('./src/assets/fonts/OpenSans/OpenSans-Regular.ttf'),
-    'OpenSans-SemiBold': require('./src/assets/fonts/OpenSans/OpenSans-SemiBold.ttf'),
-  })
-
 export default function App() {
   const [loadedAsset, setLoadedAsset] = useState(false)
 

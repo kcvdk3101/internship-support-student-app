@@ -13,19 +13,20 @@ const AppNavigator: React.FC = () => {
   const isFirstTimeOpen = useAppSelector((state) => state.auth.isFirstTimeOpen)
 
   const [value, setValue] = useState<string | null>(null)
-  const unmounted = useRef(true)
+  // const unmounted = useRef(true)
 
   const isFirstTime = async () => {
     const firstOpen = await AsyncStorage.getItem(IS_FIRST_TIME)
     setValue(firstOpen)
-    if (!unmounted.current) return null
+  }
+
+  const clearStorageData = async () => {
+    await AsyncStorage.clear() // use this for testing
   }
 
   useEffect(() => {
+    clearStorageData()
     isFirstTime()
-    return () => {
-      unmounted.current = false
-    }
   }, [])
 
   return (
