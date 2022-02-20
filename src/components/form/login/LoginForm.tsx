@@ -1,20 +1,55 @@
 import React, { useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import Theme from '../../../utils/Theme'
 import GeneralButton from '../../buttons/GeneralButton'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 type LoginFormProps = {
   handleDisplayFPScreen: () => void
 }
 
-const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
+type FieldProps = {
+  email: string
+  password: string
+}
 
-  const handleLogin = () => {
-    console.log('clicked')
-  }
+const loginSchema = yup.object({
+  email: yup
+    .string()
+    .required('Mail is required')
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Please enter correct format',
+    ),
+  password: yup
+    .string()
+    .required('Password is required.')
+    .min(8, 'Password should be at least 8 characters.')
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Password contains at least 8 characters, 1 uppercase letter, ' +
+        '1 lowercase letter, 1 number and 1 special character!',
+    ),
+})
+
+const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: yupResolver(loginSchema),
+  })
+
+  const onSubmit = (data: FieldProps) => Alert.alert(JSON.stringify(data))
 
   return (
     <View style={styles.content}>
@@ -23,33 +58,62 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
       </View>
       <Text style={styles.subtitle}>Sign in to your account</Text>
 
-      <TextInput
-        autoCapitalize="none"
-        autoCompleteType="email"
-        autoCorrect={false}
-        keyboardType="email-address"
-        returnKeyType="next"
-        style={styles.textInput}
-        textContentType="username"
-        placeholder="Email"
-        placeholderTextColor={Theme.palette.white.primary}
-        value={email}
-        onChangeText={(email) => setEmail(email)}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            autoCapitalize="none"
+            autoCompleteType="email"
+            autoCorrect={false}
+            onBlur={onBlur}
+            keyboardType="email-address"
+            returnKeyType="next"
+            style={styles.textInput}
+            placeholder="Email"
+            placeholderTextColor={Theme.palette.white.primary}
+            value={value}
+            onChangeText={onChange}
+          />
+        )}
+        name="email"
       />
+      {errors.email && (
+        <Text style={{ color: Theme.palette.red.error }}>
+          This field is required
+        </Text>
+      )}
 
-      <TextInput
-        autoCapitalize="none"
-        autoCompleteType="password"
-        autoCorrect={false}
-        returnKeyType="done"
-        textContentType="password"
-        secureTextEntry
-        style={styles.textInput}
-        placeholder="Password"
-        placeholderTextColor={Theme.palette.white.primary}
-        value={password}
-        onChangeText={(password) => setPassword(password)}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            autoCapitalize="none"
+            autoCompleteType="password"
+            autoCorrect={false}
+            onBlur={onBlur}
+            secureTextEntry
+            textContentType="password"
+            returnKeyType="done"
+            style={styles.textInput}
+            placeholder="Password"
+            placeholderTextColor={Theme.palette.white.primary}
+            value={value}
+            onChangeText={onChange}
+          />
+        )}
+        name="email"
       />
+      {errors.email && (
+        <Text style={{ color: Theme.palette.red.error }}>
+          This field is required
+        </Text>
+      )}
 
       <View style={styles.forgotPasswordContainer}>
         <Pressable onPress={handleDisplayFPScreen}>
@@ -59,7 +123,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
 
       <GeneralButton
         bgColor={Theme.palette.main.primary}
-        onPress={handleLogin}
+        onPress={handleSubmit(onSubmit)}
         label="Sign in"
         isAlignCenter={false}
       />
@@ -111,7 +175,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginBottom: 8,
+    marginVertical: 8,
     color: Theme.palette.paragraph.primary,
     ...Theme.fonts.body.body1,
   },

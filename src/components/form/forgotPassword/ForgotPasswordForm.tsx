@@ -2,11 +2,33 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
 import Theme from '../../../utils/Theme'
 import GeneralButton from '../../buttons/GeneralButton'
+import { useForm, Controller } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
-type Props = {}
+type ForgotPasswordFormProps = {}
 
-const ForgotPasswordForm = (props: Props) => {
-  const [email, setEmail] = useState<string>('')
+const forgotPasswordSchema = yup.object({
+  email: yup
+    .string()
+    .required('Mail is required')
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Please enter correct format',
+    ),
+})
+
+const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      email: '',
+    },
+    resolver: yupResolver(forgotPasswordSchema),
+  })
 
   return (
     <View style={styles.content}>
@@ -15,19 +37,33 @@ const ForgotPasswordForm = (props: Props) => {
         <Text style={styles.subtitle}>We will reset your password</Text>
       </View>
 
-      <TextInput
-        autoCapitalize="none"
-        autoCompleteType="email"
-        autoCorrect={false}
-        keyboardType="email-address"
-        returnKeyType="next"
-        style={styles.textInput}
-        textContentType="username"
-        placeholder="Email"
-        placeholderTextColor={Theme.palette.white.primary}
-        value={email}
-        onChangeText={(email) => setEmail(email)}
+      <Controller
+        control={control}
+        rules={{
+          required: true,
+        }}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <TextInput
+            autoCapitalize="none"
+            autoCompleteType="email"
+            autoCorrect={false}
+            onBlur={onBlur}
+            keyboardType="email-address"
+            returnKeyType="next"
+            style={styles.textInput}
+            placeholder="Email"
+            placeholderTextColor={Theme.palette.white.primary}
+            value={value}
+            onChangeText={onChange}
+          />
+        )}
+        name="email"
       />
+      {errors.email && (
+        <Text style={{ color: Theme.palette.red.error }}>
+          This field is required
+        </Text>
+      )}
 
       <GeneralButton
         bgColor={Theme.palette.main.primary}
@@ -60,7 +96,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginBottom: 8,
+    marginVertical: 8,
     color: Theme.palette.paragraph.primary,
     ...Theme.fonts.body.body1,
   },
