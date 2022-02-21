@@ -19,6 +19,7 @@ export default {
     },
     red: {
       signOut: '#EC1E20',
+      error: '#BF0000',
     },
     background: {
       modal: '#000000AA',
