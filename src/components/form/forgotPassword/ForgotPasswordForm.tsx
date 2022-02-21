@@ -8,6 +8,10 @@ import * as yup from 'yup'
 
 type ForgotPasswordFormProps = {}
 
+type FieldProps = {
+  email: string
+}
+
 const forgotPasswordSchema = yup.object({
   email: yup
     .string()
@@ -29,6 +33,10 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
     },
     resolver: yupResolver(forgotPasswordSchema),
   })
+
+  const onSubmit = (data: FieldProps) => {
+    console.log(data)
+  }
 
   return (
     <View style={styles.content}>
@@ -68,6 +76,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
       <GeneralButton
         bgColor={Theme.palette.main.primary}
         label="Send"
+        onPress={handleSubmit(onSubmit)}
         isAlignCenter={false}
       />
     </View>
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginVertical: 8,
+    marginTop: 8,
     color: Theme.palette.paragraph.primary,
     ...Theme.fonts.body.body1,
   },
