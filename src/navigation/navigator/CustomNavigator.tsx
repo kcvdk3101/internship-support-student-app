@@ -1,16 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { useAppSelector } from '../../hooks/redux'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import {
-  HomeStackNavigator,
-  CompanyStackNavigator,
-  CVStackNavigator,
-  AccountStackNavigator,
-} from './MainStackNavigator'
-import Theme from '../../utils/Theme'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React from 'react'
+import { StatusBar, StyleSheet, Text, View } from 'react-native'
+import { TextInput } from 'react-native-gesture-handler'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import SearchButton from '../../components/buttons/SearchButton'
+import { useAppSelector } from '../../hooks/redux'
+import AccountScreen from '../../screens/account/AccountScreen'
+import CompanyScreen from '../../screens/company/CompanyScreen'
+import CVScreen from '../../screens/cv/CVScreen'
+import HomeScreen from '../../screens/home/HomeScreen'
+import Theme from '../../utils/Theme'
+import { createDrawerNavigator } from '@react-navigation/drawer'
+import CustomDrawerContent from './CustomDrawerContent'
 
+const Drawer = createDrawerNavigator()
 const Tab = createBottomTabNavigator()
 
 const TabNavigator = () => {
@@ -18,18 +22,17 @@ const TabNavigator = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
+      initialRouteName="Home"
       screenOptions={{
         tabBarActiveTintColor: Theme.palette.main.third,
         tabBarStyle: {
           height: 50,
         },
-        headerShown: false,
       }}
     >
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeStackNavigator}
+        name="Home"
+        component={HomeScreen}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
@@ -38,10 +41,9 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="CompanyScreen"
-        component={CompanyStackNavigator}
+        name="Company"
+        component={CompanyScreen}
         options={{
-          tabBarLabel: 'Company',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="select-group"
@@ -49,22 +51,30 @@ const TabNavigator = () => {
               size={size}
             />
           ),
+          header: () => (
+            <View style={{ backgroundColor: Theme.palette.main.primary }}>
+              <SafeAreaView>
+                <SearchButton />
+              </SafeAreaView>
+            </View>
+          ),
         }}
       />
       <Tab.Screen
-        name="CVScreen"
-        component={CVStackNavigator}
+        name="CV"
+        component={CVScreen}
         options={{
           tabBarLabel: 'CV',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="file" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       {isAuthenticated && (
         <Tab.Screen
-          name="AccountScreen"
-          component={AccountStackNavigator}
+          name="Account"
+          component={AccountScreen}
           options={{
             tabBarLabel: 'Account',
             tabBarIcon: ({ color, size }) => (
@@ -74,6 +84,7 @@ const TabNavigator = () => {
                 size={size}
               />
             ),
+            headerShown: false,
           }}
         />
       )}
