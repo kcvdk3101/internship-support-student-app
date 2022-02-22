@@ -1,15 +1,12 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
-import HomeScreen from '../../screens/home/HomeScreen'
+import React from 'react'
+import AccountScreen from '../../screens/account/AccountScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
 import CVScreen from '../../screens/cv/CVScreen'
-import AccountScreen from '../../screens/account/AccountScreen'
+import HomeScreen from '../../screens/home/HomeScreen'
 const Stack = createStackNavigator()
 
-type Props = {}
-
-export const HomeStackNavigator = (props: Props) => {
+export const HomeStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -23,7 +20,7 @@ export const HomeStackNavigator = (props: Props) => {
   )
 }
 
-export const CompanyStackNavigator = (props: Props) => {
+export const CompanyStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -36,7 +33,7 @@ export const CompanyStackNavigator = (props: Props) => {
     </Stack.Navigator>
   )
 }
-export const CVStackNavigator = (props: Props) => {
+export const CVStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -50,7 +47,7 @@ export const CVStackNavigator = (props: Props) => {
   )
 }
 
-export const AccountStackNavigator = (props: Props) => {
+export const AccountStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen

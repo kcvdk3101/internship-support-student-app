@@ -11,7 +11,13 @@ type AuthenticationSliceStateProps = {
 }
 
 const initialState: AuthenticationSliceStateProps = {
-  user: null,
+  user: {
+    image: 'https://picsum.photos/200',
+    firstName: 'Khoi',
+    lastName: 'Vuong',
+    email: '18DH110158@st.huflit.edu.vn',
+    phone: '0934105563',
+  },
   isAuthenticated: false,
   isFirstTimeOpen: false,
 }
