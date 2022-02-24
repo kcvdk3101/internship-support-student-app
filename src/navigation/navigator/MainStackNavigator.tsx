@@ -37,7 +37,7 @@ export const CVStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="CV"
+        name="CVScreen"
         component={CVScreen}
         options={{
           headerShown: false,
@@ -51,7 +51,7 @@ export const AccountStackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Account"
+        name="AccountScreen"
         component={AccountScreen}
         options={{
           headerShown: false,

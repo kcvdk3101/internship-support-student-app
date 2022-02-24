@@ -5,12 +5,7 @@ import Theme from '../../utils/Theme'
 
 type AvatarProps = User
 
-const Avatar: React.FC<AvatarProps> = ({
-  image,
-  firstName,
-  lastName,
-  phone,
-}) => {
+const Avatar: React.FC<AvatarProps> = ({ image, firstName, lastName }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
@@ -20,7 +15,7 @@ const Avatar: React.FC<AvatarProps> = ({
         <Text style={styles.name}>
           {firstName} {lastName}
         </Text>
-        <Text style={styles.phone}>{phone}</Text>
+        <Text style={styles.seemore}>See your profile</Text>
       </View>
     </View>
   )
@@ -34,6 +29,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginVertical: 8,
   },
   logoContainer: {
     flexShrink: 0,
@@ -50,11 +46,10 @@ const styles = StyleSheet.create({
   },
   name: {
     ...Theme.fonts.headline.h5,
-    color: Theme.palette.black.primary,
+    color: Theme.palette.white.primary,
   },
-  phone: {
-    marginTop: 8,
-    fontStyle: 'italic',
+  seemore: {
+    marginTop: 4,
     ...Theme.fonts.body.body1,
     color: Theme.palette.paragraph.primary,
   },
