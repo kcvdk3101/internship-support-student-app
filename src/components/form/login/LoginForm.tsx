@@ -107,7 +107,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
             onChangeText={onChange}
           />
         )}
-        name="email"
+        name="password"
       />
       {errors.email && (
         <Text style={{ color: Theme.palette.red.error }}>

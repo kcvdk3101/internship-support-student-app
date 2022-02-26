@@ -25,11 +25,11 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Image
+      {/* <Image
         style={styles.imgLogo}
         resizeMode="contain"
         source={require('../../assets/images/FITSI.png')}
-      />
+      /> */}
 
       {isAuthenticated ? (
         <View>

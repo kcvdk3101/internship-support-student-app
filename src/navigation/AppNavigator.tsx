@@ -3,15 +3,13 @@ import { NavigationContainer } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { IS_FIRST_TIME } from '../constant'
 import { useAppSelector } from '../hooks/redux'
+import DrawerNavigator from './navigator/DrawerNavigator'
 import OnboardingNavigator from './navigator/OnboardingNavigator'
-import TabNavigator from './navigator/TabNavigator'
 
 const AppNavigator: React.FC = () => {
   const isFirstTimeOpen = useAppSelector((state) => state.auth.isFirstTimeOpen)
 
   const [value, setValue] = useState<string | null>(null)
-  // const unmounted = useRef(true)
-
   const isFirstTime = async () => {
     const firstOpen = await AsyncStorage.getItem(IS_FIRST_TIME)
     setValue(firstOpen)
@@ -32,7 +30,7 @@ const AppNavigator: React.FC = () => {
       {!isFirstTimeOpen && value === null ? (
         <OnboardingNavigator />
       ) : (
-        <TabNavigator />
+        <DrawerNavigator />
       )}
     </NavigationContainer>
   )
