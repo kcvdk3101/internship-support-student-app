@@ -58,51 +58,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 onPress={() => props.navigation.navigate(drw.navigate)}
               />
             ))}
-            {/* <DrawerItem
-              labelStyle={{
-                color: Theme.palette.white.primary,
-                ...Theme.fonts.body.body1,
-              }}
-              icon={() => (
-                <Ionicons
-                  name="home"
-                  color={Theme.palette.white.primary}
-                  size={24}
-                />
-              )}
-              label="Home"
-              onPress={() => props.navigation.navigate('HomeStack')}
-            />
-            <DrawerItem
-              labelStyle={{
-                color: Theme.palette.white.primary,
-                ...Theme.fonts.body.body1,
-              }}
-              icon={() => (
-                <Ionicons
-                  name="call"
-                  color={Theme.palette.white.primary}
-                  size={24}
-                />
-              )}
-              label="Contact"
-              onPress={() => props.navigation.navigate('Contact')}
-            />
-            <DrawerItem
-              labelStyle={{
-                color: Theme.palette.white.primary,
-                ...Theme.fonts.body.body1,
-              }}
-              icon={() => (
-                <Ionicons
-                  name="archive"
-                  color={Theme.palette.white.primary}
-                  size={24}
-                />
-              )}
-              label="Applied Job"
-              onPress={() => props.navigation.navigate('Applied')}
-            /> */}
           </Drawer.Section>
           <View style={styles.socialLinks}>
             {socialLinks.map((link, index) => (
@@ -124,21 +79,27 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section>
-        <DrawerItem
-          icon={() => (
-            <Ionicons name="exit" color={Theme.palette.red.signOut} size={24} />
-          )}
-          label="Sign out"
-          labelStyle={{
-            ...Theme.fonts.body.body1,
-            color: Theme.palette.red.signOut,
-          }}
-          onPress={() => props.navigation.navigate('Home')}
-          style={{
-            paddingHorizontal: 16,
-            backgroundColor: Theme.palette.white.primary,
-          }}
-        />
+        {user && (
+          <DrawerItem
+            icon={() => (
+              <Ionicons
+                name="exit"
+                color={Theme.palette.red.signOut}
+                size={24}
+              />
+            )}
+            label="Sign out"
+            labelStyle={{
+              ...Theme.fonts.body.body1,
+              color: Theme.palette.red.signOut,
+            }}
+            onPress={() => props.navigation.navigate('Home')}
+            style={{
+              paddingHorizontal: 16,
+              backgroundColor: Theme.palette.white.primary,
+            }}
+          />
+        )}
       </Drawer.Section>
     </SafeAreaView>
   )

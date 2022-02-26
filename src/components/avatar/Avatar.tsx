@@ -3,7 +3,7 @@ import React from 'react'
 import { User } from '../../models/user'
 import Theme from '../../utils/Theme'
 
-type AvatarProps = User
+type AvatarProps = User | null
 
 const Avatar: React.FC<AvatarProps> = ({ image, firstName, lastName }) => {
   return (

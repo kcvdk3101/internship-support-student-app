@@ -23,17 +23,17 @@ export const drawers = [
   {
     icon: 'home',
     label: 'Home',
-    navigate: 'HomeStack',
+    navigate: 'HomeDrawer',
   },
   {
     icon: 'archive',
     label: 'Applied Job',
-    navigate: 'HomeStack',
+    navigate: '',
   },
   {
     icon: 'call',
     label: 'Contact',
-    navigate: 'HomeStack',
+    navigate: 'ContactDrawer',
   },
 ]
 

@@ -1,51 +1,16 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { useAppSelector } from '../../hooks/redux'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
-  HomeStackNavigator,
-  CompanyStackNavigator,
-  CVStackNavigator,
-  AccountStackNavigator,
-} from './MainStackNavigator'
+  CompanyStackScreen,
+  CVStackScreen,
+  HomeStackScreen,
+} from './AllStackNavigator'
+import { Ionicons } from '@expo/vector-icons'
 import Theme from '../../utils/Theme'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 const Tab = createBottomTabNavigator()
-
-export const HomeNavigator = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName="HomeScreen"
-      screenOptions={{
-        tabBarActiveTintColor: Theme.palette.main.third,
-        tabBarStyle: {
-          height: 50,
-        },
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen
-        name="HomeScreen"
-        component={HomeStackNavigator}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  )
-}
-
 const TabNavigator = () => {
-  // const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
-  // const user = useAppSelector((state) => state.auth.user)
-
   return (
     <Tab.Navigator
-      initialRouteName="HomeScreen"
       screenOptions={{
         tabBarActiveTintColor: Theme.palette.main.third,
         tabBarStyle: {
@@ -55,60 +20,40 @@ const TabNavigator = () => {
       }}
     >
       <Tab.Screen
-        name="HomeScreen"
-        component={HomeStackNavigator}
+        name="HomeTab"
+        component={HomeStackScreen}
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <Ionicons name="home" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
-        name="CompanyScreen"
-        component={CompanyStackNavigator}
+        name="CompanyTab"
+        component={CompanyStackScreen}
         options={{
           tabBarLabel: 'Company',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons
-              name="select-group"
-              color={color}
-              size={size}
-            />
+            <Ionicons name="business" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
         name="CVTab"
-        component={CVStackNavigator}
+        component={CVStackScreen}
         options={{
           tabBarLabel: 'CV',
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="file" color={color} size={size} />
+            <Ionicons name="document" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
-      {/* {isAuthenticated ||
-        (user && (
-          <Tab.Screen
-            name="AccountScreen"
-            component={AccountStackNavigator}
-            options={{
-              tabBarLabel: 'Account',
-              tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons
-                  name="account"
-                  color={color}
-                  size={size}
-                />
-              ),
-            }}
-          />
-        ))} */}
     </Tab.Navigator>
   )
 }
 
 export default TabNavigator
-
-const styles = StyleSheet.create({})
