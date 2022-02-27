@@ -1,4 +1,4 @@
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import {
   DrawerContentScrollView,
@@ -15,7 +15,22 @@ import OpenURLButton from '../../components/buttons/OpenURLButton'
 import { drawers, socialLinks } from '../../constant'
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
-  const user = useAppSelector((state) => state.auth.user)
+  const { isAuthenticated, user } = useAppSelector((state) => state.auth)
+
+  function handleLogout(props: DrawerContentComponentProps) {
+    return Alert.alert('Logout', 'Are you sure ?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Confirm',
+        onPress: () => {
+          props.navigation.navigate('Home')
+        },
+      },
+    ])
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -81,6 +96,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       <Drawer.Section>
         {user && (
           <DrawerItem
+            onPress={() => handleLogout(props)}
             icon={() => (
               <Ionicons
                 name="exit"
@@ -93,7 +109,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
               ...Theme.fonts.body.body1,
               color: Theme.palette.red.signOut,
             }}
-            onPress={() => props.navigation.navigate('Home')}
             style={{
               paddingHorizontal: 16,
               backgroundColor: Theme.palette.white.primary,

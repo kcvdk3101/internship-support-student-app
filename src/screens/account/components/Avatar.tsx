@@ -4,7 +4,7 @@ import { User } from '../../../models/user'
 import Theme from '../../../utils/Theme'
 
 type AvatarProps = {
-  user: User
+  user: User | null
 }
 
 const Avatar: React.FC<AvatarProps> = ({ user }) => {
@@ -19,10 +19,10 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
             />
           </TouchableOpacity>
         </View>
-        <Image style={styles.avatar} source={{ uri: user.image }} />
+        <Image style={styles.avatar} source={{ uri: user?.image }} />
       </View>
       <Text style={styles.profileText}>
-        {user.firstName} {user.lastName}
+        {user?.firstName} {user?.lastName}
       </Text>
     </View>
   )
