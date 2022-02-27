@@ -5,6 +5,7 @@ import CompanyScreen from '../../screens/company/CompanyScreen'
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
+import NotificationScreen from '../../screens/notification/NotificationScreen'
 
 // Home Stack
 const HomeStack = createStackNavigator()
@@ -15,6 +16,10 @@ export const HomeStackScreen = () => (
     }}
   >
     <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+    <HomeStack.Screen
+      name="NotificationScreen"
+      component={NotificationScreen}
+    />
   </HomeStack.Navigator>
 )
 

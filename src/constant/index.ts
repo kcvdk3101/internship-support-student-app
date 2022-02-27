@@ -23,7 +23,7 @@ export const drawers = [
   {
     icon: 'home',
     label: 'Home',
-    navigate: 'HomeDrawer',
+    navigate: 'MenuTab',
   },
   {
     icon: 'archive',

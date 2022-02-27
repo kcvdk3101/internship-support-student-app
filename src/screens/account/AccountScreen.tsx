@@ -1,5 +1,13 @@
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import CreateCVButton from '../../components/buttons/CreateCVButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
@@ -8,16 +16,23 @@ import Theme from '../../utils/Theme'
 import Avatar from './components/Avatar'
 import EditProfileButton from './components/EditProfileButton'
 import LogOutButton from './components/LogOutButton'
+import { Ionicons } from '@expo/vector-icons'
 
-type Props = {}
+type AccountScreenProps = {
+  navigation?: NavigationProp<ParamListBase>
+}
 
-const AccountScreen = (props: Props) => {
+const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
   const user = useAppSelector((state) => state.auth.user)
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView nestedScrollEnabled={true}>
-        <Text style={styles.heading}>Profile</Text>
+        <View style={styles.headingContainer}>
+          <Pressable onPress={() => navigation?.goBack()}>
+            <Ionicons name="arrow-back" size={28} style={styles.icon} />
+          </Pressable>
+        </View>
         {/* Avatar */}
         <Avatar user={user} />
 
@@ -57,9 +72,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Theme.palette.main.primary,
   },
-  heading: {
+  headingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginVertical: 20,
     marginHorizontal: 16,
+  },
+  icon: {
+    ...Theme.fonts.headline.h4,
+    color: Theme.palette.white.primary,
+  },
+  heading: {
     ...Theme.fonts.headline.h4,
     color: Theme.palette.white.primary,
   },
