@@ -1,11 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack'
+import { Pressable } from 'react-native'
 import AccountScreen from '../../screens/account/AccountScreen'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
+import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen'
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
+import { Ionicons } from '@expo/vector-icons'
 import HomeScreen from '../../screens/home/HomeScreen'
-import NotificationScreen from '../../screens/notification/NotificationScreen'
+import { DrawerHeaderProps } from '@react-navigation/drawer'
+import Theme from '../../utils/Theme'
 
 // Home Stack
 const HomeStack = createStackNavigator()
@@ -16,10 +20,6 @@ export const HomeStackScreen = () => (
     }}
   >
     <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-    <HomeStack.Screen
-      name="NotificationScreen"
-      component={NotificationScreen}
-    />
   </HomeStack.Navigator>
 )
 
@@ -33,13 +33,55 @@ export const AuthStackScreen = () => (
 
 // Company Stack
 const CompanyStack = createStackNavigator()
-export const CompanyStackScreen = () => (
-  <CompanyStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <CompanyStack.Screen name="CompanyScreen" component={CompanyScreen} />
+export const CompanyStackScreen = (props: DrawerHeaderProps) => (
+  <CompanyStack.Navigator>
+    <CompanyStack.Screen
+      name="CompanyScreen"
+      component={CompanyScreen}
+      options={{
+        headerLeft: () => (
+          <Pressable
+            style={{
+              position: 'absolute',
+              top: 8,
+              left: 8,
+            }}
+            onPress={() => props.navigation.openDrawer()}
+          >
+            <Ionicons
+              name="menu"
+              size={28}
+              color={Theme.palette.black.primary}
+            />
+          </Pressable>
+        ),
+      }}
+    />
+    <CompanyStack.Screen
+      name="CompanyDetailScreen"
+      component={CompanyDetailScreen}
+      options={({ navigation }) => ({
+        title: 'Company Detail',
+        headerLeftLabelVisible: false,
+        headerStyle: { backgroundColor: 'transparent' },
+        headerLeft: () => (
+          <Pressable
+            style={{
+              position: 'absolute',
+              top: 8,
+              left: 8,
+            }}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={Theme.palette.black.primary}
+            />
+          </Pressable>
+        ),
+      })}
+    />
   </CompanyStack.Navigator>
 )
 

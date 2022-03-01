@@ -82,11 +82,11 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         name="CompanyTab"
         component={CompanyStackScreen}
         options={{
-          title: 'Company',
           tabBarLabel: 'Company',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="business" color={color} size={size} />
           ),
+          headerShown: false,
         }}
       />
       <Tab.Screen
