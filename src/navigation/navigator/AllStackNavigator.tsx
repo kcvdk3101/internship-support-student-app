@@ -61,25 +61,26 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
       name="CompanyDetailScreen"
       component={CompanyDetailScreen}
       options={({ navigation }) => ({
-        title: 'Company Detail',
-        headerLeftLabelVisible: false,
-        headerStyle: { backgroundColor: 'transparent' },
-        headerLeft: () => (
-          <Pressable
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-            }}
-            onPress={() => navigation.goBack()}
-          >
-            <Ionicons
-              name="arrow-back"
-              size={28}
-              color={Theme.palette.black.primary}
-            />
-          </Pressable>
-        ),
+        // title: 'Company Detail',
+        // headerLeftLabelVisible: false,
+        // headerStyle: { backgroundColor: 'transparent' },
+        // headerLeft: () => (
+        //   <Pressable
+        //     style={{
+        //       position: 'absolute',
+        //       top: 8,
+        //       left: 8,
+        //     }}
+        //     onPress={() => navigation.goBack()}
+        //   >
+        //     <Ionicons
+        //       name="arrow-back"
+        //       size={28}
+        //       color={Theme.palette.black.primary}
+        //     />
+        //   </Pressable>
+        // ),
+        headerShown: false,
       })}
     />
   </CompanyStack.Navigator>
