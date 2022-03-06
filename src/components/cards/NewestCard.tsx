@@ -1,6 +1,7 @@
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { keywordData } from '../../db/KeywordData'
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Theme from '../../utils/Theme'
 import ChipButton from '../buttons/ChipButton'
 
@@ -18,11 +19,15 @@ type NewestCardProps = {
     jobs: number
     kw: KeyWord[]
   }
+  navigation: NavigationProp<ParamListBase>
 }
 
-const NewestCard: React.FC<NewestCardProps> = ({ card }) => {
+const NewestCard: React.FC<NewestCardProps> = ({ card, navigation }) => {
   return (
-    <View style={styles.cardContainer}>
+    <TouchableWithoutFeedback
+      style={styles.cardContainer}
+      onPress={() => navigation.navigate('CompanyDetailScreen')}
+    >
       <Image
         style={styles.image}
         source={{ uri: card.banner }}
@@ -57,7 +62,7 @@ const NewestCard: React.FC<NewestCardProps> = ({ card }) => {
           ))}
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   )
 }
 
