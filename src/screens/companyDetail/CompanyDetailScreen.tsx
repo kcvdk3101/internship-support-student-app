@@ -1,24 +1,23 @@
-import {
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
-import Theme from '../../utils/Theme'
-import { screenHeight, screenWidth } from '../../constant'
-import CompanyInformation from './components/CompanyInformation'
-import CompanyName from './components/CompanyName'
-import { Button } from 'react-native-paper'
+import { Image, ScrollView, StyleSheet, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import { screenHeight, screenWidth } from '../../constant'
+import Theme from '../../utils/Theme'
 import ButtonGroup from './components/ButtonGroup'
+import CompanyInformation from './components/CompanyInformation'
 import CompanyIntroduction from './components/CompanyIntroduction'
+import CompanyJobList from './components/CompanyJobList'
+import CompanyName from './components/CompanyName'
+import { Ionicons } from '@expo/vector-icons'
 
-type CompanyDetailScreenProps = {}
+type CompanyDetailScreenProps = {
+  navigation: NavigationProp<ParamListBase>
+}
 
-const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = () => {
+const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({
+  navigation,
+}) => {
   const [index, setIndex] = useState(0)
 
   const handleChangeIndex = (num: number) => {
@@ -29,26 +28,21 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = () => {
     <ScrollView>
       <View style={styles.backgroundImageContainer}>
         <Image
-          source={{ uri: 'https://picsum.photos/200' }}
+          source={{
+            uri: 'https://developers.momo.vn/v3/assets/images/square-8c08a00f550e40a2efafea4a005b1232.png',
+          }}
           style={styles.backgroundImage}
           resizeMode="cover"
-          blurRadius={1}
+          blurRadius={10}
         />
         {/* Company Name */}
-        <CompanyName />
+        <CompanyName navigation={navigation} />
         {/* Company Information */}
         <CompanyInformation />
       </View>
-      {/* Button Group */}
       <ButtonGroup index={index} handleChangeIndex={handleChangeIndex} />
 
-      {index === 0 ? (
-        <CompanyIntroduction />
-      ) : (
-        <View>
-          <Text>FlatList</Text>
-        </View>
-      )}
+      {index === 0 ? <CompanyIntroduction /> : <CompanyJobList />}
     </ScrollView>
   )
 }
@@ -65,5 +59,11 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     width: screenWidth,
+  },
+  buttonGoBack: {
+    position: 'absolute',
+    borderRadius: 100,
+    backgroundColor: Theme.palette.white.primary,
+    padding: 4,
   },
 })

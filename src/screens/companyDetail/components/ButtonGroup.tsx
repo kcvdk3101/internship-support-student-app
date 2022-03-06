@@ -21,25 +21,14 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
           styles.buttonLeft,
           {
             backgroundColor:
-              index === 0 ? Theme.palette.main.primary : 'transparent',
-            borderWidth: index !== 0 ? 1 : 0,
+              index === 0
+                ? Theme.palette.main.primary
+                : Theme.palette.paragraph.primary,
           },
         ]}
         onPress={() => handleChangeIndex(0)}
       >
-        <Text
-          style={[
-            styles.buttonText,
-            {
-              color:
-                index === 0
-                  ? Theme.palette.white.primary
-                  : Theme.palette.black.primary,
-            },
-          ]}
-        >
-          About
-        </Text>
+        <Text style={styles.buttonText}>About</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[
@@ -47,25 +36,14 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
           styles.buttonRight,
           {
             backgroundColor:
-              index === 1 ? Theme.palette.main.primary : 'transparent',
-            borderWidth: index !== 1 ? 1 : 0,
+              index === 1
+                ? Theme.palette.main.primary
+                : Theme.palette.paragraph.primary,
           },
         ]}
         onPress={() => handleChangeIndex(1)}
       >
-        <Text
-          style={[
-            styles.buttonText,
-            {
-              color:
-                index === 1
-                  ? Theme.palette.white.primary
-                  : Theme.palette.black.primary,
-            },
-          ]}
-        >
-          Opening
-        </Text>
+        <Text style={styles.buttonText}>Opening</Text>
       </TouchableOpacity>
     </View>
   )
@@ -95,5 +73,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...Theme.fonts.body.body1,
+    color: Theme.palette.white.primary,
   },
 })

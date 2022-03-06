@@ -2,6 +2,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { Dimensions, FlatList, StyleSheet, View } from 'react-native'
 import NewestCard from '../../components/cards/NewestCard'
+import { screenWidth } from '../../constant'
 import { newestCompany } from '../../db/NewestCompanyData'
 import Theme from '../../utils/Theme'
 import PopularCompanies from './components/PopularCompanies'
@@ -10,8 +11,6 @@ import TopKeyword from './components/TopKeyword'
 type CompanyScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
-
-const width = Dimensions.get('screen').width
 
 const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -37,7 +36,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
         )}
         ListHeaderComponent={TopKeyword}
         ListFooterComponent={PopularCompanies}
-        ListFooterComponentStyle={{ width: width }}
+        ListFooterComponentStyle={{ width: screenWidth }}
         refreshing={isLoading}
         onRefresh={handleRefeshing}
       />

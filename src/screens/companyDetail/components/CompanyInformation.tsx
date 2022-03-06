@@ -9,44 +9,26 @@ type CompanyInformationProps = {}
 const CompanyInformation: React.FC<CompanyInformationProps> = () => {
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginVertical: 4,
-        }}
-      >
+      <View style={styles.detailsContainer}>
         <Ionicons
           name="globe-sharp"
           size={20}
           color={Theme.palette.black.primary}
-          style={{
-            flexShrink: 0,
-            marginRight: 4,
-          }}
+          style={styles.icon}
         />
         <Text
           style={{ color: 'blue' }}
-          onPress={() => Linking.openURL('http://google.com')}
+          onPress={() => Linking.openURL('https://momo.vn/')}
         >
-          http://google.com
+          https://momo.vn/
         </Text>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginVertical: 4,
-        }}
-      >
+      <View style={styles.detailsContainer}>
         <Ionicons
           name="location"
           size={20}
           color={Theme.palette.black.primary}
-          style={{
-            flexShrink: 0,
-            marginRight: 4,
-          }}
+          style={styles.icon}
         />
         <Text>288 Su Van Hanh, District 10</Text>
       </View>
@@ -57,59 +39,32 @@ const CompanyInformation: React.FC<CompanyInformationProps> = () => {
           alignItems: 'center',
         }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 4,
-          }}
-        >
+        <View style={styles.detailsContainer}>
           <Ionicons
             name="people"
             size={20}
             color={Theme.palette.black.primary}
-            style={{
-              flexShrink: 0,
-              marginRight: 4,
-            }}
+            style={styles.icon}
           />
           <Text>500-100</Text>
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginVertical: 4,
-          }}
-        >
+        <View style={styles.detailsContainer}>
           <Ionicons
             name="briefcase"
             size={20}
             color={Theme.palette.black.primary}
-            style={{
-              flexShrink: 0,
-              marginRight: 4,
-            }}
+            style={styles.icon}
           />
           <Text>10 Jobs</Text>
         </View>
-        <View></View>
+        <View />
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          marginVertical: 4,
-        }}
-      >
+      <View style={styles.detailsContainer}>
         <Ionicons
           name="flag"
           size={20}
           color={Theme.palette.black.primary}
-          style={{
-            flexShrink: 0,
-            marginRight: 4,
-          }}
+          style={styles.icon}
         />
         <Text>Vietnam</Text>
       </View>
@@ -127,5 +82,15 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.palette.white.primary,
     borderRadius: 15,
     padding: 20,
+    ...Theme.shadow.depth2,
+  },
+  detailsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  icon: {
+    flexShrink: 0,
+    marginRight: 4,
   },
 })
