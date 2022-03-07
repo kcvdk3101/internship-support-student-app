@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import React from 'react'
-import { Pressable } from 'react-native'
+import { Pressable, StyleSheet } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
@@ -33,11 +33,7 @@ const DrawerNavigator = () => {
           drawerActiveBackgroundColor: Theme.palette.main.third,
           headerLeft: () => (
             <Pressable
-              style={{
-                position: 'absolute',
-                top: 8,
-                left: 8,
-              }}
+              style={styles.position}
               onPress={() => navigation.goBack()}
             >
               <Ionicons
@@ -61,3 +57,11 @@ const DrawerNavigator = () => {
 }
 
 export default DrawerNavigator
+
+const styles = StyleSheet.create({
+  position: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+  },
+})

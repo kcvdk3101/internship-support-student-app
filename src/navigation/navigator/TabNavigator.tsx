@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
-import { Pressable, View } from 'react-native'
+import { Pressable, StyleSheet, View } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import {
@@ -12,6 +12,7 @@ import {
 } from './AllStackNavigator'
 import CustomBadge from '../../components/common/CustomBadge'
 import { notificationsData } from '../../db/NotificationData'
+import CustomSearchBar from '../../components/common/CustomSearchBar'
 
 const Tab = createBottomTabNavigator()
 const TabNavigator = (props: DrawerHeaderProps) => {
@@ -26,11 +27,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         },
         headerLeft: () => (
           <Pressable
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-            }}
+            style={styles.position}
             onPress={() => props.navigation.openDrawer()}
           >
             <Ionicons
@@ -71,11 +68,11 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         name="HomeTab"
         component={HomeStackScreen}
         options={{
-          title: 'Home',
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
+          headerTitle: () => <CustomSearchBar />,
         }}
       />
       <Tab.Screen
@@ -105,3 +102,11 @@ const TabNavigator = (props: DrawerHeaderProps) => {
 }
 
 export default TabNavigator
+
+const styles = StyleSheet.create({
+  position: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+  },
+})
