@@ -1,8 +1,7 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import CreateCVButton from '../../components/buttons/CreateCVButton'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
@@ -25,12 +24,6 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <Image
-        style={styles.imgLogo}
-        resizeMode="contain"
-        source={require('../../assets/images/FITSI.png')}
-      /> */}
-
       {isAuthenticated ? (
         <View>
           <ScrollView style={styles.cvList}>
@@ -52,7 +45,11 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
               backgroundColor: 'transparent',
             }}
           >
-            <CreateCVButton />
+            <GeneralButton
+              bgColor={Theme.palette.main.third}
+              isAlignCenter={true}
+              label="CREATE NEW CV"
+            />
           </View>
         </View>
       ) : (

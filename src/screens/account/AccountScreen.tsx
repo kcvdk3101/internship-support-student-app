@@ -17,9 +17,10 @@ import Avatar from './components/Avatar'
 import EditProfileButton from './components/EditProfileButton'
 import LogOutButton from './components/LogOutButton'
 import { Ionicons } from '@expo/vector-icons'
+import GeneralButton from '../../components/buttons/GeneralButton'
 
 type AccountScreenProps = {
-  navigation?: NavigationProp<ParamListBase>
+  navigation: NavigationProp<ParamListBase>
 }
 
 const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
@@ -29,7 +30,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScrollView nestedScrollEnabled={true}>
         <View style={styles.headingContainer}>
-          <Pressable onPress={() => navigation?.goBack()}>
+          <Pressable onPress={() => navigation.goBack()}>
             <Ionicons name="arrow-back" size={28} style={styles.icon} />
           </Pressable>
         </View>
@@ -55,7 +56,11 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
           </ScrollView>
 
           {/* Button Upload */}
-          <CreateCVButton />
+          <GeneralButton
+            bgColor={Theme.palette.main.third}
+            isAlignCenter={true}
+            label="CREATE NEW CV"
+          />
         </View>
 
         {/* Logout Button */}

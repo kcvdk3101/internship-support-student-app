@@ -49,7 +49,13 @@ const DrawerNavigator = () => {
           ),
         })}
       />
-      <Drawer.Screen name="Account" component={AccountScreen} />
+      <Drawer.Screen
+        name="Account"
+        component={AccountScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Drawer.Navigator>
   )
 }
