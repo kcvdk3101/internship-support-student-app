@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import Theme from '../../utils/Theme'
-import CompDetailInfo from '../common/CompDetailInfo'
+import { Ionicons } from '@expo/vector-icons'
 
 type CompanyCardProps = {
   company: {
@@ -11,6 +11,42 @@ type CompanyCardProps = {
     group: number
     jobs: string
   }
+}
+
+type CompanyDetailInformationProps = {
+  icon: string
+  content: string
+}
+
+const CompanyDetailInformation: React.FC<CompanyDetailInformationProps> = ({
+  icon,
+  content,
+}) => {
+  return (
+    <View style={styles.container}>
+      <Ionicons
+        color={Theme.palette.white.primary}
+        size={16}
+        name={
+          icon === 'location'
+            ? 'location'
+            : icon === 'people'
+            ? 'people'
+            : 'briefcase'
+        }
+      />
+      <Text
+        style={[
+          styles.content,
+          {
+            fontSize: 12,
+          },
+        ]}
+      >
+        {content}
+      </Text>
+    </View>
+  )
 }
 
 const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
@@ -26,24 +62,12 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
       <View style={styles.cardBody}>
         <Text style={styles.companyName}>{company.name}</Text>
         <View style={styles.companyInfo}>
-          <CompDetailInfo
-            imageSrc={require('../../assets/images/icon-place.png')}
-            imageSize={16}
-            fSize={12}
-            content={company.address}
-          />
-          <CompDetailInfo
-            imageSrc={require('../../assets/images/icon-supervisor.png')}
-            imageSize={16}
-            fSize={12}
+          <CompanyDetailInformation icon="location" content={company.address} />
+          <CompanyDetailInformation
+            icon="people"
             content={company.group.toString()}
           />
-          <CompDetailInfo
-            imageSrc={require('../../assets/images/icon-company.png')}
-            imageSize={16}
-            fSize={12}
-            content={company.jobs}
-          />
+          <CompanyDetailInformation icon="briefcase" content={company.jobs} />
         </View>
       </View>
     </View>
@@ -53,6 +77,16 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company }) => {
 export default CompanyCard
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  content: {
+    marginLeft: 4,
+    color: Theme.palette.white.primary,
+  },
   cardContainer: {
     flex: 1,
     backgroundColor: Theme.palette.main.fourth,

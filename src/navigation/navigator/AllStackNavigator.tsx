@@ -1,14 +1,15 @@
+import { Ionicons } from '@expo/vector-icons'
+import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Pressable } from 'react-native'
+import { Pressable, StyleSheet } from 'react-native'
+import CustomSearchBar from '../../components/common/CustomSearchBar'
 import AccountScreen from '../../screens/account/AccountScreen'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
 import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen'
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
-import { Ionicons } from '@expo/vector-icons'
 import HomeScreen from '../../screens/home/HomeScreen'
-import { DrawerHeaderProps } from '@react-navigation/drawer'
 import Theme from '../../utils/Theme'
 
 // Home Stack
@@ -41,11 +42,7 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
       options={{
         headerLeft: () => (
           <Pressable
-            style={{
-              position: 'absolute',
-              top: 8,
-              left: 8,
-            }}
+            style={styles.position}
             onPress={() => props.navigation.openDrawer()}
           >
             <Ionicons
@@ -55,6 +52,7 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
             />
           </Pressable>
         ),
+        headerTitle: () => <CustomSearchBar />,
       }}
     />
     <CompanyStack.Screen
@@ -102,3 +100,11 @@ export const ContactStackScreen = () => (
     <ContactStack.Screen name="ContactScreen" component={ContactScreen} />
   </ContactStack.Navigator>
 )
+
+const styles = StyleSheet.create({
+  position: {
+    position: 'absolute',
+    top: 8,
+    left: 8,
+  },
+})
