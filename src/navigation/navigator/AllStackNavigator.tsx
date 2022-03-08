@@ -9,6 +9,7 @@ import CompanyScreen from '../../screens/company/CompanyScreen'
 import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen'
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
+import CVFormScreen from '../../screens/cvForm/CVFormScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
 import Theme from '../../utils/Theme'
 
@@ -74,6 +75,7 @@ export const CVStackScreen = () => (
     }}
   >
     <CVStack.Screen name="CVScreen" component={CVScreen} />
+    <CVStack.Screen name="CVFormScreen" component={CVFormScreen} />
   </CVStack.Navigator>
 )
 

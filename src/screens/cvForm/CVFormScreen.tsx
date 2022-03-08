@@ -1,13 +1,25 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import BeginningForm from './components/BeginningForm'
 
-type Props = {}
+type CVFormScreenProps = {}
 
-const CVFormScreen = (props: Props) => {
+const CVFormScreen: React.FC<CVFormScreenProps> = () => {
+  const getFormByStep = (step: number) => {
+    switch (step) {
+      case 0:
+        return <BeginningForm />
+      default:
+        break
+    }
+  }
+
   return (
-    <View>
-      <Text>CVFormScreen</Text>
-    </View>
+    <SafeAreaView>
+      <View>
+        <Text>CVFormScreen</Text>
+      </View>
+    </SafeAreaView>
   )
 }
 
