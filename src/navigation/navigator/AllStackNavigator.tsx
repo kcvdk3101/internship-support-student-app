@@ -75,7 +75,6 @@ export const CVStackScreen = () => (
     }}
   >
     <CVStack.Screen name="CVScreen" component={CVScreen} />
-    <CVStack.Screen name="CVFormScreen" component={CVFormScreen} />
   </CVStack.Navigator>
 )
 

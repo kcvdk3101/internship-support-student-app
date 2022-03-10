@@ -28,9 +28,10 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
         <View style={styles.buttonCreateCV}>
           <GeneralButton
             bgColor={Theme.palette.main.third}
+            txtColor={Theme.palette.white.primary}
             isAlignCenter={true}
             label="CREATE NEW CV"
-            onPress={() => navigation.navigate('CVFormScreen')}
+            onPress={() => navigation.navigate('CVForm')}
           />
         </View>
         <ScrollView style={styles.cvList}>
