@@ -11,8 +11,8 @@ import {
   View,
 } from 'react-native'
 import Theme from '../../utils/Theme'
-import ForgotPasswordScreen from './components/ForgotPasswordScreen'
-import LoginScreen from './components/LoginScreen'
+import ForgotPasswordScreen from './components/forgotPassword/ForgotPasswordScreen'
+import LoginScreen from './components/login/LoginScreen'
 
 type AuthenticationScreenProps = {
   handleShowModal: () => void
