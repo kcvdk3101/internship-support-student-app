@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import Theme from '../../../utils/Theme'
-import GeneralButton from '../../buttons/GeneralButton'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import Theme from '../../../../utils/Theme'
+import GeneralButton from '../../../../components/buttons/GeneralButton'
 
 type LoginFormProps = {
   handleDisplayFPScreen: () => void

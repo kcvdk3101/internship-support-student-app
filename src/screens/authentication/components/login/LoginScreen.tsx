@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons'
-import React, { useState } from 'react'
+import React from 'react'
 import { Dimensions, StyleSheet, View } from 'react-native'
-import LoginForm from '../../../components/form/login/LoginForm'
-import Theme from '../../../utils/Theme'
+import Theme from '../../../../utils/Theme'
+import LoginForm from './LoginForm'
 
 type LoginScreenProps = {
   handleShowModal: () => void

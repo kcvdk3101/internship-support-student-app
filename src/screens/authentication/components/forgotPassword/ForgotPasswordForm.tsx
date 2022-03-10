@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TextInput, View } from 'react-native'
-import Theme from '../../../utils/Theme'
-import GeneralButton from '../../buttons/GeneralButton'
+import Theme from '../../../../utils/Theme'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import GeneralButton from '../../../../components/buttons/GeneralButton'
 
 type ForgotPasswordFormProps = {}
 

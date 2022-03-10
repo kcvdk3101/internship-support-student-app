@@ -1,9 +1,9 @@
 import { Dimensions, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import Theme from '../../../utils/Theme'
-import { screenHeight } from '../../../constant'
-import ForgotPasswordForm from '../../../components/form/forgotPassword/ForgotPasswordForm'
+import Theme from '../../../../utils/Theme'
+import { screenHeight } from '../../../../constant'
+import ForgotPasswordForm from './ForgotPasswordForm'
 
 type ForgotPasswordScreenProps = {
   goBackSlide: () => void
