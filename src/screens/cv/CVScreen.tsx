@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     color: Theme.palette.black.primary,
   },
   cvList: {
-    marginHorizontal: 16,
+    paddingHorizontal: 16,
   },
   buttonCreateCV: {
     margin: 16,

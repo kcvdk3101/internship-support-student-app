@@ -42,6 +42,17 @@ export const drawers = [
   },
 ]
 
+export const languages = [
+  {
+    label: 'Vietnam',
+    value: 'vi',
+  },
+  {
+    label: 'English',
+    value: 'eng',
+  },
+]
+
 export const IS_FIRST_TIME = 'IS_FIRST_TIME'
 export const FIRST_TIME_OPEN_VALUE = 'FIRST_TIME_OPEN_VALUE'
 export const screenWidth = Dimensions.get('screen').width

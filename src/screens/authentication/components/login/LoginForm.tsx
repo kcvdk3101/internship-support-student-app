@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import { yupResolver } from '@hookform/resolvers/yup'
+import React from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import Theme from '../../../../utils/Theme'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
+import Theme from '../../../../utils/Theme'
 
 type LoginFormProps = {
   handleDisplayFPScreen: () => void
@@ -123,6 +123,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
 
       <GeneralButton
         bgColor={Theme.palette.main.primary}
+        txtColor={Theme.palette.white.primary}
         onPress={handleSubmit(onSubmit)}
         label="Sign in"
         isAlignCenter={false}

@@ -25,9 +25,13 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         tabBarStyle: {
           height: 50,
         },
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
         headerLeft: () => (
           <Pressable
-            style={styles.position}
+            style={styles.positionLeft}
             onPress={() => props.navigation.openDrawer()}
           >
             <Ionicons
@@ -39,11 +43,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         ),
         headerRight: () => (
           <Pressable
-            style={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-            }}
+            style={styles.positionRight}
             onPress={() => {
               props.navigation.navigate('Notifications')
             }}
@@ -104,9 +104,14 @@ const TabNavigator = (props: DrawerHeaderProps) => {
 export default TabNavigator
 
 const styles = StyleSheet.create({
-  position: {
+  positionLeft: {
     position: 'absolute',
-    top: 8,
-    left: 8,
+    top: 16,
+    left: 16,
+  },
+  positionRight: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
   },
 })

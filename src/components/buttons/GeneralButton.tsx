@@ -19,23 +19,23 @@ const GeneralButton: React.FC<GeneralButtonProps> = ({
   onPress,
 }) => {
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.container,
         {
           backgroundColor: bgColor,
         },
       ]}
+      activeOpacity={0.8}
+      onPress={onPress}
     >
-      <TouchableOpacity
+      <View
         style={[
           styles.btn,
           {
             alignSelf: isAlignCenter ? 'center' : 'stretch',
           },
         ]}
-        activeOpacity={0.9}
-        onPress={onPress}
       >
         <Text
           style={[
@@ -47,8 +47,8 @@ const GeneralButton: React.FC<GeneralButtonProps> = ({
         >
           {label}
         </Text>
-      </TouchableOpacity>
-    </View>
+      </View>
+    </TouchableOpacity>
   )
 }
 
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    // color: Theme.palette.white.primary,
     ...Theme.fonts.headline.h6,
   },
 })

@@ -7,7 +7,7 @@ import AccountScreen from '../../screens/account/AccountScreen'
 import CVFormScreen from '../../screens/cvForm/CVFormScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
 import Theme from '../../utils/Theme'
-import { AuthStackScreen } from './AllStackNavigator'
+import { AuthStackScreen, CVFormStackScreen } from './AllStackNavigator'
 import CustomerDrawerContent from './CustomDrawerContent'
 import TabNavigator from './TabNavigator'
 
@@ -19,6 +19,12 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomerDrawerContent {...props} />}
       initialRouteName="MenuTab"
+      screenOptions={{
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+      }}
     >
       <Drawer.Screen
         name="MenuTab"
@@ -55,7 +61,7 @@ const DrawerNavigator = () => {
       />
       <Drawer.Screen
         name="CVForm"
-        component={CVFormScreen}
+        component={CVFormStackScreen}
         options={({ navigation, route }) => ({
           headerTitle: 'Create FITSI CV',
           headerStyle: {

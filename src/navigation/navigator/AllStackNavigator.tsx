@@ -10,6 +10,7 @@ import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
 import CVFormScreen from '../../screens/cvForm/CVFormScreen'
+import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
 import Theme from '../../utils/Theme'
 
@@ -41,9 +42,13 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
       name="CompanyScreen"
       component={CompanyScreen}
       options={{
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
         headerLeft: () => (
           <Pressable
-            style={styles.position}
+            style={styles.positionLeft}
             onPress={() => props.navigation.openDrawer()}
           >
             <Ionicons
@@ -78,6 +83,22 @@ export const CVStackScreen = () => (
   </CVStack.Navigator>
 )
 
+// CV Form Stack
+const CVFormStack = createStackNavigator()
+export const CVFormStackScreen = () => (
+  <CVFormStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}
+  >
+    <CVFormStack.Screen name="CVFormScreen" component={CVFormScreen} />
+    <CVFormStack.Screen
+      name="GeneralInformationScreen"
+      component={GeneralInformationScreen}
+    />
+  </CVFormStack.Navigator>
+)
+
 // Account Stack
 const AccountStack = createStackNavigator()
 export const AccountStackScreen = () => (
@@ -103,9 +124,9 @@ export const ContactStackScreen = () => (
 )
 
 const styles = StyleSheet.create({
-  position: {
+  positionLeft: {
     position: 'absolute',
-    top: 8,
-    left: 8,
+    top: 16,
+    left: 16,
   },
 })
