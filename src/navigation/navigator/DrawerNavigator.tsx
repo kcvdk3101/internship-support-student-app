@@ -4,10 +4,9 @@ import React from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
-import CVFormScreen from '../../screens/cvForm/CVFormScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
 import Theme from '../../utils/Theme'
-import { AuthStackScreen, CVFormStackScreen } from './AllStackNavigator'
+import { CVFormStackScreen } from './AllStackNavigator'
 import CustomerDrawerContent from './CustomDrawerContent'
 import TabNavigator from './TabNavigator'
 
@@ -40,7 +39,7 @@ const DrawerNavigator = () => {
           drawerActiveBackgroundColor: Theme.palette.main.third,
           headerLeft: () => (
             <Pressable
-              style={styles.position}
+              style={styles.positionLeft}
               onPress={() => navigation.goBack()}
             >
               <Ionicons
@@ -63,23 +62,7 @@ const DrawerNavigator = () => {
         name="CVForm"
         component={CVFormStackScreen}
         options={({ navigation, route }) => ({
-          headerTitle: 'Create FITSI CV',
-          headerStyle: {
-            height: 80,
-            backgroundColor: Theme.palette.white.primary,
-          },
-          headerLeft: () => (
-            <Pressable
-              style={styles.position}
-              onPress={() => navigation.goBack()}
-            >
-              <Ionicons
-                name="close"
-                size={28}
-                color={Theme.palette.black.primary}
-              />
-            </Pressable>
-          ),
+          headerShown: false,
         })}
       />
     </Drawer.Navigator>
@@ -89,7 +72,7 @@ const DrawerNavigator = () => {
 export default DrawerNavigator
 
 const styles = StyleSheet.create({
-  position: {
+  positionLeft: {
     position: 'absolute',
     top: 16,
     left: 16,

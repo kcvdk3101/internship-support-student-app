@@ -70,6 +70,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             placeholder={placeholder}
             placeholderTextColor={Theme.palette.paragraph.primary}
             value={value}
+            clearButtonMode="always"
             onChangeText={onChange}
           />
         )}

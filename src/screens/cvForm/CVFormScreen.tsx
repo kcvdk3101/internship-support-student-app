@@ -1,23 +1,21 @@
+import { yupResolver } from '@hookform/resolvers/yup'
+import { DrawerNavigationProp } from '@react-navigation/drawer'
+import { ParamListBase } from '@react-navigation/native'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import {
-  Alert,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
-import React, { useState } from 'react'
-import GeneralButton from '../../components/buttons/GeneralButton'
-import Theme from '../../utils/Theme'
-import { DrawerNavigationProp } from '@react-navigation/drawer'
-import { ParamListBase } from '@react-navigation/native'
-import VerticalInput from '../../components/common/VerticalInput'
-import { useForm } from 'react-hook-form'
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
+import GeneralButton from '../../components/buttons/GeneralButton'
+import VerticalInput from '../../components/common/VerticalInput'
 import VerticalSelectInput from '../../components/common/VerticalSelectInput'
 import { languages } from '../../constant'
+import Theme from '../../utils/Theme'
 
 type CVFormScreenProps = {
   navigation: DrawerNavigationProp<ParamListBase>
@@ -25,10 +23,12 @@ type CVFormScreenProps = {
 
 type FieldProps = {
   cvName: string
+  selectedLanguage: string
 }
 
 const cvFormSchema = yup.object({
-  cvName: yup.string().required('Name is required'),
+  cvName: yup.string().required(),
+  selectedLanguage: yup.string().required(),
 })
 
 const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
@@ -39,18 +39,13 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
   } = useForm<FieldProps>({
     defaultValues: {
       cvName: '',
+      selectedLanguage: '',
     },
     resolver: yupResolver(cvFormSchema),
   })
 
-  const [selectedLanguage, setSelectedLanguage] = useState<string>('')
-
-  const handleSelectedLanguage = (value: string) => {
-    setSelectedLanguage(value)
-  }
-
   const onSubmit = (data: FieldProps) => {
-    console.log(data)
+    if (data.cvName === '' || data.selectedLanguage === '') return
     navigation.navigate('GeneralInformationScreen')
   }
 
@@ -58,27 +53,14 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.innnerContainer}>
         <View>
-          <Text
-            style={{
-              ...Theme.fonts.headline.h6,
-            }}
-          >
-            Start create CV on FITSI
-          </Text>
-          <Text
-            style={{
-              marginTop: 4,
-              ...Theme.fonts.body.body2,
-            }}
-          >
+          <Text style={styles.introductHeading}>Start create CV on FITSI</Text>
+          <Text style={styles.introductContent}>
             Create a CV quickly and free, exclusively for all students. Make
             your career more interesting with FITSI from today.
           </Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{
-              marginTop: 8,
-            }}
+            style={styles.form}
           >
             <VerticalInput
               label="CV Name"
@@ -94,12 +76,11 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
             <VerticalSelectInput
               label="Language"
               type="name"
-              inputName="language"
-              placeHolderLabel="Select language..."
+              inputName="selectedLanguage"
+              placeHolderLabel="Select language"
               items={languages}
-              selectedLanguage={selectedLanguage}
-              handleSelectedLanguage={handleSelectedLanguage}
               control={control}
+              errors={errors}
             />
           </KeyboardAvoidingView>
         </View>
@@ -143,5 +124,14 @@ const styles = StyleSheet.create({
     ...Theme.shadow.depth2,
     padding: 16,
   },
-  introductContainer: {},
+  introductHeading: {
+    ...Theme.fonts.headline.h6,
+  },
+  introductContent: {
+    marginTop: 4,
+    ...Theme.fonts.body.body2,
+  },
+  form: {
+    marginTop: 8,
+  },
 })

@@ -87,14 +87,42 @@ export const CVStackScreen = () => (
 const CVFormStack = createStackNavigator()
 export const CVFormStackScreen = () => (
   <CVFormStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
+    screenOptions={({ navigation }) => ({
+      headerLeft: () => (
+        <Pressable
+          style={styles.positionLeft}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons
+            name="close"
+            size={28}
+            color={Theme.palette.black.primary}
+          />
+        </Pressable>
+      ),
+    })}
   >
-    <CVFormStack.Screen name="CVFormScreen" component={CVFormScreen} />
+    <CVFormStack.Screen
+      name="CVFormScreen"
+      component={CVFormScreen}
+      options={{
+        headerTitle: 'Create FITSI CV',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+      }}
+    />
     <CVFormStack.Screen
       name="GeneralInformationScreen"
       component={GeneralInformationScreen}
+      options={{
+        headerTitle: 'General Information',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+      }}
     />
   </CVFormStack.Navigator>
 )

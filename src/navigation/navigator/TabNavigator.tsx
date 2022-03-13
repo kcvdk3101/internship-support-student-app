@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { Pressable, StyleSheet, View } from 'react-native'
+import CustomBadge from '../../components/common/CustomBadge'
+import CustomSearchBar from '../../components/common/CustomSearchBar'
+import { notificationsData } from '../../db/NotificationData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import {
@@ -10,9 +12,6 @@ import {
   CVStackScreen,
   HomeStackScreen,
 } from './AllStackNavigator'
-import CustomBadge from '../../components/common/CustomBadge'
-import { notificationsData } from '../../db/NotificationData'
-import CustomSearchBar from '../../components/common/CustomSearchBar'
 
 const Tab = createBottomTabNavigator()
 const TabNavigator = (props: DrawerHeaderProps) => {

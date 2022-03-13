@@ -1,32 +1,30 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React from 'react'
 import { Control, Controller } from 'react-hook-form'
-import Theme from '../../utils/Theme'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
+import Theme from '../../utils/Theme'
 
 type VerticalSelectInputProps = {
-  selectedLanguage: string
   items: any
   placeHolderLabel: string
   label: string
   type: string
   inputName: string
   control: Control<any, any>
-  handleSelectedLanguage: (value: string) => void
+  errors: any
 }
 
 const VerticalSelectInput: React.FC<VerticalSelectInputProps> = ({
-  selectedLanguage,
   placeHolderLabel,
   items,
   label,
   inputName,
   control,
-  handleSelectedLanguage,
+  errors,
 }) => {
   const placeholder = {
     label: placeHolderLabel,
-    value: null,
+    value: '',
     color: Theme.palette.black.primary,
   }
 
@@ -38,21 +36,23 @@ const VerticalSelectInput: React.FC<VerticalSelectInputProps> = ({
         rules={{
           required: true,
         }}
-        render={({ field }) => (
+        render={({ field: { onChange, value } }) => (
           <RNPickerSelect
-            {...field}
-            placeholder={placeholder}
             items={items}
-            onValueChange={(value) => {
-              handleSelectedLanguage(value)
-            }}
+            onValueChange={onChange}
+            placeholder={placeholder}
             style={pickerSelectStyles}
-            value={selectedLanguage}
-            useNativeAndroidPickerStyle={false}
+            value={value}
+            useNativeAndroidPickerStyle={Platform.OS === 'ios' ? false : true}
           />
         )}
         name={inputName}
       />
+      {errors?.[inputName] && (
+        <Text style={{ color: Theme.palette.red.error }}>
+          This field is required
+        </Text>
+      )}
     </View>
   )
 }
