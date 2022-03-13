@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
 import Theme from '../../utils/Theme'
-import { AuthStackScreen } from './AllStackNavigator'
+import { CVFormStackScreen } from './AllStackNavigator'
 import CustomerDrawerContent from './CustomDrawerContent'
 import TabNavigator from './TabNavigator'
 
@@ -18,6 +18,12 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={(props) => <CustomerDrawerContent {...props} />}
       initialRouteName="MenuTab"
+      screenOptions={{
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+      }}
     >
       <Drawer.Screen
         name="MenuTab"
@@ -33,7 +39,7 @@ const DrawerNavigator = () => {
           drawerActiveBackgroundColor: Theme.palette.main.third,
           headerLeft: () => (
             <Pressable
-              style={styles.position}
+              style={styles.positionLeft}
               onPress={() => navigation.goBack()}
             >
               <Ionicons
@@ -52,6 +58,13 @@ const DrawerNavigator = () => {
           headerShown: false,
         }}
       />
+      <Drawer.Screen
+        name="CVForm"
+        component={CVFormStackScreen}
+        options={({ navigation, route }) => ({
+          headerShown: false,
+        })}
+      />
     </Drawer.Navigator>
   )
 }
@@ -59,9 +72,9 @@ const DrawerNavigator = () => {
 export default DrawerNavigator
 
 const styles = StyleSheet.create({
-  position: {
+  positionLeft: {
     position: 'absolute',
-    top: 8,
-    left: 8,
+    top: 16,
+    left: 16,
   },
 })

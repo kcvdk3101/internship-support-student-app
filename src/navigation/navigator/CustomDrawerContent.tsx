@@ -61,9 +61,11 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                     name={
                       drw.icon === 'home'
                         ? 'home'
-                        : drw.icon === 'archive'
-                        ? 'archive'
-                        : 'call'
+                        : drw.icon === 'business'
+                        ? 'business'
+                        : drw.icon === 'document'
+                        ? 'document'
+                        : 'archive'
                     }
                     color={Theme.palette.white.primary}
                     size={24}

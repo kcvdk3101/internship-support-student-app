@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 8,
-    marginVertical: 4,
+    marginVertical: 8,
     width: 200,
   },
   buttonSearch: {

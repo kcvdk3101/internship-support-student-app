@@ -1,8 +1,10 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { Pressable, StyleSheet, View } from 'react-native'
+import CustomBadge from '../../components/common/CustomBadge'
+import CustomSearchBar from '../../components/common/CustomSearchBar'
+import { notificationsData } from '../../db/NotificationData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import {
@@ -10,9 +12,6 @@ import {
   CVStackScreen,
   HomeStackScreen,
 } from './AllStackNavigator'
-import CustomBadge from '../../components/common/CustomBadge'
-import { notificationsData } from '../../db/NotificationData'
-import CustomSearchBar from '../../components/common/CustomSearchBar'
 
 const Tab = createBottomTabNavigator()
 const TabNavigator = (props: DrawerHeaderProps) => {
@@ -25,9 +24,13 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         tabBarStyle: {
           height: 50,
         },
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
         headerLeft: () => (
           <Pressable
-            style={styles.position}
+            style={styles.positionLeft}
             onPress={() => props.navigation.openDrawer()}
           >
             <Ionicons
@@ -39,11 +42,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         ),
         headerRight: () => (
           <Pressable
-            style={{
-              position: 'absolute',
-              top: 8,
-              right: 8,
-            }}
+            style={styles.positionRight}
             onPress={() => {
               props.navigation.navigate('Notifications')
             }}
@@ -104,9 +103,14 @@ const TabNavigator = (props: DrawerHeaderProps) => {
 export default TabNavigator
 
 const styles = StyleSheet.create({
-  position: {
+  positionLeft: {
     position: 'absolute',
-    top: 8,
-    left: 8,
+    top: 16,
+    left: 16,
+  },
+  positionRight: {
+    position: 'absolute',
+    top: 16,
+    right: 16,
   },
 })

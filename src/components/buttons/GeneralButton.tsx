@@ -6,6 +6,7 @@ import Theme from '../../utils/Theme'
 type GeneralButtonProps = {
   isAlignCenter: boolean
   bgColor: string
+  txtColor: string
   label: string
   onPress?: () => void
 }
@@ -13,31 +14,41 @@ type GeneralButtonProps = {
 const GeneralButton: React.FC<GeneralButtonProps> = ({
   isAlignCenter,
   bgColor,
+  txtColor,
   label,
   onPress,
 }) => {
   return (
-    <View
+    <TouchableOpacity
       style={[
         styles.container,
         {
           backgroundColor: bgColor,
         },
       ]}
+      activeOpacity={0.8}
+      onPress={onPress}
     >
-      <TouchableOpacity
+      <View
         style={[
           styles.btn,
           {
             alignSelf: isAlignCenter ? 'center' : 'stretch',
           },
         ]}
-        activeOpacity={0.9}
-        onPress={onPress}
       >
-        <Text style={styles.text}>{label}</Text>
-      </TouchableOpacity>
-    </View>
+        <Text
+          style={[
+            styles.text,
+            {
+              color: txtColor,
+            },
+          ]}
+        >
+          {label}
+        </Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 
@@ -45,7 +56,7 @@ export default GeneralButton
 
 const styles = StyleSheet.create({
   container: {
-    ...Theme.shadow.depth2,
+    ...Theme.shadow.depth1,
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 100,
@@ -56,7 +67,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: Theme.palette.white.primary,
     ...Theme.fonts.headline.h6,
   },
 })

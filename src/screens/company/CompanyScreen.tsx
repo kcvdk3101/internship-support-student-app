@@ -49,7 +49,7 @@ export default CompanyScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginVertical: 20,
+    marginVertical: 8,
   },
   header: {
     fontSize: 32,

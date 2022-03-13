@@ -26,14 +26,30 @@ export const drawers = [
     navigate: 'MenuTab',
   },
   {
-    icon: 'archive',
-    label: 'Applied Job',
-    navigate: '',
+    icon: 'business',
+    label: 'Company',
+    navigate: 'CompanyTab',
   },
   {
-    icon: 'call',
-    label: 'Contact',
-    navigate: 'ContactDrawer',
+    icon: 'document',
+    label: 'Your CV',
+    navigate: 'CVTab',
+  },
+  {
+    icon: 'archive',
+    label: 'Applied Job',
+    navigate: 'AppliedJob',
+  },
+]
+
+export const languages = [
+  {
+    label: 'Vietnam',
+    value: 'vi',
+  },
+  {
+    label: 'English',
+    value: 'eng',
   },
 ]
 
