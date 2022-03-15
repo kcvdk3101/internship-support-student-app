@@ -53,6 +53,9 @@ export const languages = [
   },
 ]
 
+export const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+
 export const IS_FIRST_TIME = 'IS_FIRST_TIME'
 export const FIRST_TIME_OPEN_VALUE = 'FIRST_TIME_OPEN_VALUE'
 export const screenWidth = Dimensions.get('screen').width

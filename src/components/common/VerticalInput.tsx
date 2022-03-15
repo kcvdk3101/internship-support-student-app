@@ -14,8 +14,8 @@ type VerticalInputProps = {
   label: string
   type: string
   inputName: string
-  placeholder: string
-  autoCapitalize: 'none' | 'sentences' | 'words' | 'characters' | undefined
+  placeholder?: string
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined
   returnKeyType: ReturnKeyTypeOptions
   keyboardType: KeyboardTypeOptions
   control: Control<any, any>

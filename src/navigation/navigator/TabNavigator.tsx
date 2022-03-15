@@ -71,7 +71,6 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
-          headerTitle: () => <CustomSearchBar />,
         }}
       />
       <Tab.Screen
