@@ -10,6 +10,7 @@ import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
 import CVFormScreen from '../../screens/cvForm/CVFormScreen'
+import LanguagesScreen from '../../screens/generalInformation/components/LanguagesScreen'
 import TechnicalSkillsScreen from '../../screens/generalInformation/components/TechnicalSkillsScreen'
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
@@ -128,13 +129,48 @@ export const CVFormStackScreen = () => (
     <CVFormStack.Screen
       name="TechnicalSkillsScreen"
       component={TechnicalSkillsScreen}
-      options={{
+      options={({ navigation }) => ({
         headerTitle: 'Technical Skills',
         headerStyle: {
           height: 80,
           backgroundColor: Theme.palette.white.primary,
         },
-      }}
+        headerLeft: () => (
+          <Pressable
+            style={styles.positionLeft}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={Theme.palette.black.primary}
+            />
+          </Pressable>
+        ),
+      })}
+    />
+    <CVFormStack.Screen
+      name="LanguagesScreen"
+      component={LanguagesScreen}
+      options={({ navigation }) => ({
+        headerTitle: 'Languages',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+        headerLeft: () => (
+          <Pressable
+            style={styles.positionLeft}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons
+              name="arrow-back"
+              size={28}
+              color={Theme.palette.black.primary}
+            />
+          </Pressable>
+        ),
+      })}
     />
   </CVFormStack.Navigator>
 )

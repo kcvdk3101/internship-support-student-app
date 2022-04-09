@@ -5,41 +5,38 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import RNPickerSelect from 'react-native-picker-select'
 import GeneralButton from '../../../components/buttons/GeneralButton'
-import Skills from '../../../constant/skills'
-import { addListSkill } from '../../../features/cvSlice'
+import Languages from '../../../constant/languages'
+import { addListLanguage } from '../../../features/cvSlice'
 import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
 
-type TechnicalSkillsScreenProps = {
+type LanguagesScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
 
-const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
-  navigation,
-}) => {
+const LanguagesScreen: React.FC<LanguagesScreenProps> = ({ navigation }) => {
   const placeholder = {
-    label: 'Select skill',
+    label: 'Select language',
     value: '',
     color: Theme.palette.white.primary,
   }
 
   const dispatch = useAppDispatch()
 
-  const [listSkills, setListSkills] = useState<string[]>([])
+  const [listLanguages, setListLanguages] = useState<string[]>([])
   const [total, setTotal] = useState<number>(1)
-  const [skillsSelected, setSkillsSelected] = useState<string>('')
+  const [languagesSelected, setLanguagesSelected] = useState<string | undefined>('')
+  const [error, setError] = useState('')
 
-  let filterArray = Skills
+  let filterArray = Languages
 
   const handleOnChange = (data: string) => {
-    setSkillsSelected(data)
+    setLanguagesSelected(data)
   }
 
-  const handleAddSkill = (data: string) => {
-    setListSkills([...listSkills, data])
-    let indexSkillSelected = filterArray.findIndex(
-      (skill) => skill.value === data,
-    )
+  const handleAddSkill = (data: string | undefined) => {
+    setListLanguages([...listLanguages, data as string])
+    let indexSkillSelected = filterArray.findIndex((skill) => skill.value === data)
     filterArray.splice(indexSkillSelected, 1)
   }
 
@@ -53,19 +50,38 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
       <Text
         style={{
           ...Theme.fonts.headline.h6,
+          marginTop: 16,
+          marginBottom: 8,
         }}
       >
-        List of Skills
+        List of Languages
       </Text>
       {[...Array(total).keys()].map((item, index) => (
-        <RNPickerSelect
+        <View
           key={index}
-          items={filterArray}
-          onValueChange={handleOnChange}
-          placeholder={placeholder}
-          style={pickerSelectStyles}
-          useNativeAndroidPickerStyle={Platform.OS === 'ios' ? false : true}
-        />
+          style={{
+            marginVertical: 8,
+          }}
+        >
+          <RNPickerSelect
+            key={index}
+            items={filterArray}
+            onValueChange={handleOnChange}
+            placeholder={placeholder}
+            style={pickerSelectStyles}
+            useNativeAndroidPickerStyle={Platform.OS === 'ios' ? false : true}
+          />
+          {!languagesSelected && (
+            <Text
+              style={{
+                marginVertical: 4,
+                color: Theme.palette.red.error,
+              }}
+            >
+              {error}
+            </Text>
+          )}
+        </View>
       ))}
       <TouchableOpacity
         style={{
@@ -73,12 +89,17 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
           ...Theme.shadow.depth1,
           borderRadius: 8,
           padding: 12,
-          marginVertical: 4,
+          marginVertical: 2,
         }}
         activeOpacity={0.8}
         onPress={() => {
-          setTotal(total + 1)
-          handleAddSkill(skillsSelected)
+          if (languagesSelected === '') {
+            setError('Please choose language before add new')
+          } else {
+            setError('')
+            setTotal(total + 1)
+            handleAddSkill(languagesSelected)
+          }
         }}
       >
         <View
@@ -116,11 +137,12 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={() => {
-            if (skillsSelected !== '') {
-              setListSkills([...listSkills, skillsSelected])
-              setSkillsSelected('')
-            } else {
-              dispatch(addListSkill(listSkills))
+            if (languagesSelected !== '') {
+              setListLanguages([...listLanguages, languagesSelected as string])
+              setLanguagesSelected(undefined)
+            }
+            if (languagesSelected === undefined) {
+              dispatch(addListLanguage(listLanguages))
               navigation.goBack()
             }
           }}
@@ -130,7 +152,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
   )
 }
 
-export default TechnicalSkillsScreen
+export default LanguagesScreen
 
 const styles = StyleSheet.create({})
 
@@ -139,7 +161,7 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginVertical: 4,
+    // marginVertical: 4,
     color: Theme.palette.white.primary,
     ...Theme.fonts.body.body1,
   },
@@ -147,7 +169,7 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginVertical: 4,
+    // marginVertical: 4,
     color: Theme.palette.white.primary,
     ...Theme.fonts.body.body1,
   },

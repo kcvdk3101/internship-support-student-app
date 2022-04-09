@@ -44,7 +44,7 @@ export const drawers = [
 
 export const languages = [
   {
-    label: 'Vietnam',
+    label: 'Vietnamese',
     value: 'vi',
   },
   {

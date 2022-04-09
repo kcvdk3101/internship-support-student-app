@@ -18,6 +18,8 @@ import VerticalSelectInput from '../../components/common/VerticalSelectInput'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
+import { useAppSelector } from '../../hooks/redux'
+import ChipButton from '../../components/buttons/ChipButton'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -104,6 +106,8 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
   } = useForm<FieldProps>({
     resolver: yupResolver(generalInformationSchema),
   })
+
+  const { skills, languages } = useAppSelector((state) => state.cv.cv)
 
   const onSubmit = (data: FieldProps) => console.log(data)
 
@@ -193,7 +197,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
               paddingHorizontal: 8,
             }}
           >
-            Technical Skills
+            Skills and Languages
           </Text>
           <View
             style={{
@@ -201,48 +205,121 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
               padding: 8,
             }}
           >
-            <View>
-              <Text>Skils</Text>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: Theme.palette.black.primary,
-                  ...Theme.shadow.depth1,
-                  borderRadius: 8,
-                  padding: 12,
-                  marginVertical: 4,
-                }}
-                activeOpacity={0.8}
-                onPress={() => navigation.navigate('TechnicalSkillsScreen')}
-              >
+            <View
+              style={{
+                marginBottom: 8,
+              }}
+            >
+              {skills && skills.length > 0 ? (
                 <View
                   style={{
                     flexDirection: 'row',
-                    justifyContent: 'center',
-                    alignItems: 'center',
                   }}
                 >
-                  <Text
+                  {skills.map((skill, index) => (
+                    <ChipButton
+                      key={index}
+                      name={skill}
+                      bgColor={Theme.palette.black.primary}
+                      txtColor={Theme.palette.white.primary}
+                      fsize={14}
+                    />
+                  ))}
+                </View>
+              ) : (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: Theme.palette.black.primary,
+                    ...Theme.shadow.depth1,
+                    borderRadius: 8,
+                    padding: 12,
+                    marginVertical: 4,
+                  }}
+                  activeOpacity={0.8}
+                  onPress={() => navigation.navigate('TechnicalSkillsScreen')}
+                >
+                  <View
                     style={{
-                      textAlign: 'center',
-                      ...Theme.fonts.body.body1,
-                      color: Theme.palette.white.primary,
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
-                    Add new
-                  </Text>
-                  <Ionicons
-                    name="add"
-                    size={24}
-                    color={Theme.palette.white.primary}
-                  />
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        ...Theme.fonts.body.body1,
+                        color: Theme.palette.white.primary,
+                      }}
+                    >
+                      Add new skill
+                    </Text>
+                    <Ionicons
+                      name="add"
+                      size={24}
+                      color={Theme.palette.white.primary}
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
+            </View>
+            <View
+              style={{
+                marginBottom: 8,
+              }}
+            >
+              {languages && languages.length > 0 ? (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                  }}
+                >
+                  {languages.map((language, index) => (
+                    <ChipButton
+                      key={index}
+                      name={language}
+                      bgColor={Theme.palette.black.primary}
+                      txtColor={Theme.palette.white.primary}
+                      fsize={14}
+                    />
+                  ))}
                 </View>
-              </TouchableOpacity>
-              {/* <GeneralButton
-                isAlignCenter={true}
-                bgColor={Theme.palette.black.primary}
-                txtColor={Theme.palette.white.primary}
-                label="Add New"
-              /> */}
+              ) : (
+                <TouchableOpacity
+                  style={{
+                    backgroundColor: Theme.palette.black.primary,
+                    ...Theme.shadow.depth1,
+                    borderRadius: 8,
+                    padding: 12,
+                    marginVertical: 4,
+                  }}
+                  activeOpacity={0.8}
+                  onPress={() => navigation.navigate('LanguagesScreen')}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <Text
+                      style={{
+                        textAlign: 'center',
+                        ...Theme.fonts.body.body1,
+                        color: Theme.palette.white.primary,
+                      }}
+                    >
+                      Add new language
+                    </Text>
+                    <Ionicons
+                      name="add"
+                      size={24}
+                      color={Theme.palette.white.primary}
+                    />
+                  </View>
+                </TouchableOpacity>
+              )}
             </View>
           </View>
         </View>
