@@ -10,6 +10,7 @@ import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
 import CVFormScreen from '../../screens/cvForm/CVFormScreen'
+import TechnicalSkillsScreen from '../../screens/generalInformation/components/TechnicalSkillsScreen'
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
 import Theme from '../../utils/Theme'
@@ -118,6 +119,17 @@ export const CVFormStackScreen = () => (
       component={GeneralInformationScreen}
       options={{
         headerTitle: 'General Information',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+      }}
+    />
+    <CVFormStack.Screen
+      name="TechnicalSkillsScreen"
+      component={TechnicalSkillsScreen}
+      options={{
+        headerTitle: 'Technical Skills',
         headerStyle: {
           height: 80,
           backgroundColor: Theme.palette.white.primary,

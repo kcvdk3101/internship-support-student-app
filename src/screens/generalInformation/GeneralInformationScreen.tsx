@@ -12,16 +12,25 @@ import Theme from '../../utils/Theme'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { phoneRegExp } from '../../constant'
+import { gender, phoneRegExp } from '../../constant'
 import GeneralButton from '../../components/buttons/GeneralButton'
+import VerticalSelectInput from '../../components/common/VerticalSelectInput'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import { Ionicons } from '@expo/vector-icons'
 
-type GeneralInformationScreenProps = {}
+type GeneralInformationScreenProps = {
+  navigation: NavigationProp<ParamListBase>
+}
 
 type FieldProps = {
   fullName: string
   position: string
   email: string
   phone: number
+  gender: string
+  city: string
+  address: string
 }
 
 const generalInformation = [
@@ -29,7 +38,7 @@ const generalInformation = [
     label: 'Full Name',
     type: 'username',
     inputName: 'fullName',
-    placeholder: 'Enter your name',
+    placeholder: 'Enter your full name',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
@@ -45,7 +54,7 @@ const generalInformation = [
     label: 'Email',
     type: 'email',
     inputName: 'email',
-    placeholder: 'Enter email',
+    placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
@@ -53,7 +62,26 @@ const generalInformation = [
     label: 'Phone',
     type: 'number',
     inputName: 'phone',
-    placeholder: 'Enter your phone number',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+]
+
+const locationInformation = [
+  {
+    label: 'City',
+    type: 'name',
+    inputName: 'city',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Address',
+    type: 'name',
+    inputName: 'address',
+    placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
@@ -66,9 +94,9 @@ const generalInformationSchema = yup.object({
   phone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
 })
 
-const GeneralInformationScreen: React.FC<
-  GeneralInformationScreenProps
-> = () => {
+const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
+  navigation,
+}) => {
   const {
     control,
     handleSubmit,
@@ -91,15 +119,16 @@ const GeneralInformationScreen: React.FC<
             flex: 1,
             backgroundColor: Theme.palette.white.primary,
             borderRadius: 8,
-            marginHorizontal: 8,
-            marginTop: 8,
-            marginBottom: 56,
+            marginHorizontal: 12,
+            marginTop: 12,
+            marginBottom: 16,
             padding: 8,
           }}
         >
           <Text
             style={{
               ...Theme.fonts.headline.h6,
+              paddingHorizontal: 8,
             }}
           >
             Profile Information
@@ -107,7 +136,7 @@ const GeneralInformationScreen: React.FC<
           <View
             style={{
               flex: 1,
-              paddingVertical: 8,
+              padding: 8,
             }}
           >
             {generalInformation.map((info, index) => (
@@ -123,6 +152,98 @@ const GeneralInformationScreen: React.FC<
                 errors={errors}
               />
             ))}
+            <VerticalSelectInput
+              label="Gender"
+              type="name"
+              inputName="selectedGender"
+              placeHolderLabel="Select gender"
+              items={gender}
+              control={control}
+              errors={errors}
+            />
+            {locationInformation.map((loc, index) => (
+              <VerticalInput
+                key={index}
+                label={loc.label}
+                type={loc.type}
+                inputName={loc.inputName}
+                placeholder={loc.placeholder}
+                returnKeyType={loc.returnKeyType as ReturnKeyTypeOptions}
+                keyboardType={loc.keyboardType as KeyboardTypeOptions}
+                control={control}
+                errors={errors}
+              />
+            ))}
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: Theme.palette.white.primary,
+            borderRadius: 8,
+            marginHorizontal: 12,
+            marginBottom: 56,
+            padding: 8,
+          }}
+        >
+          <Text
+            style={{
+              ...Theme.fonts.headline.h6,
+              paddingHorizontal: 8,
+            }}
+          >
+            Technical Skills
+          </Text>
+          <View
+            style={{
+              flex: 1,
+              padding: 8,
+            }}
+          >
+            <View>
+              <Text>Skils</Text>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: Theme.palette.black.primary,
+                  ...Theme.shadow.depth1,
+                  borderRadius: 8,
+                  padding: 12,
+                  marginVertical: 4,
+                }}
+                activeOpacity={0.8}
+                onPress={() => navigation.navigate('TechnicalSkillsScreen')}
+              >
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      ...Theme.fonts.body.body1,
+                      color: Theme.palette.white.primary,
+                    }}
+                  >
+                    Add new
+                  </Text>
+                  <Ionicons
+                    name="add"
+                    size={24}
+                    color={Theme.palette.white.primary}
+                  />
+                </View>
+              </TouchableOpacity>
+              {/* <GeneralButton
+                isAlignCenter={true}
+                bgColor={Theme.palette.black.primary}
+                txtColor={Theme.palette.white.primary}
+                label="Add New"
+              /> */}
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -130,8 +251,8 @@ const GeneralInformationScreen: React.FC<
         style={{
           position: 'absolute',
           bottom: 0,
-          width: '95%',
-          marginHorizontal: 8,
+          width: '90%',
+          marginHorizontal: 16,
           marginBottom: 16,
         }}
       >

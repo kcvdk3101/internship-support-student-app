@@ -1,9 +1,8 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
-import { Pressable, StyleSheet, View } from 'react-native'
+import { Pressable, StyleSheet, View, Image } from 'react-native'
 import CustomBadge from '../../components/common/CustomBadge'
-import CustomSearchBar from '../../components/common/CustomSearchBar'
 import { notificationsData } from '../../db/NotificationData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
@@ -12,6 +11,7 @@ import {
   CVStackScreen,
   HomeStackScreen,
 } from './AllStackNavigator'
+import logo from '../../assets/images/FITSI.png'
 
 const Tab = createBottomTabNavigator()
 const TabNavigator = (props: DrawerHeaderProps) => {
@@ -71,6 +71,9 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home" color={color} size={size} />
           ),
+          headerTitle: () => (
+            <Image style={styles.tinyLogo} source={logo} resizeMode="center" />
+          ),
         }}
       />
       <Tab.Screen
@@ -111,5 +114,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 16,
     right: 16,
+  },
+  tinyLogo: {
+    // width: 50,
+    height: 30,
   },
 })

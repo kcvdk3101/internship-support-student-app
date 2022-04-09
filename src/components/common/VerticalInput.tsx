@@ -11,7 +11,7 @@ import {
 import Theme from '../../utils/Theme'
 
 type VerticalInputProps = {
-  label: string
+  label?: string
   type: string
   inputName: string
   placeholder?: string

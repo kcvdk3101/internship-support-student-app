@@ -11,6 +11,9 @@ const PopularCompanies: React.FC<PopularCompaniesProps> = () => {
     <View>
       <Text style={styles.heading}>popular comapanies</Text>
       <FlatList
+        style={{
+          marginHorizontal: 16,
+        }}
         data={popularcompaniesData}
         numColumns={2}
         keyExtractor={(item, index) => index.toString()}
@@ -28,6 +31,6 @@ const styles = StyleSheet.create({
     ...Theme.fonts.headline.h6,
     color: Theme.palette.black.primary,
     marginTop: 24,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
 })

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     ...Theme.fonts.headline.h6,
     color: Theme.palette.black.primary,
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
   newest: {
     marginTop: 24,
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
   topKeywordList: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginHorizontal: 10,
+    marginHorizontal: 20,
   },
 })
