@@ -1,6 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Dimensions, FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View } from 'react-native'
 import NewestCard from '../../components/cards/NewestCard'
 import { screenWidth } from '../../constant'
 import { newestCompany } from '../../db/NewestCompanyData'
@@ -28,7 +28,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
         renderItem={({ item }) => (
           <View
             style={{
-              marginHorizontal: 10,
+              marginHorizontal: 20,
             }}
           >
             <NewestCard card={item} navigation={navigation} />

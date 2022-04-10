@@ -38,15 +38,8 @@ const DrawerNavigator = () => {
         options={({ navigation }) => ({
           drawerActiveBackgroundColor: Theme.palette.main.third,
           headerLeft: () => (
-            <Pressable
-              style={styles.positionLeft}
-              onPress={() => navigation.goBack()}
-            >
-              <Ionicons
-                name="arrow-back"
-                size={28}
-                color={Theme.palette.black.primary}
-              />
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
             </Pressable>
           ),
         })}

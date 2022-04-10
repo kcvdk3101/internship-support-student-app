@@ -4,12 +4,15 @@ import { createStackNavigator } from '@react-navigation/stack'
 import { Pressable, StyleSheet } from 'react-native'
 import CustomSearchBar from '../../components/common/CustomSearchBar'
 import AccountScreen from '../../screens/account/AccountScreen'
+import AdditionalInformationScreen from '../../screens/additionalInformation/AdditionalInformationScreen'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
 import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen'
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
 import CVFormScreen from '../../screens/cvForm/CVFormScreen'
+import LanguagesScreen from '../../screens/generalInformation/components/LanguagesScreen'
+import TechnicalSkillsScreen from '../../screens/generalInformation/components/TechnicalSkillsScreen'
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
 import Theme from '../../utils/Theme'
@@ -43,19 +46,12 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
       component={CompanyScreen}
       options={{
         headerStyle: {
-          height: 80,
+          height: 100,
           backgroundColor: Theme.palette.white.primary,
         },
         headerLeft: () => (
-          <Pressable
-            style={styles.positionLeft}
-            onPress={() => props.navigation.openDrawer()}
-          >
-            <Ionicons
-              name="menu"
-              size={28}
-              color={Theme.palette.black.primary}
-            />
+          <Pressable style={styles.positionLeft} onPress={() => props.navigation.openDrawer()}>
+            <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
         headerTitle: () => <CustomSearchBar />,
@@ -89,15 +85,8 @@ export const CVFormStackScreen = () => (
   <CVFormStack.Navigator
     screenOptions={({ navigation }) => ({
       headerLeft: () => (
-        <Pressable
-          style={styles.positionLeft}
-          onPress={() => navigation.goBack()}
-        >
-          <Ionicons
-            name="close"
-            size={28}
-            color={Theme.palette.black.primary}
-          />
+        <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+          <Ionicons name="close" size={28} color={Theme.palette.black.primary} />
         </Pressable>
       ),
     })}
@@ -123,6 +112,54 @@ export const CVFormStackScreen = () => (
           backgroundColor: Theme.palette.white.primary,
         },
       }}
+    />
+    <CVFormStack.Screen
+      name="AdditionalInformationScreen"
+      component={AdditionalInformationScreen}
+      options={({ navigation }) => ({
+        headerTitle: 'Additional Information',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+        headerLeft: () => (
+          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+          </Pressable>
+        ),
+      })}
+    />
+    <CVFormStack.Screen
+      name="TechnicalSkillsScreen"
+      component={TechnicalSkillsScreen}
+      options={({ navigation }) => ({
+        headerTitle: 'Technical Skills',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+        headerLeft: () => (
+          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+          </Pressable>
+        ),
+      })}
+    />
+    <CVFormStack.Screen
+      name="LanguagesScreen"
+      component={LanguagesScreen}
+      options={({ navigation }) => ({
+        headerTitle: 'Languages',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+        headerLeft: () => (
+          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+          </Pressable>
+        ),
+      })}
     />
   </CVFormStack.Navigator>
 )
@@ -154,7 +191,7 @@ export const ContactStackScreen = () => (
 const styles = StyleSheet.create({
   positionLeft: {
     position: 'absolute',
-    top: 16,
+    top: 4,
     left: 16,
   },
 })

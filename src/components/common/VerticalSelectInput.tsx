@@ -7,7 +7,7 @@ import Theme from '../../utils/Theme'
 type VerticalSelectInputProps = {
   items: any
   placeHolderLabel: string
-  label: string
+  label?: string
   type: string
   inputName: string
   control: Control<any, any>
