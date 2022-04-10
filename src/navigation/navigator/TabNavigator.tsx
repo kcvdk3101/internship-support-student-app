@@ -6,11 +6,7 @@ import CustomBadge from '../../components/common/CustomBadge'
 import { notificationsData } from '../../db/NotificationData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
-import {
-  CompanyStackScreen,
-  CVStackScreen,
-  HomeStackScreen,
-} from './AllStackNavigator'
+import { CompanyStackScreen, CVStackScreen, HomeStackScreen } from './AllStackNavigator'
 import logo from '../../assets/images/FITSI.png'
 
 const Tab = createBottomTabNavigator()
@@ -22,22 +18,15 @@ const TabNavigator = (props: DrawerHeaderProps) => {
       screenOptions={{
         tabBarActiveTintColor: Theme.palette.main.third,
         tabBarStyle: {
-          height: 50,
+          height: 85,
         },
         headerStyle: {
-          height: 80,
+          // height: 80,
           backgroundColor: Theme.palette.white.primary,
         },
         headerLeft: () => (
-          <Pressable
-            style={styles.positionLeft}
-            onPress={() => props.navigation.openDrawer()}
-          >
-            <Ionicons
-              name="menu"
-              size={28}
-              color={Theme.palette.black.primary}
-            />
+          <Pressable style={styles.positionLeft} onPress={() => props.navigation.openDrawer()}>
+            <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
         headerRight: () => (
@@ -48,11 +37,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
             }}
           >
             <View>
-              <Ionicons
-                name="notifications"
-                size={28}
-                color={Theme.palette.black.primary}
-              />
+              <Ionicons name="notifications" size={28} color={Theme.palette.black.primary} />
               <CustomBadge
                 visible={notificationsData.length > 0}
                 size={12}
@@ -68,12 +53,8 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         component={HomeStackScreen}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" color={color} size={size} />
-          ),
-          headerTitle: () => (
-            <Image style={styles.tinyLogo} source={logo} resizeMode="center" />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
+          headerTitle: () => <Image style={styles.tinyLogo} source={logo} resizeMode="center" />,
         }}
       />
       <Tab.Screen
@@ -81,9 +62,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         component={CompanyStackScreen}
         options={{
           tabBarLabel: 'Company',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="business" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="business" color={color} size={size} />,
           headerShown: false,
         }}
       />
@@ -92,9 +71,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         component={CVStackScreen}
         options={{
           tabBarLabel: 'CV',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="document" color={color} size={size} />
-          ),
+          tabBarIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
           headerShown: isAuthenticated ? true : false,
         }}
       />
@@ -107,16 +84,15 @@ export default TabNavigator
 const styles = StyleSheet.create({
   positionLeft: {
     position: 'absolute',
-    top: 16,
+    top: 4,
     left: 16,
   },
   positionRight: {
     position: 'absolute',
-    top: 16,
+    top: 4,
     right: 16,
   },
   tinyLogo: {
-    // width: 50,
-    height: 30,
+    height: 100,
   },
 })

@@ -5,6 +5,7 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import RNPickerSelect from 'react-native-picker-select'
 import GeneralButton from '../../../components/buttons/GeneralButton'
+import { screenHeight } from '../../../constant'
 import Skills from '../../../constant/skills'
 import { addListSkill } from '../../../features/cvSlice'
 import { useAppDispatch } from '../../../hooks/redux'
@@ -14,9 +15,7 @@ type TechnicalSkillsScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
 
-const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
-  navigation,
-}) => {
+const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigation }) => {
   const placeholder = {
     label: 'Select skill',
     value: '',
@@ -37,9 +36,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
 
   const handleAddSkill = (data: string) => {
     setListSkills([...listSkills, data])
-    let indexSkillSelected = filterArray.findIndex(
-      (skill) => skill.value === data,
-    )
+    let indexSkillSelected = filterArray.findIndex((skill) => skill.value === data)
     filterArray.splice(indexSkillSelected, 1)
   }
 
@@ -104,10 +101,10 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({
       <View
         style={{
           position: 'absolute',
-          bottom: 0,
+          top: screenHeight * 0.8,
+          // bottom: 20,
           width: '95%',
           marginHorizontal: 16,
-          marginBottom: 16,
         }}
       >
         <GeneralButton

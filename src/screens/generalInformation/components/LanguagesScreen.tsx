@@ -74,7 +74,7 @@ const LanguagesScreen: React.FC<LanguagesScreenProps> = ({ navigation }) => {
           {!languagesSelected && (
             <Text
               style={{
-                marginVertical: 4,
+                marginVertical: !languagesSelected ? 4 : 0,
                 color: Theme.palette.red.error,
               }}
             >

@@ -20,9 +20,6 @@ const LanguagesData = {
   Thai: {
     name: 'Thai',
   },
-  Vietnamese: {
-    name: 'Vietnamese',
-  },
 }
 
 const Languages = Object.values(LanguagesData).map((language) => {

@@ -90,15 +90,16 @@ const locationInformation = [
 ]
 
 const generalInformationSchema = yup.object({
-  fullName: yup.string().required(),
-  position: yup.string().required(),
-  email: yup.string().email('Invalid email format').required('Required'),
+  fullName: yup.string(),
+  position: yup.string(),
+  email: yup.string().email('Invalid email format'),
   phone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
+  selectedGender: yup.string(),
+  city: yup.string(),
+  address: yup.string(),
 })
 
-const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
-  navigation,
-}) => {
+const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
@@ -109,40 +110,16 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
 
   const { skills, languages } = useAppSelector((state) => state.cv.cv)
 
-  const onSubmit = (data: FieldProps) => console.log(data)
+  const onSubmit = (data: FieldProps) => {
+    navigation.navigate('AdditionalInformationScreen')
+  }
 
   return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
+    <View style={styles.container}>
       <ScrollView>
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: Theme.palette.white.primary,
-            borderRadius: 8,
-            marginHorizontal: 12,
-            marginTop: 12,
-            marginBottom: 16,
-            padding: 8,
-          }}
-        >
-          <Text
-            style={{
-              ...Theme.fonts.headline.h6,
-              paddingHorizontal: 8,
-            }}
-          >
-            Profile Information
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              padding: 8,
-            }}
-          >
+        <View style={styles.firstBlock}>
+          <Text style={styles.heading}>Profile Information</Text>
+          <View style={styles.form}>
             {generalInformation.map((info, index) => (
               <VerticalInput
                 key={index}
@@ -181,41 +158,19 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
           </View>
         </View>
 
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: Theme.palette.white.primary,
-            borderRadius: 8,
-            marginHorizontal: 12,
-            marginBottom: 56,
-            padding: 8,
-          }}
-        >
-          <Text
-            style={{
-              ...Theme.fonts.headline.h6,
-              paddingHorizontal: 8,
-            }}
-          >
-            Skills and Languages
-          </Text>
-          <View
-            style={{
-              flex: 1,
-              padding: 8,
-            }}
-          >
+        <View style={styles.secondBlock}>
+          <Text style={styles.heading}>Skills and Languages</Text>
+          <View style={styles.form}>
             <View
-              style={{
-                marginBottom: 8,
-              }}
+              style={[
+                styles.skillContainer,
+                {
+                  borderBottomWidth: skills && skills.length > 0 ? 1 : 0,
+                },
+              ]}
             >
               {skills && skills.length > 0 ? (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}
-                >
+                <View style={styles.list}>
                   {skills.map((skill, index) => (
                     <ChipButton
                       key={index}
@@ -228,37 +183,13 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
                 </View>
               ) : (
                 <TouchableOpacity
-                  style={{
-                    backgroundColor: Theme.palette.black.primary,
-                    ...Theme.shadow.depth1,
-                    borderRadius: 8,
-                    padding: 12,
-                    marginVertical: 4,
-                  }}
+                  style={styles.button}
                   activeOpacity={0.8}
                   onPress={() => navigation.navigate('TechnicalSkillsScreen')}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        ...Theme.fonts.body.body1,
-                        color: Theme.palette.white.primary,
-                      }}
-                    >
-                      Add new skill
-                    </Text>
-                    <Ionicons
-                      name="add"
-                      size={24}
-                      color={Theme.palette.white.primary}
-                    />
+                  <View style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>Add new skill</Text>
+                    <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
                   </View>
                 </TouchableOpacity>
               )}
@@ -269,11 +200,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
               }}
             >
               {languages && languages.length > 0 ? (
-                <View
-                  style={{
-                    flexDirection: 'row',
-                  }}
-                >
+                <View style={styles.list}>
                   {languages.map((language, index) => (
                     <ChipButton
                       key={index}
@@ -281,42 +208,19 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
                       bgColor={Theme.palette.black.primary}
                       txtColor={Theme.palette.white.primary}
                       fsize={14}
+                      disabled={true}
                     />
                   ))}
                 </View>
               ) : (
                 <TouchableOpacity
-                  style={{
-                    backgroundColor: Theme.palette.black.primary,
-                    ...Theme.shadow.depth1,
-                    borderRadius: 8,
-                    padding: 12,
-                    marginVertical: 4,
-                  }}
+                  style={styles.button}
                   activeOpacity={0.8}
                   onPress={() => navigation.navigate('LanguagesScreen')}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}
-                  >
-                    <Text
-                      style={{
-                        textAlign: 'center',
-                        ...Theme.fonts.body.body1,
-                        color: Theme.palette.white.primary,
-                      }}
-                    >
-                      Add new language
-                    </Text>
-                    <Ionicons
-                      name="add"
-                      size={24}
-                      color={Theme.palette.white.primary}
-                    />
+                  <View style={styles.buttonContainer}>
+                    <Text style={styles.buttonText}>Add new language</Text>
+                    <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
                   </View>
                 </TouchableOpacity>
               )}
@@ -327,7 +231,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
       <View
         style={{
           position: 'absolute',
-          bottom: 0,
+          bottom: 15,
           width: '90%',
           marginHorizontal: 16,
           marginBottom: 16,
@@ -347,4 +251,57 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({
 
 export default GeneralInformationScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  firstBlock: {
+    flex: 1,
+    backgroundColor: Theme.palette.white.primary,
+    borderRadius: 8,
+    marginHorizontal: 12,
+    marginTop: 12,
+    marginBottom: 16,
+    padding: 8,
+  },
+  secondBlock: {
+    flex: 1,
+    backgroundColor: Theme.palette.white.primary,
+    borderRadius: 8,
+    marginHorizontal: 12,
+    marginBottom: 56,
+    padding: 8,
+  },
+  heading: {
+    ...Theme.fonts.headline.h6,
+    paddingHorizontal: 8,
+  },
+  form: {
+    flex: 1,
+    padding: 8,
+  },
+  skillContainer: {
+    marginVertical: 4,
+  },
+  list: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  button: {
+    backgroundColor: Theme.palette.black.primary,
+    ...Theme.shadow.depth1,
+    borderRadius: 8,
+    padding: 12,
+    marginVertical: 4,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    textAlign: 'center',
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.white.primary,
+  },
+})
