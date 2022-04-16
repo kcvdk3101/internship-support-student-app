@@ -167,14 +167,14 @@ export const CVFormStackScreen = () => (
       name="ProjectScreen"
       component={ProjectScreen}
       options={({ navigation }) => ({
-        headerTitle: 'ProjectScreen',
+        headerTitle: 'Project',
         headerStyle: {
           height: 80,
           backgroundColor: Theme.palette.white.primary,
         },
         headerLeft: () => (
           <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
           </Pressable>
         ),
       })}
@@ -190,7 +190,7 @@ export const CVFormStackScreen = () => (
         },
         headerLeft: () => (
           <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
           </Pressable>
         ),
       })}
