@@ -26,7 +26,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       {
         text: 'Confirm',
         onPress: () => {
-          props.navigation.navigate('Home')
+          props.navigation.closeDrawer()
+          Alert.alert('Logout successfully')
         },
       },
     ])
@@ -38,9 +39,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         <View style={styles.innerContainer}>
           <Drawer.Section>
             {user && (
-              <TouchableOpacity
-                onPress={() => props.navigation.navigate('Account')}
-              >
+              <TouchableOpacity onPress={() => props.navigation.navigate('Account')}>
                 <Avatar
                   image={user.image}
                   firstName={user.firstName}
@@ -99,13 +98,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         {user && (
           <DrawerItem
             onPress={() => handleLogout(props)}
-            icon={() => (
-              <Ionicons
-                name="exit"
-                color={Theme.palette.red.signOut}
-                size={24}
-              />
-            )}
+            icon={() => <Ionicons name="exit" color={Theme.palette.red.signOut} size={24} />}
             label="Sign out"
             labelStyle={{
               ...Theme.fonts.body.body1,

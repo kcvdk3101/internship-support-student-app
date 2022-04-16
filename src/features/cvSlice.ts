@@ -28,10 +28,16 @@ const cvSlice = createSlice({
     addListLanguage: (state, action) => {
       state.cv.languages = action.payload
     },
+    addProjects: (state, action) => {
+      state.cv.projects.push(action.payload)
+    },
+    addCertificates: (state, action) => {
+      state.cv.certificates.push(action.payload)
+    },
   },
   extraReducers: {},
 })
 
-export const { addListSkill, addListLanguage } = cvSlice.actions
+export const { addListSkill, addListLanguage, addProjects, addCertificates } = cvSlice.actions
 
 export default cvSlice.reducer

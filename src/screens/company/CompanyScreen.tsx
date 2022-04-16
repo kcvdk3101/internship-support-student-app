@@ -1,8 +1,7 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import { FlatList, StyleSheet, View, Text } from 'react-native'
 import NewestCard from '../../components/cards/NewestCard'
-import { screenWidth } from '../../constant'
 import { newestCompany } from '../../db/NewestCompanyData'
 import Theme from '../../utils/Theme'
 import PopularCompanies from './components/PopularCompanies'
@@ -14,15 +13,12 @@ type CompanyScreenProps = {
 
 const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
-
-  const handleRefeshing = () => {
-    console.log('refeshed')
-    // setIsLoading(!isLoading)
-  }
+  const [data, setData] = useState([])
 
   return (
     <View style={styles.container}>
       <FlatList
+        ListHeaderComponent={<TopKeyword />}
         data={newestCompany}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
@@ -34,11 +30,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
             <NewestCard card={item} navigation={navigation} />
           </View>
         )}
-        ListHeaderComponent={TopKeyword}
-        ListFooterComponent={PopularCompanies}
-        ListFooterComponentStyle={{ width: screenWidth }}
-        refreshing={isLoading}
-        onRefresh={handleRefeshing}
+        ListFooterComponent={<PopularCompanies />}
       />
     </View>
   )
@@ -51,13 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 8,
   },
-  header: {
-    fontSize: 32,
-    backgroundColor: '#fff',
-  },
-  heading: {
-    textTransform: 'capitalize',
-    ...Theme.fonts.headline.h6,
-    color: Theme.palette.black.primary,
+  newest: {
+    marginTop: 24,
   },
 })

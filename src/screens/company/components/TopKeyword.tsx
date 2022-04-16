@@ -12,15 +12,9 @@ const TopKeyword: React.FC<TopKeywordProps> = () => {
       <Text style={styles.heading}>top keyword</Text>
       <View style={styles.topKeywordList}>
         {keywordData.map((kw, index) => (
-          <ChipButton
-            key={index}
-            name={kw.name}
-            bgColor={kw.bgColor}
-            txtColor={kw.txtColor}
-          />
+          <ChipButton key={index} name={kw.name} bgColor={kw.bgColor} txtColor={kw.txtColor} />
         ))}
       </View>
-      <Text style={[styles.heading, styles.newest]}>newest</Text>
     </View>
   )
 }

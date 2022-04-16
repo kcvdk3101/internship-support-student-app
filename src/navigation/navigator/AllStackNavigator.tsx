@@ -5,6 +5,8 @@ import { Pressable, StyleSheet } from 'react-native'
 import CustomSearchBar from '../../components/common/CustomSearchBar'
 import AccountScreen from '../../screens/account/AccountScreen'
 import AdditionalInformationScreen from '../../screens/additionalInformation/AdditionalInformationScreen'
+import CertificationScreen from '../../screens/additionalInformation/components/CertificationScreen'
+import ProjectScreen from '../../screens/additionalInformation/components/ProjectScreen'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
 import CompanyScreen from '../../screens/company/CompanyScreen'
 import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen'
@@ -42,11 +44,11 @@ const CompanyStack = createStackNavigator()
 export const CompanyStackScreen = (props: DrawerHeaderProps) => (
   <CompanyStack.Navigator>
     <CompanyStack.Screen
-      name="CompanyScreen"
+      name="Company Screen"
       component={CompanyScreen}
       options={{
         headerStyle: {
-          height: 100,
+          // height: 100,
           backgroundColor: Theme.palette.white.primary,
         },
         headerLeft: () => (
@@ -54,7 +56,7 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
             <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
-        headerTitle: () => <CustomSearchBar />,
+        // headerTitle: () => <CustomSearchBar />,
       }}
     />
     <CompanyStack.Screen
@@ -150,6 +152,38 @@ export const CVFormStackScreen = () => (
       component={LanguagesScreen}
       options={({ navigation }) => ({
         headerTitle: 'Languages',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+        headerLeft: () => (
+          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+          </Pressable>
+        ),
+      })}
+    />
+    <CVFormStack.Screen
+      name="ProjectScreen"
+      component={ProjectScreen}
+      options={({ navigation }) => ({
+        headerTitle: 'ProjectScreen',
+        headerStyle: {
+          height: 80,
+          backgroundColor: Theme.palette.white.primary,
+        },
+        headerLeft: () => (
+          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+          </Pressable>
+        ),
+      })}
+    />
+    <CVFormStack.Screen
+      name="CertificationScreen"
+      component={CertificationScreen}
+      options={({ navigation }) => ({
+        headerTitle: 'CertificationScreen',
         headerStyle: {
           height: 80,
           backgroundColor: Theme.palette.white.primary,
