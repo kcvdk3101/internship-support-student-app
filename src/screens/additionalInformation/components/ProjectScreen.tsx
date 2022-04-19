@@ -1,10 +1,19 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  ReturnKeyTypeOptions,
+  KeyboardTypeOptions,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native'
 import React from 'react'
 import VerticalSelectInput from '../../../components/common/VerticalSelectInput'
 import Theme from '../../../utils/Theme'
 import VerticalInput from '../../../components/common/VerticalInput'
 import { useForm } from 'react-hook-form'
-import VerticalDateTimePicker from '../../../components/common/VerticalDateTimePicker'
+import { screenWidth } from '../../../constant'
 
 type ProjectScreenProps = {}
 
@@ -28,20 +37,53 @@ const projectInformation = [
     keyboardType: 'default',
   },
   {
-    label: 'Email',
-    type: 'email',
-    inputName: 'email',
+    label: 'Start Time',
+    type: 'name',
+    inputName: 'startTime',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
   {
-    label: 'Phone',
-    type: 'number',
-    inputName: 'phone',
+    label: 'End Time',
+    type: 'name',
+    inputName: 'endTime',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
+  },
+  {
+    label: 'Team zone',
+    type: 'number',
+    inputName: 'teamZone',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Responsibility',
+    type: 'name',
+    inputName: 'responsibility',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Source link',
+    type: 'name',
+    inputName: 'sourceLink',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Description',
+    type: 'name',
+    inputName: 'description',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+    multiline: true,
   },
 ]
 
@@ -53,26 +95,32 @@ const ProjectScreen: React.FC<ProjectScreenProps> = () => {
   } = useForm<FieldProps>()
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+    >
       <ScrollView>
         <View style={styles.firstBlock}>
           <View style={styles.form}>
-            <VerticalInput
-              label="Project Name"
-              type="name"
-              inputName="projectName"
-              placeholder="Project name"
-              autoCapitalize="none"
-              returnKeyType="next"
-              keyboardType="ascii-capable"
-              control={control}
-              errors={errors}
-            />
-            <VerticalDateTimePicker />
+            {projectInformation.map((p, index) => (
+              <VerticalInput
+                key={index}
+                label={p.label}
+                type={p.type}
+                inputName={p.inputName}
+                placeholder={p.placeholder}
+                autoCapitalize="none"
+                returnKeyType={p.returnKeyType as ReturnKeyTypeOptions}
+                keyboardType={p.keyboardType as KeyboardTypeOptions}
+                multiline={p.multiline}
+                control={control}
+                errors={errors}
+              />
+            ))}
           </View>
         </View>
       </ScrollView>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 

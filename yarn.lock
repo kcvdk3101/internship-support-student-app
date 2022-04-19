@@ -2200,7 +2200,7 @@
 
 "@types/react-native-datepicker@^1.7.1":
   version "1.7.1"
-  resolved "https://registry.yarnpkg.com/@types/react-native-datepicker/-/react-native-datepicker-1.7.1.tgz#df1b6533cafd2bb0b3ad4647e391596ad90f7a73"
+  resolved "https://registry.npmjs.org/@types/react-native-datepicker/-/react-native-datepicker-1.7.1.tgz"
   integrity sha512-VIqwhUTC0ij+d0TPJKEati89jOhk+Z714sBtFFb0AR9VZwPMmcGEtjoxKpQ7mYnD6MudnbU/6ssg34Rqj13aZw==
   dependencies:
     "@types/react" "*"
@@ -2215,14 +2215,7 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
-"@types/react-native@*":
-  version "0.67.4"
-  resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.67.4.tgz"
-  integrity sha512-L81CB6W1m0s7d+TH/loP318+VKPwwjWQBUTVYQ1+lQTWiE5jHxyihgCmd7JbwLICo708FRSDwJW7pJoiZHy6yg==
-  dependencies:
-    "@types/react" "*"
-
-"@types/react-native@~0.64.12":
+"@types/react-native@*", "@types/react-native@~0.64.12":
   version "0.64.23"
   resolved "https://registry.npmjs.org/@types/react-native/-/react-native-0.64.23.tgz"
   integrity sha512-glxMEAmG1PKeTA6ZvPb81oYg4Q+sgCsCJKnkeoGSqBIR2z38XispNb1+Sar+0I7E4dJXg+NC9pZhWl9HnxOG1A==
@@ -4948,7 +4941,7 @@ mockdate@^3.0.2:
 
 moment@>=2.14.0, moment@^2.22.0:
   version "2.29.2"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.2.tgz#00910c60b20843bcba52d37d58c628b47b1f20e4"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.29.2.tgz"
   integrity sha512-UgzG4rvxYpN15jgCmVJwac49h9ly9NurikMWGPdVxm8GZD6XjkKPxDTjQQ43gtGgnV3X0cAyWDdP2Wexoquifg==
 
 ms@2.0.0:
@@ -5505,7 +5498,7 @@ react-is@^17.0.1, react-is@^17.0.2:
 
 react-native-bouncy-checkbox@^2.1.10:
   version "2.1.10"
-  resolved "https://registry.yarnpkg.com/react-native-bouncy-checkbox/-/react-native-bouncy-checkbox-2.1.10.tgz#c72b3744f90902296e067a53d97748de3451619b"
+  resolved "https://registry.npmjs.org/react-native-bouncy-checkbox/-/react-native-bouncy-checkbox-2.1.10.tgz"
   integrity sha512-znKVSJQ71+NRTcOG9zuMXBRrUgFsUutGbQoOwasRyVlrJU4djX1Ny0CvCMgOy/Fh+lu9qdLtQFUQLfKwnWXt3Q==
 
 react-native-codegen@*:
@@ -5529,7 +5522,7 @@ react-native-codegen@^0.0.6:
 
 react-native-datepicker@^1.7.2:
   version "1.7.2"
-  resolved "https://registry.yarnpkg.com/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz#58d0822591a0ac9b32aba082650222a0ee29669d"
+  resolved "https://registry.npmjs.org/react-native-datepicker/-/react-native-datepicker-1.7.2.tgz"
   integrity sha1-WNCCJZGgrJsyq6CCZQIioO4pZp0=
   dependencies:
     moment "^2.22.0"

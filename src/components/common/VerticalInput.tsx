@@ -75,6 +75,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             clearButtonMode="always"
             onChangeText={onChange}
             multiline={multiline}
+            numberOfLines={multiline ? 4 : 0}
           />
         )}
         name={inputName}
