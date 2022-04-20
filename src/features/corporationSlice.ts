@@ -3,21 +3,30 @@ import corporationApi from '../api/corporationApi'
 import { Corporation } from '../models/corporation'
 
 export interface CorporationsSliceState {
+  status: 'loading' | 'idle' | 'fail'
   corporations: Corporation[]
   corporationsByLimit: Corporation[]
 }
 
 const initialState: CorporationsSliceState = {
+  status: 'idle',
   corporations: [],
   corporationsByLimit: [],
 }
 
+export const getCorporations = createAsyncThunk(
+  'corporation/getCorporations',
+  async ({ limit, offset }: { limit: number; offset: number }) => {
+    const corporations = await corporationApi.getCorporations({ limit, offset })
+    return corporations
+  },
+)
+
 export const getCorporationsByLimit = createAsyncThunk(
   'corporation/getCorporationsByLimit',
   async (limit: number) => {
-    const list = corporationApi.getCorporationsByLimit(limit)
-    console.log('🚀 ~ file: corporationSlice.ts ~ line 13 ~ list', list)
-    return list
+    const corporationsByLimit = await corporationApi.getCorporationsByLimit(limit)
+    return corporationsByLimit.data.data
   },
 )
 
@@ -26,13 +35,33 @@ const corporationSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // Get corporation by limit and offset
+    builder.addCase(getCorporations.pending, (state, action) => {
+      state.status = 'loading'
+      state.corporations = []
+    })
+    builder.addCase(getCorporations.fulfilled, (state, action) => {
+      state.status = 'idle'
+      state.corporations = action.payload
+    })
+    builder.addCase(getCorporations.rejected, (state, action) => {
+      state.status = 'fail'
+      state.corporations = []
+    })
+
+    // Get corporations by limit
     builder.addCase(getCorporationsByLimit.pending, (state, action) => {
+      state.status = 'loading'
       state.corporationsByLimit = []
     })
     builder.addCase(getCorporationsByLimit.fulfilled, (state, action: any) => {
+      state.status = 'idle'
       state.corporationsByLimit = action.payload
     })
-    builder.addCase(getCorporationsByLimit.rejected, (state, action) => {})
+    builder.addCase(getCorporationsByLimit.rejected, (state, action) => {
+      state.status = 'fail'
+      state.corporationsByLimit = []
+    })
   },
 })
 

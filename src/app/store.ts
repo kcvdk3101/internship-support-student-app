@@ -9,6 +9,10 @@ export const store = configureStore({
     cv: cvReducer,
     corp: corpReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
 
 export type RootState = ReturnType<typeof store.getState>

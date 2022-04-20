@@ -1,22 +1,26 @@
 import axios from 'axios'
+import { API_CORPORATION_URL } from '../constant'
 import { Corporation } from '../models/corporation'
-import axiosClient from './axiosClient'
 
 const url = '/corporation'
 
 const corporationApi = {
-  getCorporations(limit: number, offset: number) {
-    return axiosClient.get<string, { data: Corporation[]; pagination: { total: number } }>(
-      `${url}/all?limit=${limit}&offset=${offset}`,
+  getCorporations({ limit, offset }: { limit: number; offset: number }) {
+    return axios.get<string, Corporation[]>(
+      `${API_CORPORATION_URL}/corporation/all?limit=${limit}&offset=${offset}`,
     )
   },
+
   getCorporationsByLimit(limit: number) {
-    // return axiosClient.get<string, any>(`${url}/all?limit=5&offset=0`)
-    return axios.get('http://localhost:3000/corporation/all?limit=5&offset=0')
+    return axios.get<string, any>(`${API_CORPORATION_URL}/corporation/all?limit=${limit}&offset=0`)
+  },
+
+  getCorporationByPresentId(presentId: number) {
+    return axios.get(`${API_CORPORATION_URL}/corporation/presenter?id=${presentId}`)
   },
 
   getCorporationById(id: number) {
-    return axiosClient.get<string, number>(`${url}?id=${id}`)
+    return axios.get(`${API_CORPORATION_URL}/corporation?id=${id}`)
   },
 }
 
