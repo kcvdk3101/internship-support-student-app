@@ -2,6 +2,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import ChipButton from '../buttons/ChipButton'
 
@@ -26,13 +27,9 @@ const NewestCard: React.FC<NewestCardProps> = ({ card, navigation }) => {
   return (
     <TouchableWithoutFeedback
       style={styles.cardContainer}
-      onPress={() => navigation.navigate('CompanyDetailScreen')}
+      // onPress={() => navigation.navigate('CompanyDetailScreen')}
     >
-      <Image
-        style={styles.image}
-        source={{ uri: card.banner }}
-        resizeMode="cover"
-      />
+      <Image style={styles.image} source={{ uri: card.banner }} resizeMode="cover" />
       <View style={styles.cardBody}>
         <Text style={styles.companyName}>{card.name}</Text>
         <Text numberOfLines={2} style={styles.companyDesc}>
@@ -70,6 +67,7 @@ export default NewestCard
 
 const styles = StyleSheet.create({
   cardContainer: {
+    width: screenWidth * 0.85,
     borderRadius: 10,
     backgroundColor: Theme.palette.white.primary,
     ...Theme.shadow.depth1,

@@ -1,11 +1,14 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useState } from 'react'
-import { FlatList, StyleSheet, View } from 'react-native'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { FlatList, StyleSheet, View, Text } from 'react-native'
 import NewestCard from '../../components/cards/NewestCard'
-import { screenWidth } from '../../constant'
 import { newestCompany } from '../../db/NewestCompanyData'
+import { getCorporationsByLimit } from '../../features/corporationSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import PopularCompanies from './components/PopularCompanies'
+import SkeletonComponentScreen from './components/SkeletonComponentScreen'
 import TopKeyword from './components/TopKeyword'
 
 type CompanyScreenProps = {
@@ -13,33 +16,70 @@ type CompanyScreenProps = {
 }
 
 const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
+  const dispatch = useAppDispatch()
+  const user = useAppSelector((state) => state.auth.user)
+  const status = useAppSelector((state) => state.corp.status)
+  const getLimitedCorporation = useAppSelector((state) => state.corp.corporationsByLimit)
+
+  const [data, setData] = useState([])
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleRefeshing = () => {
-    console.log('refeshed')
-    // setIsLoading(!isLoading)
-  }
+  useEffect(() => {
+    ;(async () => {
+      try {
+        dispatch(getCorporationsByLimit(5))
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [dispatch])
 
   return (
     <View style={styles.container}>
-      <FlatList
-        data={newestCompany}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              marginHorizontal: 20,
-            }}
-          >
-            <NewestCard card={item} navigation={navigation} />
-          </View>
-        )}
-        ListHeaderComponent={TopKeyword}
-        ListFooterComponent={PopularCompanies}
-        ListFooterComponentStyle={{ width: screenWidth }}
-        refreshing={isLoading}
-        onRefresh={handleRefeshing}
-      />
+      {status === 'loading' ? (
+        <SkeletonComponentScreen />
+      ) : (
+        <FlatList
+          ListHeaderComponent={<TopKeyword />}
+          data={getLimitedCorporation}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View
+              style={{
+                marginHorizontal: 20,
+              }}
+            >
+              <NewestCard
+                card={{
+                  banner: 'https://picsum.photos/200',
+                  name: item.name,
+                  desc: item.overtimeRequire,
+                  jobs: item.numberEmployees,
+                  kw: [
+                    {
+                      name: 'React',
+                      bgColor: '#61dafb',
+                      txtColor: '#282c34',
+                    },
+                    {
+                      name: 'PHP',
+                      bgColor: '#5c76b4',
+                      txtColor: '#08090c',
+                    },
+                    {
+                      name: 'JavaScript',
+                      bgColor: '#e4d04b',
+                      txtColor: '#2f302e',
+                    },
+                  ],
+                }}
+                navigation={navigation}
+              />
+            </View>
+          )}
+          ListFooterComponent={<PopularCompanies />}
+        />
+      )}
     </View>
   )
 }
@@ -51,13 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     marginVertical: 8,
   },
-  header: {
-    fontSize: 32,
-    backgroundColor: '#fff',
-  },
-  heading: {
-    textTransform: 'capitalize',
-    ...Theme.fonts.headline.h6,
-    color: Theme.palette.black.primary,
+  newest: {
+    marginTop: 24,
   },
 })

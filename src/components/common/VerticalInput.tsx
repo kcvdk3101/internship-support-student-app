@@ -14,6 +14,7 @@ type VerticalInputProps = {
   label?: string
   type: string
   inputName: string
+  multiline?: boolean
   placeholder?: string
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined
   returnKeyType: ReturnKeyTypeOptions
@@ -44,6 +45,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
   type,
   inputName,
   placeholder,
+  multiline,
   autoCapitalize,
   returnKeyType,
   keyboardType,
@@ -72,14 +74,14 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             value={value}
             clearButtonMode="always"
             onChangeText={onChange}
+            multiline={multiline}
+            numberOfLines={multiline ? 4 : 0}
           />
         )}
         name={inputName}
       />
       {errors?.[inputName] && (
-        <Text style={{ color: Theme.palette.red.error }}>
-          This field is required
-        </Text>
+        <Text style={{ color: Theme.palette.red.error }}>This field is required</Text>
       )}
     </View>
   )

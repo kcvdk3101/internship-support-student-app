@@ -54,7 +54,11 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
-          headerTitle: () => <Image style={styles.tinyLogo} source={logo} resizeMode="center" />,
+          headerTitle: () => <Image source={logo} resizeMode="contain" style={styles.tinyLogo} />,
+          headerTitleStyle: {
+            flex: 1,
+            textAlign: 'center',
+          },
         }}
       />
       <Tab.Screen
@@ -93,6 +97,6 @@ const styles = StyleSheet.create({
     right: 16,
   },
   tinyLogo: {
-    height: 100,
+    height: 35,
   },
 })

@@ -67,7 +67,7 @@ export default DrawerNavigator
 const styles = StyleSheet.create({
   positionLeft: {
     position: 'absolute',
-    top: 16,
+    top: 4,
     left: 16,
   },
 })
