@@ -27,7 +27,7 @@ const NewestCard: React.FC<NewestCardProps> = ({ card, navigation }) => {
   return (
     <TouchableWithoutFeedback
       style={styles.cardContainer}
-      onPress={() => navigation.navigate('CompanyDetailScreen')}
+      // onPress={() => navigation.navigate('CompanyDetailScreen')}
     >
       <Image style={styles.image} source={{ uri: card.banner }} resizeMode="cover" />
       <View style={styles.cardBody}>

@@ -22,9 +22,17 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
     setShowModal(!showModal)
   }
 
+  const handleCloseModal = () => {
+    setShowModal(false)
+  }
+
+  const handleOpenModal = () => {
+    setShowModal(true)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <View>
+      {/* <View>
         <View style={styles.buttonCreateCV}>
           <GeneralButton
             bgColor={Theme.palette.main.third}
@@ -47,8 +55,8 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             ))}
           </ScrollView>
         </ScrollView>
-      </View>
-      {/* {isAuthenticated ? (
+      </View> */}
+      {isAuthenticated ? (
         <View>
           <ScrollView style={styles.cvList}>
             <Text style={styles.heading}>CV / Cover Letter</Text>
@@ -73,6 +81,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
               bgColor={Theme.palette.main.third}
               isAlignCenter={true}
               label="CREATE NEW CV"
+              txtColor={Theme.palette.white.primary}
             />
           </View>
         </View>
@@ -99,10 +108,11 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             onPress={handleShowModal}
             label="Sign in"
             isAlignCenter={true}
+            txtColor={Theme.palette.white.primary}
           />
         </View>
       )}
-      {showModal && <AuthenticationScreen handleShowModal={handleShowModal} />} */}
+      {showModal && <AuthenticationScreen handleShowModal={handleShowModal} />}
     </SafeAreaView>
   )
 }

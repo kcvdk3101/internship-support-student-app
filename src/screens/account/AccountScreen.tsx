@@ -1,13 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import CreateCVButton from '../../components/buttons/CreateCVButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
@@ -60,6 +53,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
             bgColor={Theme.palette.main.third}
             isAlignCenter={true}
             label="CREATE NEW CV"
+            txtColor={Theme.palette.white.primary}
           />
         </View>
 

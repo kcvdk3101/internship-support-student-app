@@ -27,11 +27,7 @@ const AppNavigator: React.FC = () => {
 
   return (
     <NavigationContainer>
-      {!isFirstTimeOpen && value === null ? (
-        <OnboardingNavigator />
-      ) : (
-        <DrawerNavigator />
-      )}
+      {!isFirstTimeOpen && value === null ? <OnboardingNavigator /> : <DrawerNavigator />}
     </NavigationContainer>
   )
 }

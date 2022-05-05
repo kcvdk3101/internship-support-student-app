@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import corporationApi from '../api/corporationApi'
-import { Corporation } from '../models/corporation'
+import { CorporationModel } from '../models/index'
 
 export interface CorporationsSliceState {
   status: 'loading' | 'idle' | 'fail'
-  corporations: Corporation[]
-  corporationsByLimit: Corporation[]
+  corporations: CorporationModel[]
+  corporationsByLimit: CorporationModel[]
 }
 
 const initialState: CorporationsSliceState = {
