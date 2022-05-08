@@ -1,3 +1,5 @@
+import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useRef, useState } from 'react'
 import {
   Dimensions,
@@ -16,12 +18,16 @@ import LoginScreen from './components/login/LoginScreen'
 
 type AuthenticationScreenProps = {
   handleShowModal: () => void
+  handleCloseModal: () => void
+  navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
 }
 
 const width = Dimensions.get('screen').width
 
 const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
   handleShowModal,
+  handleCloseModal,
+  navigation,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0)
   const [displayFPScreen, setDisplayFPScreen] = useState<boolean>(false)
@@ -33,9 +39,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
     goToNextSlide()
   }
 
-  const updateCurrentSlideIndex = (
-    event: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => {
+  const updateCurrentSlideIndex = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x
     const currentIndex = Math.round(contentOffsetX / width)
     setCurrentSlideIndex(currentIndex)
@@ -73,7 +77,9 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
           >
             <LoginScreen
               handleShowModal={handleShowModal}
+              handleCloseModal={handleCloseModal}
               handleDisplayFPScreen={handleDisplayFPScreen}
+              navigation={navigation}
             />
           </KeyboardAvoidingView>
           <KeyboardAvoidingView
@@ -83,10 +89,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
               justifyContent: 'flex-end',
             }}
           >
-            <ForgotPasswordScreen
-              goBackSlide={goBackSlide}
-              handleShowModal={handleShowModal}
-            />
+            <ForgotPasswordScreen goBackSlide={goBackSlide} handleShowModal={handleShowModal} />
           </KeyboardAvoidingView>
         </ScrollView>
       </Modal>

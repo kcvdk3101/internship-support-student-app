@@ -2,11 +2,11 @@ import { createSlice } from '@reduxjs/toolkit'
 import { CVModel } from '../models/index'
 
 type CVSliceStateProps = {
-  cv: CVModel | null
+  cv: CVModel[]
 }
 
 const initialState: CVSliceStateProps = {
-  cv: null,
+  cv: [],
 }
 
 const cvSlice = createSlice({

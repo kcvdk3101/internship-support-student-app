@@ -108,7 +108,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
     resolver: yupResolver(generalInformationSchema),
   })
 
-  const { skills, languages } = useAppSelector((state) => state.cv.cv)
+  const cv = useAppSelector((state) => state.cv.cv)
 
   const onSubmit = (data: FieldProps) => {
     navigation.navigate('AdditionalInformationScreen')
@@ -160,7 +160,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
 
         <View style={styles.secondBlock}>
           <Text style={styles.heading}>Skills and Languages</Text>
-          <View style={styles.form}>
+          {/* <View style={styles.form}>
             <View
               style={[
                 styles.skillContainer,
@@ -225,7 +225,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 </TouchableOpacity>
               )}
             </View>
-          </View>
+          </View> */}
         </View>
       </ScrollView>
       <View

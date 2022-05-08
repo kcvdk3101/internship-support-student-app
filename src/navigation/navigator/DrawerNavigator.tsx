@@ -6,7 +6,7 @@ import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
 import Theme from '../../utils/Theme'
-import { CVFormStackScreen } from './AllStackNavigator'
+import { AuthStackScreen, CVFormStackScreen } from './AllStackNavigator'
 import CustomerDrawerContent from './CustomDrawerContent'
 import TabNavigator from './TabNavigator'
 

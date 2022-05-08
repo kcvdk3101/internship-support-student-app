@@ -24,13 +24,39 @@ const authenticationSlice = createSlice({
       AsyncStorageLib.setItem(IS_FIRST_TIME, JSON.stringify(FIRST_TIME_OPEN_VALUE))
       state.isFirstTimeOpen = true
     },
-    login(state, action) {},
+    login(state, action) {
+      state.user = {
+        id: '603E8F2C-430C-4010-8874-105CDE9366DA',
+        firstName: 'Khôi',
+        lastName: 'Vương Đình',
+        fullName: 'Vương Đình Khôi',
+        email: '18dh110815@st.huflit.edu.vn',
+        birthDate: '01/30/2000',
+        identityNumber: '18DH110815',
+        address: '882 Ngo Quyen Street, Ho Chi Minh City,Vietnam',
+        phoneNumber: '0777724500',
+        class: 'PM1804',
+        term: 'K24',
+        status: 'Chưa thực tập',
+        academicYear: 'K24',
+        slug: 'vuong-dinh-khoi',
+        isActive: true,
+        isRegistered: true,
+        createdAt: '2022-05-05T15:06:46.000Z',
+        updatedAt: '2022-05-05T15:06:46.000Z',
+      }
+      state.isAuthenticated = true
+    },
+    logout(state) {
+      state.user = null
+      state.isAuthenticated = false
+    },
   },
   extraReducers: {},
 })
 
 const { actions, reducer } = authenticationSlice
 
-export const { openedApp } = actions
+export const { openedApp, login, logout } = actions
 
 export default reducer

@@ -1,15 +1,18 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import { User } from '../../models/user'
+import { StudentModel } from '../../models/index'
 import Theme from '../../utils/Theme'
 
-type AvatarProps = User | null
+type AvatarProps = {
+  firstName: string
+  lastName: string
+}
 
-const Avatar: React.FC<AvatarProps> = ({ image, firstName, lastName }) => {
+const Avatar: React.FC<AvatarProps> = ({ firstName, lastName }) => {
   return (
     <View style={styles.container}>
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={{ uri: image }} />
+        <Image style={styles.logo} source={{ uri: 'https://picsum.photos/id/237/200/300' }} />
       </View>
       <View style={styles.info}>
         <Text style={styles.name}>

@@ -1,14 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
+import { login } from '../../../../features/authenticationSlice'
+import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
 import Theme from '../../../../utils/Theme'
 
 type LoginFormProps = {
   handleDisplayFPScreen: () => void
+  handleCloseModal: () => void
+  navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
 }
 
 type FieldProps = {
@@ -27,29 +33,49 @@ const loginSchema = yup.object({
   password: yup
     .string()
     .required('Password is required.')
-    .min(8, 'Password should be at least 8 characters.')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password contains at least 8 characters, 1 uppercase letter, ' +
-        '1 lowercase letter, 1 number and 1 special character!',
-    ),
+    .min(8, 'Password should be at least 8 characters.'),
+  // .matches(
+  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+  //   'Password contains at least 8 characters, 1 uppercase letter, ' +
+  //     '1 lowercase letter, 1 number and 1 special character!',
+  // ),
 })
 
-const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  handleDisplayFPScreen,
+  navigation,
+  handleCloseModal,
+}) => {
   const {
-    register,
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: '18DH110815@st.huflit.edu.vn',
+      password: '12345678',
     },
     resolver: yupResolver(loginSchema),
   })
+  const dispatch = useAppDispatch()
 
-  const onSubmit = (data: FieldProps) => Alert.alert(JSON.stringify(data))
+  const user = useAppSelector((state) => state.auth.user)
+
+  const onSubmit = async (data: FieldProps) => {
+    try {
+      dispatch(
+        login({
+          email: data.email,
+          password: data.password,
+        }),
+      )
+      Alert.alert('Login successfully!')
+    } catch (error) {
+      console.log(error)
+    } finally {
+      handleCloseModal()
+    }
+  }
 
   return (
     <View style={styles.content}>
@@ -81,9 +107,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
         name="email"
       />
       {errors.email && (
-        <Text style={{ color: Theme.palette.red.error }}>
-          This field is required
-        </Text>
+        <Text style={{ color: Theme.palette.red.error }}>{errors.email.message}</Text>
       )}
 
       <Controller
@@ -109,10 +133,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleDisplayFPScreen }) => {
         )}
         name="password"
       />
-      {errors.email && (
-        <Text style={{ color: Theme.palette.red.error }}>
-          This field is required
-        </Text>
+      {errors.password && (
+        <Text style={{ color: Theme.palette.red.error }}>{errors.password.message}</Text>
       )}
 
       <View style={styles.forgotPasswordContainer}>

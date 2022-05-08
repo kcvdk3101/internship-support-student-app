@@ -1,10 +1,10 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { User } from '../../../models/user'
+import { StudentModel } from '../../../models/index'
 import Theme from '../../../utils/Theme'
 
 type AvatarProps = {
-  user: User | null
+  user: StudentModel | null
 }
 
 const Avatar: React.FC<AvatarProps> = ({ user }) => {
@@ -19,7 +19,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
             />
           </TouchableOpacity>
         </View>
-        <Image style={styles.avatar} source={{ uri: user?.image }} />
+        <Image style={styles.avatar} source={{ uri: 'https://picsum.photos/id/237/200/300' }} />
       </View>
       <Text style={styles.profileText}>
         {user?.firstName} {user?.lastName}

@@ -1,21 +1,39 @@
 import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerContentComponentProps,
 } from '@react-navigation/drawer'
 import Theme from '../../utils/Theme'
-import { useAppSelector } from '../../hooks/redux'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Avatar from '../../components/avatar/Avatar'
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Drawer } from 'react-native-paper'
 import OpenURLButton from '../../components/buttons/OpenURLButton'
 import { drawers, socialLinks } from '../../constant'
+import { logout } from '../../features/authenticationSlice'
+import GeneralButton from '../../components/buttons/GeneralButton'
+import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const dispatch = useAppDispatch()
   const { isAuthenticated, user } = useAppSelector((state) => state.auth)
+
+  const [showModal, setShowModal] = useState(false)
+
+  const handleShowModal = () => {
+    setShowModal(!showModal)
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+  }
+
+  const handleOpenModal = () => {
+    setShowModal(true)
+  }
 
   function handleLogout(props: DrawerContentComponentProps) {
     return Alert.alert('Logout', 'Are you sure ?', [
@@ -26,6 +44,8 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       {
         text: 'Confirm',
         onPress: () => {
+          dispatch(logout())
+          props.navigation.navigate('HomeTab')
           props.navigation.closeDrawer()
           Alert.alert('Logout successfully')
         },
@@ -38,15 +58,18 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       <DrawerContentScrollView {...props}>
         <View style={styles.innerContainer}>
           <Drawer.Section>
-            {user && (
+            {user ? (
               <TouchableOpacity onPress={() => props.navigation.navigate('Account')}>
-                <Avatar
-                  image={user.image}
-                  firstName={user.firstName}
-                  lastName={user.lastName}
-                  phone={user.phone}
-                />
+                <Avatar firstName={user.firstName} lastName={user.lastName} />
               </TouchableOpacity>
+            ) : (
+              <GeneralButton
+                bgColor={Theme.palette.white.primary}
+                onPress={handleOpenModal}
+                label="Sign in"
+                isAlignCenter={true}
+                txtColor={Theme.palette.main.primary}
+              />
             )}
             {drawers.map((drw, index) => (
               <DrawerItem
@@ -111,6 +134,13 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           />
         )}
       </Drawer.Section>
+      {showModal && (
+        <AuthenticationScreen
+          handleShowModal={handleShowModal}
+          handleCloseModal={handleCloseModal}
+          navigation={props.navigation}
+        />
+      )}
     </SafeAreaView>
   )
 }

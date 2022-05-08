@@ -32,32 +32,17 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* <View>
-        <View style={styles.buttonCreateCV}>
-          <GeneralButton
-            bgColor={Theme.palette.main.third}
-            txtColor={Theme.palette.white.primary}
-            isAlignCenter={true}
-            label="CREATE NEW CV"
-            onPress={() => navigation.navigate('CVForm')}
-          />
-        </View>
-        <ScrollView style={styles.cvList}>
-          <Text style={styles.heading}>CV / Cover Letter</Text>
-          <ScrollView>
-            {cvData.map((cv, index) => (
-              <CVCard
-                key={index}
-                name={cv.name}
-                createdAt={cv.createdAt}
-                createdBy={cv.createdBy}
-              />
-            ))}
-          </ScrollView>
-        </ScrollView>
-      </View> */}
       {isAuthenticated ? (
         <View>
+          <View style={styles.buttonCreateCV}>
+            <GeneralButton
+              bgColor={Theme.palette.main.third}
+              txtColor={Theme.palette.white.primary}
+              isAlignCenter={true}
+              label="CREATE NEW CV"
+              onPress={() => navigation.navigate('CVForm')}
+            />
+          </View>
           <ScrollView style={styles.cvList}>
             <Text style={styles.heading}>CV / Cover Letter</Text>
             <ScrollView>
@@ -71,19 +56,6 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
               ))}
             </ScrollView>
           </ScrollView>
-          <View
-            style={{
-              padding: 15,
-              backgroundColor: 'transparent',
-            }}
-          >
-            <GeneralButton
-              bgColor={Theme.palette.main.third}
-              isAlignCenter={true}
-              label="CREATE NEW CV"
-              txtColor={Theme.palette.white.primary}
-            />
-          </View>
         </View>
       ) : (
         <View
@@ -112,7 +84,13 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           />
         </View>
       )}
-      {showModal && <AuthenticationScreen handleShowModal={handleShowModal} />}
+      {showModal && (
+        <AuthenticationScreen
+          handleShowModal={handleShowModal}
+          handleCloseModal={handleCloseModal}
+          navigation={navigation}
+        />
+      )}
     </SafeAreaView>
   )
 }
@@ -123,13 +101,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  imgLogo: {
-    height: 40,
-    alignSelf: 'center',
-    marginTop: 20,
-  },
   heading: {
-    marginVertical: 15,
+    // marginVertical: 15,
     ...Theme.fonts.headline.h5,
     color: Theme.palette.black.primary,
   },
@@ -137,6 +110,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   buttonCreateCV: {
-    margin: 16,
+    marginHorizontal: 16,
+    marginTop: -28,
+    marginBottom: 8,
   },
 })

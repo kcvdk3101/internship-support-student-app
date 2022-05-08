@@ -6,8 +6,8 @@ export interface StudentModel extends Common {
   lastName: string
   fullName: string
   email?: string
-  identityNumber: string
   birthDate: string
+  identityNumber: string
   address: string
   phoneNumber: string
   class: string
@@ -15,5 +15,4 @@ export interface StudentModel extends Common {
   status: string
   academicYear?: string
   slug?: string
-  image: string[]
 }

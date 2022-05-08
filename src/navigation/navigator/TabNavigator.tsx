@@ -1,13 +1,13 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
-import { Pressable, StyleSheet, View, Image } from 'react-native'
+import { Image, Pressable, StyleSheet, View } from 'react-native'
+import logo from '../../assets/images/FITSI.png'
 import CustomBadge from '../../components/common/CustomBadge'
 import { notificationsData } from '../../db/NotificationData'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import { CompanyStackScreen, CVStackScreen, HomeStackScreen } from './AllStackNavigator'
-import logo from '../../assets/images/FITSI.png'
 
 const Tab = createBottomTabNavigator()
 const TabNavigator = (props: DrawerHeaderProps) => {
@@ -74,6 +74,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         name="CVTab"
         component={CVStackScreen}
         options={{
+          title: 'Your CV',
           tabBarLabel: 'CV',
           tabBarIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
           headerShown: isAuthenticated ? true : false,
