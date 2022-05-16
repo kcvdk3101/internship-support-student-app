@@ -6,7 +6,7 @@ import { CertificatedModel } from './certificated.model'
 import { ProjectModel } from './project.model'
 
 export interface CVModel extends Common {
-  id: string
+  id?: string
   studentName: string
   position: string
   content: string

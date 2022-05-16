@@ -26,7 +26,7 @@ const authenticationSlice = createSlice({
     },
     login(state, action) {
       state.user = {
-        id: '603E8F2C-430C-4010-8874-105CDE9366DA',
+        id: 'FAE9E65F-9E7E-4845-A21A-40AD740A64D1',
         firstName: 'Khôi',
         lastName: 'Vương Đình',
         fullName: 'Vương Đình Khôi',
@@ -42,8 +42,8 @@ const authenticationSlice = createSlice({
         slug: 'vuong-dinh-khoi',
         isActive: true,
         isRegistered: true,
-        createdAt: '2022-05-05T15:06:46.000Z',
-        updatedAt: '2022-05-05T15:06:46.000Z',
+        createdAt: '2022-05-12T17:19:21.000Z',
+        updatedAt: '2022-05-12T17:19:21.000Z',
       }
       state.isAuthenticated = true
     },

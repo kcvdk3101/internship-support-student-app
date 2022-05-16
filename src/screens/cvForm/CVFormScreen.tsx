@@ -3,13 +3,7 @@ import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import VerticalInput from '../../components/common/VerticalInput'
@@ -55,8 +49,8 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
         <View>
           <Text style={styles.introductHeading}>Start create CV on FITSI</Text>
           <Text style={styles.introductContent}>
-            Create a CV quickly and free, exclusively for all students. Make
-            your career more interesting with FITSI from today.
+            Create a CV quickly and free, exclusively for all students. Make your career more
+            interesting with FITSI from today.
           </Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -118,11 +112,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    borderRadius: 20,
     backgroundColor: Theme.palette.white.primary,
     ...Theme.shadow.depth2,
-    padding: 16,
+    padding: 20,
+    margin: 8,
   },
   introductHeading: {
     ...Theme.fonts.headline.h6,

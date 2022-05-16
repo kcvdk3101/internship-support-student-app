@@ -40,16 +40,19 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
     filterArray.splice(indexSkillSelected, 1)
   }
 
+  console.log(skillsSelected)
+
   return (
     <View
       style={{
         flex: 1,
-        padding: 8,
+        padding: 16,
       }}
     >
       <Text
         style={{
           ...Theme.fonts.headline.h6,
+          marginBottom: 8,
         }}
       >
         List of Skills
@@ -97,13 +100,11 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
           <Ionicons name="add" size={24} color={Theme.palette.main.primary} />
         </View>
       </TouchableOpacity>
-
       <View
         style={{
           position: 'absolute',
           top: screenHeight * 0.8,
-          // bottom: 20,
-          width: '95%',
+          width: '100%',
           marginHorizontal: 16,
         }}
       >
@@ -112,6 +113,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
           bgColor={Theme.palette.main.primary}
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
+          disabled={listSkills.length === 0 || skillsSelected !== ''}
           onPress={() => {
             if (skillsSelected !== '') {
               setListSkills([...listSkills, skillsSelected])

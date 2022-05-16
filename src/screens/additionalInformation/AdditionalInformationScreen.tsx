@@ -14,8 +14,8 @@ type AdditionalInformationScreenProps = {
 const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = ({
   navigation,
 }) => {
-  const projects = useAppSelector((state) => state.cv.cv.projects)
-  const certificates = useAppSelector((state) => state.cv.cv.certificates)
+  // const projects = useAppSelector((state) => state.cv.cv.projects)
+  // const certificates = useAppSelector((state) => state.cv.cv.certificates)
 
   const [checkedProject, setCheckedProject] = useState(false)
   const [checkedCertificate, setCheckedertificate] = useState(false)
@@ -65,11 +65,11 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
               </View>
             )}
           </View>
-          {checkedProject && projects.length > 0 && (
+          {/* {checkedProject && projects.length > 0 && (
             <View>
               <Text>List project</Text>
             </View>
-          )}
+          )} */}
         </View>
         <View style={styles.block}>
           <Text style={styles.heading}>Certificate</Text>
@@ -109,11 +109,11 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
               </View>
             )}
           </View>
-          {checkedProject && certificates.length > 0 && (
+          {/* {checkedProject && certificates.length > 0 && (
             <View>
               <Text>List certificate</Text>
             </View>
-          )}
+          )} */}
         </View>
       </ScrollView>
     </View>

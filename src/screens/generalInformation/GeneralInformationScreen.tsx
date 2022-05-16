@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   KeyboardTypeOptions,
   ReturnKeyTypeOptions,
@@ -20,6 +20,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppSelector } from '../../hooks/redux'
 import ChipButton from '../../components/buttons/ChipButton'
+import { StudentModel } from '../../models'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -35,68 +36,12 @@ type FieldProps = {
   address: string
 }
 
-const generalInformation = [
-  {
-    label: 'Full Name',
-    type: 'username',
-    inputName: 'fullName',
-    placeholder: 'Enter your full name',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-  {
-    label: 'Position to Apply',
-    type: 'name',
-    inputName: 'position',
-    placeholder: 'Enter position you want to apply',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-  {
-    label: 'Email',
-    type: 'email',
-    inputName: 'email',
-    placeholder: '',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-  {
-    label: 'Phone',
-    type: 'number',
-    inputName: 'phone',
-    placeholder: '',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-]
-
-const locationInformation = [
-  {
-    label: 'City',
-    type: 'name',
-    inputName: 'city',
-    placeholder: '',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-  {
-    label: 'Address',
-    type: 'name',
-    inputName: 'address',
-    placeholder: '',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-]
-
 const generalInformationSchema = yup.object({
-  fullName: yup.string(),
-  position: yup.string(),
-  email: yup.string().email('Invalid email format'),
-  phone: yup.string().matches(phoneRegExp, 'Phone number is not valid'),
-  selectedGender: yup.string(),
-  city: yup.string(),
-  address: yup.string(),
+  fullName: yup.string().required(),
+  position: yup.string().required(),
+  email: yup.string().email('Invalid email format').required(),
+  phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
+  address: yup.string().required(),
 })
 
 const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
@@ -108,11 +53,61 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
     resolver: yupResolver(generalInformationSchema),
   })
 
-  const cv = useAppSelector((state) => state.cv.cv)
+  const { fullName, email, birthDate, phoneNumber, address } = useAppSelector(
+    (state) => state.auth.user as StudentModel,
+  )
+  const { skills } = useAppSelector((state) => state.cv.curCV.details)
 
   const onSubmit = (data: FieldProps) => {
     navigation.navigate('AdditionalInformationScreen')
   }
+
+  const generalInformation = [
+    {
+      label: 'Full Name',
+      type: 'username',
+      inputName: 'fullName',
+      defaultValue: fullName,
+      placeholder: 'Enter your full name',
+      returnKeyType: 'next',
+      keyboardType: 'default',
+    },
+    {
+      label: 'Position to Apply',
+      type: 'name',
+      inputName: 'position',
+      placeholder: 'Enter position you want to apply',
+      returnKeyType: 'next',
+      keyboardType: 'default',
+    },
+    {
+      label: 'Email',
+      type: 'email',
+      inputName: 'email',
+      defaultValue: email,
+      placeholder: '',
+      returnKeyType: 'next',
+      keyboardType: 'default',
+    },
+    {
+      label: 'Phone',
+      type: 'number',
+      inputName: 'phone',
+      defaultValue: phoneNumber,
+      placeholder: '',
+      returnKeyType: 'next',
+      keyboardType: 'default',
+    },
+    {
+      label: 'Address',
+      type: 'name',
+      inputName: 'address',
+      defaultValue: address,
+      placeholder: '',
+      returnKeyType: 'next',
+      keyboardType: 'default',
+    },
+  ]
 
   return (
     <View style={styles.container}>
@@ -125,6 +120,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 key={index}
                 label={info.label}
                 type={info.type}
+                defaultValue={info.defaultValue}
                 inputName={info.inputName}
                 placeholder={info.placeholder}
                 returnKeyType={info.returnKeyType as ReturnKeyTypeOptions}
@@ -133,48 +129,19 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 errors={errors}
               />
             ))}
-            <VerticalSelectInput
-              label="Gender"
-              type="name"
-              inputName="selectedGender"
-              placeHolderLabel="Select gender"
-              items={gender}
-              control={control}
-              errors={errors}
-            />
-            {locationInformation.map((loc, index) => (
-              <VerticalInput
-                key={index}
-                label={loc.label}
-                type={loc.type}
-                inputName={loc.inputName}
-                placeholder={loc.placeholder}
-                returnKeyType={loc.returnKeyType as ReturnKeyTypeOptions}
-                keyboardType={loc.keyboardType as KeyboardTypeOptions}
-                control={control}
-                errors={errors}
-              />
-            ))}
           </View>
         </View>
 
         <View style={styles.secondBlock}>
-          <Text style={styles.heading}>Skills and Languages</Text>
-          {/* <View style={styles.form}>
-            <View
-              style={[
-                styles.skillContainer,
-                {
-                  borderBottomWidth: skills && skills.length > 0 ? 1 : 0,
-                },
-              ]}
-            >
+          <Text style={styles.heading}>Skills</Text>
+          <View style={styles.form}>
+            <View style={styles.skillContainer}>
               {skills && skills.length > 0 ? (
                 <View style={styles.list}>
                   {skills.map((skill, index) => (
                     <ChipButton
                       key={index}
-                      name={skill}
+                      name={skill.name}
                       bgColor={Theme.palette.black.primary}
                       txtColor={Theme.palette.white.primary}
                       fsize={14}
@@ -194,38 +161,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 </TouchableOpacity>
               )}
             </View>
-            <View
-              style={{
-                marginBottom: 8,
-              }}
-            >
-              {languages && languages.length > 0 ? (
-                <View style={styles.list}>
-                  {languages.map((language, index) => (
-                    <ChipButton
-                      key={index}
-                      name={language}
-                      bgColor={Theme.palette.black.primary}
-                      txtColor={Theme.palette.white.primary}
-                      fsize={14}
-                      disabled={true}
-                    />
-                  ))}
-                </View>
-              ) : (
-                <TouchableOpacity
-                  style={styles.button}
-                  activeOpacity={0.8}
-                  onPress={() => navigation.navigate('LanguagesScreen')}
-                >
-                  <View style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>Add new language</Text>
-                    <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
-                  </View>
-                </TouchableOpacity>
-              )}
-            </View>
-          </View> */}
+          </View>
         </View>
       </ScrollView>
       <View
@@ -292,7 +228,8 @@ const styles = StyleSheet.create({
     ...Theme.shadow.depth1,
     borderRadius: 8,
     padding: 12,
-    marginVertical: 4,
+    // marginVertical: 4,
+    marginBottom: 16,
   },
   buttonContainer: {
     flexDirection: 'row',

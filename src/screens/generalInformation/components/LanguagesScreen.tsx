@@ -6,7 +6,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import RNPickerSelect from 'react-native-picker-select'
 import GeneralButton from '../../../components/buttons/GeneralButton'
 import Languages from '../../../constant/languages'
-import { addListLanguage } from '../../../features/cvSlice'
+// import { addListLanguage } from '../../../features/cvSlice'
 import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
 
@@ -142,7 +142,7 @@ const LanguagesScreen: React.FC<LanguagesScreenProps> = ({ navigation }) => {
               setLanguagesSelected(undefined)
             }
             if (languagesSelected === undefined) {
-              dispatch(addListLanguage(listLanguages))
+              // dispatch(addListLanguage(listLanguages))
               navigation.goBack()
             }
           }}

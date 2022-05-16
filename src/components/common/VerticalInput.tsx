@@ -14,6 +14,7 @@ type VerticalInputProps = {
   label?: string
   type: string
   inputName: string
+  defaultValue?: string
   multiline?: boolean
   placeholder?: string
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined
@@ -44,6 +45,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
   label,
   type,
   inputName,
+  defaultValue,
   placeholder,
   multiline,
   autoCapitalize,
@@ -65,6 +67,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             autoCapitalize={autoCapitalize}
             autoCompleteType={checkTypeInput(type)}
             autoCorrect={false}
+            defaultValue={defaultValue}
             onBlur={onBlur}
             keyboardType={keyboardType}
             returnKeyType={returnKeyType}

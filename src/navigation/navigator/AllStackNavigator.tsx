@@ -147,7 +147,7 @@ export const CVFormStackScreen = () => (
         ),
       })}
     />
-    <CVFormStack.Screen
+    {/* <CVFormStack.Screen
       name="LanguagesScreen"
       component={LanguagesScreen}
       options={({ navigation }) => ({
@@ -162,7 +162,7 @@ export const CVFormStackScreen = () => (
           </Pressable>
         ),
       })}
-    />
+    /> */}
     <CVFormStack.Screen
       name="ProjectScreen"
       component={ProjectScreen}

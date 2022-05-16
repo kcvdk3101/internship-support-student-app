@@ -8,6 +8,7 @@ type GeneralButtonProps = {
   bgColor: string
   txtColor: string
   label: string
+  disabled?: boolean
   onPress?: () => void
 }
 
@@ -15,6 +16,7 @@ const GeneralButton: React.FC<GeneralButtonProps> = ({
   isAlignCenter,
   bgColor,
   txtColor,
+  disabled,
   label,
   onPress,
 }) => {
@@ -24,10 +26,12 @@ const GeneralButton: React.FC<GeneralButtonProps> = ({
         styles.container,
         {
           backgroundColor: bgColor,
+          opacity: disabled ? 0.5 : 1,
         },
       ]}
       activeOpacity={0.8}
       onPress={onPress}
+      disabled={disabled}
     >
       <View
         style={[
