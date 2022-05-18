@@ -15,6 +15,7 @@ type CVScreenProps = {
 
 const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
+  const { fetchingCVs, CVs } = useAppSelector((state) => state.cv)
 
   const [showModal, setShowModal] = useState(false)
 
@@ -46,14 +47,19 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           <ScrollView style={styles.cvList}>
             <Text style={styles.heading}>CV / Cover Letter</Text>
             <ScrollView>
-              {cvData.map((cv, index) => (
-                <CVCard
-                  key={index}
-                  name={cv.name}
-                  createdAt={cv.createdAt}
-                  createdBy={cv.createdBy}
-                />
-              ))}
+              {fetchingCVs ? (
+                <View></View>
+              ) : CVs.length === 0 ? (
+                <View>
+                  <Text>You don't have any CVs yet</Text>
+                </View>
+              ) : (
+                <View>
+                  {CVs.map((cv, index) => (
+                    <CVCard key={index} name={cv.name} createdAt={cv.createdAt as string} />
+                  ))}
+                </View>
+              )}
             </ScrollView>
           </ScrollView>
         </View>

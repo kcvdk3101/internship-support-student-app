@@ -12,9 +12,8 @@ import Theme from '../../utils/Theme'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { gender, phoneRegExp } from '../../constant'
+import { phoneRegExp } from '../../constant'
 import GeneralButton from '../../components/buttons/GeneralButton'
-import VerticalSelectInput from '../../components/common/VerticalSelectInput'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
@@ -30,7 +29,7 @@ type FieldProps = {
   fullName: string
   position: string
   email: string
-  phone: number
+  phone: string
   gender: string
   city: string
   address: string
@@ -45,17 +44,24 @@ const generalInformationSchema = yup.object({
 })
 
 const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
+  const { fullName, email, birthDate, phoneNumber, address } = useAppSelector(
+    (state) => state.auth.user as StudentModel,
+  )
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<FieldProps>({
     resolver: yupResolver(generalInformationSchema),
+    defaultValues: {
+      fullName,
+      email,
+      phone: phoneNumber,
+      address,
+    },
   })
 
-  const { fullName, email, birthDate, phoneNumber, address } = useAppSelector(
-    (state) => state.auth.user as StudentModel,
-  )
   const { skills } = useAppSelector((state) => state.cv.curCV.details)
 
   const onSubmit = (data: FieldProps) => {
@@ -67,7 +73,6 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       label: 'Full Name',
       type: 'username',
       inputName: 'fullName',
-      defaultValue: fullName,
       placeholder: 'Enter your full name',
       returnKeyType: 'next',
       keyboardType: 'default',
@@ -84,7 +89,6 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       label: 'Email',
       type: 'email',
       inputName: 'email',
-      defaultValue: email,
       placeholder: '',
       returnKeyType: 'next',
       keyboardType: 'default',
@@ -93,7 +97,6 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       label: 'Phone',
       type: 'number',
       inputName: 'phone',
-      defaultValue: phoneNumber,
       placeholder: '',
       returnKeyType: 'next',
       keyboardType: 'default',
@@ -102,7 +105,6 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       label: 'Address',
       type: 'name',
       inputName: 'address',
-      defaultValue: address,
       placeholder: '',
       returnKeyType: 'next',
       keyboardType: 'default',
@@ -120,7 +122,6 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 key={index}
                 label={info.label}
                 type={info.type}
-                defaultValue={info.defaultValue}
                 inputName={info.inputName}
                 placeholder={info.placeholder}
                 returnKeyType={info.returnKeyType as ReturnKeyTypeOptions}

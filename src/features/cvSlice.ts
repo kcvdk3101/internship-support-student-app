@@ -2,13 +2,16 @@ import { createSlice } from '@reduxjs/toolkit'
 import { CVModel } from '../models/index'
 
 type CVSliceStateProps = {
+  fetchingCVs: boolean
   CVs: CVModel[]
   curCV: CVModel
 }
 
 const initialState: CVSliceStateProps = {
+  fetchingCVs: false,
   CVs: [],
   curCV: {
+    name: '',
     studentName: '',
     position: '',
     content: '',
@@ -246,13 +249,16 @@ const cvSlice = createSlice({
   name: 'cv',
   initialState,
   reducers: {
+    addCVName(state, action) {
+      state.curCV.name = action.payload
+    },
     addListSkill(state, action) {
-      state.curCV.details.skills.push({ ...action.payload })
+      state.curCV.details.skills = action.payload
     },
   },
   extraReducers: {},
 })
 
-export const { addListSkill } = cvSlice.actions
+export const { addListSkill, addCVName } = cvSlice.actions
 
 export default cvSlice.reducer

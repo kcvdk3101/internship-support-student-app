@@ -6,10 +6,9 @@ import Theme from '../../utils/Theme'
 type CVItemProps = {
   name: string
   createdAt: string
-  createdBy: string
 }
 
-const CVCard: React.FC<CVItemProps> = ({ name, createdAt, createdBy }) => {
+const CVCard: React.FC<CVItemProps> = ({ name, createdAt }) => {
   return (
     <View style={styles.cvItemContainer}>
       <View
@@ -29,25 +28,8 @@ const CVCard: React.FC<CVItemProps> = ({ name, createdAt, createdBy }) => {
       </View>
       <View style={{ marginTop: 10 }}>
         <View style={styles.flex}>
-          <Image
-            style={styles.icon}
-            source={require('../../assets/images/icon-bolt.png')}
-          />
+          <Image style={styles.icon} source={require('../../assets/images/icon-bolt.png')} />
           <Text style={styles.text}>{createdAt}</Text>
-        </View>
-        <View
-          style={[
-            styles.flex,
-            {
-              marginTop: 8,
-            },
-          ]}
-        >
-          <Image
-            style={styles.icon}
-            source={require('../../assets/images/icon-upload.png')}
-          />
-          <Text style={styles.text}>{createdBy}</Text>
         </View>
       </View>
       <View style={styles.btnItem}>
@@ -79,7 +61,6 @@ const styles = StyleSheet.create({
     tintColor: Theme.palette.red.signOut,
   },
   icon: {
-    flexShrink: 0,
     width: 15,
     height: 15,
     tintColor: Theme.palette.paragraph.primary,

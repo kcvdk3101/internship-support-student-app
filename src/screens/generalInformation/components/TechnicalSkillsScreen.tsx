@@ -24,7 +24,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
 
   const dispatch = useAppDispatch()
 
-  const [listSkills, setListSkills] = useState<string[]>([])
+  const [listSkills, setListSkills] = useState<object[]>([])
   const [total, setTotal] = useState<number>(1)
   const [skillsSelected, setSkillsSelected] = useState<string>('')
 
@@ -35,12 +35,10 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
   }
 
   const handleAddSkill = (data: string) => {
-    setListSkills([...listSkills, data])
+    setListSkills([...listSkills, { name: data }])
     let indexSkillSelected = filterArray.findIndex((skill) => skill.value === data)
     filterArray.splice(indexSkillSelected, 1)
   }
-
-  console.log(skillsSelected)
 
   return (
     <View
@@ -113,15 +111,15 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
           bgColor={Theme.palette.main.primary}
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
-          disabled={listSkills.length === 0 || skillsSelected !== ''}
           onPress={() => {
-            if (skillsSelected !== '') {
-              setListSkills([...listSkills, skillsSelected])
-              setSkillsSelected('')
-            } else {
-              dispatch(addListSkill(listSkills))
-              navigation.goBack()
-            }
+            dispatch(addListSkill(listSkills))
+            navigation.goBack()
+
+            // if (skillsSelected !== '') {
+            //   setListSkills([...listSkills, { name: skillsSelected }])
+            //   setSkillsSelected('')
+            // } else {
+            // }
           }}
         />
       </View>

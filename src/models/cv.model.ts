@@ -7,6 +7,7 @@ import { ProjectModel } from './project.model'
 
 export interface CVModel extends Common {
   id?: string
+  name: string
   studentName: string
   position: string
   content: string

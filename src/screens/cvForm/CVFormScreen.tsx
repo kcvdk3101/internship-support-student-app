@@ -9,6 +9,8 @@ import GeneralButton from '../../components/buttons/GeneralButton'
 import VerticalInput from '../../components/common/VerticalInput'
 import VerticalSelectInput from '../../components/common/VerticalSelectInput'
 import { languages } from '../../constant'
+import { addCVName } from '../../features/cvSlice'
+import { useAppDispatch } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 
 type CVFormScreenProps = {
@@ -37,10 +39,20 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
     },
     resolver: yupResolver(cvFormSchema),
   })
+  const dispatch = useAppDispatch()
 
-  const onSubmit = (data: FieldProps) => {
+  const onSubmit = async (data: FieldProps) => {
     if (data.cvName === '' || data.selectedLanguage === '') return
-    navigation.navigate('GeneralInformationScreen')
+
+    try {
+      const response = dispatch(addCVName(data.cvName))
+      if (response.payload === data.cvName) {
+        navigation.navigate('GeneralInformationScreen')
+      }
+    } catch (error) {
+      console.log(error)
+      navigation.navigate('CVScreen')
+    }
   }
 
   return (

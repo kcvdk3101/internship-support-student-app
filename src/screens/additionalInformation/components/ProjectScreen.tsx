@@ -1,19 +1,18 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  ReturnKeyTypeOptions,
-  KeyboardTypeOptions,
-  KeyboardAvoidingView,
-  Platform,
-} from 'react-native'
-import React from 'react'
-import VerticalSelectInput from '../../../components/common/VerticalSelectInput'
-import Theme from '../../../utils/Theme'
-import VerticalInput from '../../../components/common/VerticalInput'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { screenWidth } from '../../../constant'
+import {
+  KeyboardAvoidingView,
+  KeyboardTypeOptions,
+  Platform,
+  ReturnKeyTypeOptions,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native'
+import VerticalInput from '../../../components/common/VerticalInput'
+import Theme from '../../../utils/Theme'
+// import DatePicker from 'react-native-date-picker'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
 type ProjectScreenProps = {}
 
@@ -94,6 +93,9 @@ const ProjectScreen: React.FC<ProjectScreenProps> = () => {
     formState: { errors },
   } = useForm<FieldProps>()
 
+  const [date, setDate] = useState(new Date())
+  const [open, setOpen] = useState(true)
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -119,6 +121,13 @@ const ProjectScreen: React.FC<ProjectScreenProps> = () => {
             ))}
           </View>
         </View>
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={'date'}
+          is24Hour={true}
+          // onChange={onChange}
+        />
       </ScrollView>
     </KeyboardAvoidingView>
   )
