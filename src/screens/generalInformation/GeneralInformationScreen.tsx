@@ -81,7 +81,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       label: 'Position to Apply',
       type: 'name',
       inputName: 'position',
-      placeholder: 'Enter position you want to apply',
+      placeholder: 'Enter position',
       returnKeyType: 'next',
       keyboardType: 'default',
     },

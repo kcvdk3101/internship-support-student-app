@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import {
   KeyboardAvoidingView,
@@ -9,12 +10,15 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import GeneralButton from '../../../components/buttons/GeneralButton'
 import VerticalInput from '../../../components/common/VerticalInput'
+import { addProject } from '../../../features/cvSlice'
+import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
-// import DatePicker from 'react-native-date-picker'
-import DateTimePicker from '@react-native-community/datetimepicker'
 
-type ProjectScreenProps = {}
+type ProjectScreenProps = {
+  navigation: NavigationProp<ParamListBase>
+}
 
 type FieldProps = {
   fullName: string
@@ -80,26 +84,33 @@ const projectInformation = [
     type: 'name',
     inputName: 'description',
     placeholder: '',
-    returnKeyType: 'next',
+    returnKeyType: 'done',
     keyboardType: 'default',
-    multiline: true,
   },
 ]
 
-const ProjectScreen: React.FC<ProjectScreenProps> = () => {
+const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<FieldProps>()
+  const dispatch = useAppDispatch()
 
-  const [date, setDate] = useState(new Date())
-  const [open, setOpen] = useState(true)
+  // const [date, setDate] = useState(new Date())
+  // const [open, setOpen] = useState(true)
+
+  const onSubmit = (data: FieldProps) => {
+    dispatch(addProject(data))
+    navigation.goBack()
+  }
 
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
+      enabled
+      keyboardVerticalOffset={100}
     >
       <ScrollView>
         <View style={styles.firstBlock}>
@@ -114,20 +125,33 @@ const ProjectScreen: React.FC<ProjectScreenProps> = () => {
                 autoCapitalize="none"
                 returnKeyType={p.returnKeyType as ReturnKeyTypeOptions}
                 keyboardType={p.keyboardType as KeyboardTypeOptions}
-                multiline={p.multiline}
                 control={control}
                 errors={errors}
               />
             ))}
           </View>
+          <View
+            style={{
+              marginTop: 8,
+              marginBottom: 20,
+            }}
+          >
+            <GeneralButton
+              label="Done"
+              bgColor={Theme.palette.main.primary}
+              txtColor={Theme.palette.white.primary}
+              isAlignCenter={true}
+              onPress={handleSubmit(onSubmit)}
+            />
+          </View>
         </View>
-        <DateTimePicker
+        {/* <DateTimePicker
           testID="dateTimePicker"
           value={date}
           mode={'date'}
           is24Hour={true}
-          // onChange={onChange}
-        />
+          onChange={onChange}
+        /> */}
       </ScrollView>
     </KeyboardAvoidingView>
   )
@@ -138,6 +162,8 @@ export default ProjectScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
     padding: 8,
   },
   firstBlock: {

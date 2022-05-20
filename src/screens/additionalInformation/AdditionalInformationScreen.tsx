@@ -1,5 +1,5 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Theme from '../../utils/Theme'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
@@ -14,11 +14,20 @@ type AdditionalInformationScreenProps = {
 const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = ({
   navigation,
 }) => {
-  // const projects = useAppSelector((state) => state.cv.cv.projects)
-  // const certificates = useAppSelector((state) => state.cv.cv.certificates)
+  const projects = useAppSelector((state) => state.cv.curCV.details.project)
+  const certificates = useAppSelector((state) => state.cv.curCV.details.certificated)
 
   const [checkedProject, setCheckedProject] = useState(false)
   const [checkedCertificate, setCheckedertificate] = useState(false)
+
+  useEffect(() => {
+    if (projects.length > 0) {
+      setCheckedProject(true)
+    }
+    if (certificates.length > 0) {
+      setCheckedertificate(true)
+    }
+  }, [projects, certificates])
 
   return (
     <View
@@ -54,7 +63,7 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
               />
               <Text>Has project</Text>
             </View>
-            {checkedProject && (
+            {checkedProject === true && (
               <View>
                 <TouchableOpacity onPress={() => navigation.navigate('ProjectScreen')}>
                   <View style={styles.buttonContainer}>
@@ -65,11 +74,33 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
               </View>
             )}
           </View>
-          {/* {checkedProject && projects.length > 0 && (
-            <View>
-              <Text>List project</Text>
+          {projects.length > 0 && (
+            <View
+              style={{
+                margin: 8,
+              }}
+            >
+              {projects.map((project, index) => (
+                <View
+                  key={index}
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    borderBottomWidth: 1,
+                  }}
+                >
+                  <View>
+                    <Text>{project.projectName}</Text>
+                    <Text>{project.description}</Text>
+                  </View>
+                  <View>
+                    <Ionicons name="trash" size={24} color="red" />
+                  </View>
+                </View>
+              ))}
             </View>
-          )} */}
+          )}
         </View>
         <View style={styles.block}>
           <Text style={styles.heading}>Certificate</Text>
@@ -109,11 +140,11 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
               </View>
             )}
           </View>
-          {/* {checkedProject && certificates.length > 0 && (
+          {certificates.length > 0 && (
             <View>
               <Text>List certificate</Text>
             </View>
-          )} */}
+          )}
         </View>
       </ScrollView>
     </View>

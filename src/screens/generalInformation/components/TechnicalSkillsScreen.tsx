@@ -112,14 +112,13 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={() => {
-            dispatch(addListSkill(listSkills))
-            navigation.goBack()
-
-            // if (skillsSelected !== '') {
-            //   setListSkills([...listSkills, { name: skillsSelected }])
-            //   setSkillsSelected('')
-            // } else {
-            // }
+            if (skillsSelected !== '') {
+              setListSkills([...listSkills, { name: skillsSelected }])
+              setSkillsSelected('')
+            } else {
+              dispatch(addListSkill(listSkills))
+              navigation.goBack()
+            }
           }}
         />
       </View>
