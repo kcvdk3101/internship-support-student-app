@@ -1,5 +1,0 @@
-export * from './common'
-export * from './cv.model'
-export * from './corporation.model'
-export * from './job.model'
-export * from './student.model'

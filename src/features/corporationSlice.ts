@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import corporationApi from '../api/corporationApi'
-import { CorporationModel } from '../models/index'
+import corporationApi from '../api/corporation/corporationApi'
+import { CorporationModel } from '../models/corporation.model'
 
 export interface CorporationsSliceState {
   status: 'loading' | 'idle' | 'fail'

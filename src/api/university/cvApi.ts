@@ -1,6 +1,6 @@
 import axios from 'axios'
-import { API_CV_URL } from '../constant'
-import { Project } from '../models/project'
+import { API_CV_URL } from '../../constant'
+import { ProjectModel } from '../../models/project.model'
 
 const cvApi = {
   getCV(studentId: string, limit: number, offset: number) {
@@ -42,7 +42,7 @@ const cvApi = {
   //   return axios.patch(`${API_CV_URL}/certificated?cvId=${studentId}`, data)
   // },
 
-  addProject(cvId: string, project: Project[]) {
+  addProject(cvId: string, project: ProjectModel[]) {
     return axios.post(`${API_CV_URL}/contact?cvId=${cvId}`, { project })
   },
 
