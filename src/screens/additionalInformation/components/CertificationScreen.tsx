@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React from 'react'
 import { useForm } from 'react-hook-form'
 import {
   KeyboardAvoidingView,
@@ -8,27 +9,163 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  Text,
 } from 'react-native'
-import VerticalInput from '../../../components/common/VerticalInput'
-import Theme from '../../../utils/Theme'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import { screenHeight } from '../../../constant'
 import GeneralButton from '../../../components/buttons/GeneralButton'
+import VerticalInput from '../../../components/common/VerticalInput'
+import { addCertification } from '../../../features/cvSlice'
 import { useAppDispatch } from '../../../hooks/redux'
-import { addProject } from '../../../features/cvSlice'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import Theme from '../../../utils/Theme'
 
-type CertificationScreenProps = {}
+type CertificationScreenProps = {
+  navigation: NavigationProp<ParamListBase>
+}
 
-const CertificationScreen: React.FC<CertificationScreenProps> = () => {
+type FieldProps = {
+  name: string
+  issueDate: string
+  organizer: string
+}
+
+const certificationInformation = [
+  {
+    label: 'Certification Name',
+    type: 'name',
+    inputName: 'certificationName',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Issue Date',
+    type: 'number',
+    inputName: 'issueDate',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Organization',
+    type: 'name',
+    inputName: 'organ',
+    placeholder: '',
+    returnKeyType: 'done',
+    keyboardType: 'default',
+  },
+]
+
+const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation }) => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldProps>()
+  const dispatch = useAppDispatch()
+
+  const onSubmit = (data: FieldProps) => {
+    dispatch(addCertification(data))
+    navigation.goBack()
+  }
   return (
-    <View>
-      <Text>CertificationScreen</Text>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.container}
+      enabled
+      keyboardVerticalOffset={100}
+    >
+      <ScrollView>
+        <View style={styles.firstBlock}>
+          <View style={styles.form}>
+            {certificationInformation.map((certi, index) => (
+              <VerticalInput
+                key={index}
+                label={certi.label}
+                type={certi.type}
+                inputName={certi.inputName}
+                placeholder={certi.placeholder}
+                autoCapitalize="none"
+                returnKeyType={certi.returnKeyType as ReturnKeyTypeOptions}
+                keyboardType={certi.keyboardType as KeyboardTypeOptions}
+                control={control}
+                errors={errors}
+              />
+            ))}
+          </View>
+          <View
+            style={{
+              marginTop: 8,
+              marginBottom: 20,
+            }}
+          >
+            <GeneralButton
+              label="Done"
+              bgColor={Theme.palette.main.primary}
+              txtColor={Theme.palette.white.primary}
+              isAlignCenter={true}
+              onPress={handleSubmit(onSubmit)}
+            />
+          </View>
+        </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
 export default CertificationScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 8,
+  },
+  firstBlock: {
+    flex: 1,
+    backgroundColor: Theme.palette.white.primary,
+    borderRadius: 8,
+    marginHorizontal: 12,
+    marginTop: 12,
+    marginBottom: 16,
+    padding: 8,
+  },
+  secondBlock: {
+    flex: 1,
+    backgroundColor: Theme.palette.white.primary,
+    borderRadius: 8,
+    marginHorizontal: 12,
+    marginBottom: 56,
+    padding: 8,
+  },
+  heading: {
+    ...Theme.fonts.headline.h6,
+    paddingHorizontal: 8,
+  },
+  form: {
+    flex: 1,
+    padding: 8,
+  },
+  skillContainer: {
+    marginVertical: 4,
+  },
+  list: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  button: {
+    backgroundColor: Theme.palette.black.primary,
+    ...Theme.shadow.depth1,
+    borderRadius: 8,
+    padding: 12,
+    marginVertical: 4,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonText: {
+    textAlign: 'center',
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.white.primary,
+  },
+})

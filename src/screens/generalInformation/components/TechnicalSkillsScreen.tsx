@@ -28,10 +28,13 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
   const [total, setTotal] = useState<number>(1)
   const [skillsSelected, setSkillsSelected] = useState<string>('')
 
+  console.log('listSkills', listSkills)
+
   let filterArray = Skills
 
   const handleOnChange = (data: string) => {
     setSkillsSelected(data)
+    handleAddSkill(data)
   }
 
   const handleAddSkill = (data: string) => {

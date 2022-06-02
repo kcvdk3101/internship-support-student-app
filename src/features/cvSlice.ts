@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { CVModel } from '../models/index'
+import { CVModel } from '../models/cv.model'
 
 type CVSliceStateProps = {
   fetchingCVs: boolean
@@ -258,10 +258,13 @@ const cvSlice = createSlice({
     addProject(state, action) {
       state.curCV.details.project.push(action.payload)
     },
+    addCertification(state, action) {
+      state.curCV.details.certificated.push(action.payload)
+    },
   },
   extraReducers: {},
 })
 
-export const { addListSkill, addCVName, addProject } = cvSlice.actions
+export const { addListSkill, addCVName, addProject, addCertification } = cvSlice.actions
 
 export default cvSlice.reducer

@@ -97,9 +97,6 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
   } = useForm<FieldProps>()
   const dispatch = useAppDispatch()
 
-  // const [date, setDate] = useState(new Date())
-  // const [open, setOpen] = useState(true)
-
   const onSubmit = (data: FieldProps) => {
     dispatch(addProject(data))
     navigation.goBack()
@@ -145,13 +142,6 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
             />
           </View>
         </View>
-        {/* <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={'date'}
-          is24Hour={true}
-          onChange={onChange}
-        /> */}
       </ScrollView>
     </KeyboardAvoidingView>
   )

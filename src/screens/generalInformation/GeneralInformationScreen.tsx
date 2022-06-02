@@ -19,7 +19,7 @@ import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
 import { useAppSelector } from '../../hooks/redux'
 import ChipButton from '../../components/buttons/ChipButton'
-import { StudentModel } from '../../models'
+import { StudentModel } from '../../models/student.model'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -106,7 +106,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       type: 'name',
       inputName: 'address',
       placeholder: '',
-      returnKeyType: 'next',
+      returnKeyType: 'done',
       keyboardType: 'default',
     },
   ]
@@ -229,7 +229,6 @@ const styles = StyleSheet.create({
     ...Theme.shadow.depth1,
     borderRadius: 8,
     padding: 12,
-    // marginVertical: 4,
     marginBottom: 16,
   },
   buttonContainer: {

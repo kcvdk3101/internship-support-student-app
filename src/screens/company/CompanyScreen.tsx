@@ -77,7 +77,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
               />
             </View>
           )}
-          ListFooterComponent={<PopularCompanies />}
+          // ListFooterComponent={<PopularCompanies />}
         />
       )}
     </View>
