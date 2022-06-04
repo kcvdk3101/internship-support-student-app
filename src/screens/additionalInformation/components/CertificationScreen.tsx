@@ -30,7 +30,7 @@ const certificationInformation = [
   {
     label: 'Certification Name',
     type: 'name',
-    inputName: 'certificationName',
+    inputName: 'name',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
@@ -90,22 +90,22 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
               />
             ))}
           </View>
-          <View
-            style={{
-              marginTop: 8,
-              marginBottom: 20,
-            }}
-          >
-            <GeneralButton
-              label="Done"
-              bgColor={Theme.palette.main.primary}
-              txtColor={Theme.palette.white.primary}
-              isAlignCenter={true}
-              onPress={handleSubmit(onSubmit)}
-            />
-          </View>
         </View>
       </ScrollView>
+      <View
+        style={{
+          marginVertical: 32,
+          marginHorizontal: 16,
+        }}
+      >
+        <GeneralButton
+          label="Done"
+          bgColor={Theme.palette.main.primary}
+          txtColor={Theme.palette.white.primary}
+          isAlignCenter={true}
+          onPress={handleSubmit(onSubmit)}
+        />
+      </View>
     </KeyboardAvoidingView>
   )
 }

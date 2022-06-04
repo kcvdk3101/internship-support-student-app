@@ -70,8 +70,5 @@ export const phoneRegExp =
 export const IS_FIRST_TIME = 'IS_FIRST_TIME'
 export const FIRST_TIME_OPEN_VALUE = 'FIRST_TIME_OPEN_VALUE'
 
-export const API_CORPORATION_URL = 'https://corporation-app.herokuapp.com'
-export const API_CV_URL = 'https://f4ce-2405-4802-90bb-4bd0-6858-48f8-77f-4a6b.ngrok.io'
-
 export const screenWidth = Dimensions.get('screen').width
 export const screenHeight = Dimensions.get('screen').height

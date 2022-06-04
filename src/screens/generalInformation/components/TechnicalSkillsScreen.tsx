@@ -28,13 +28,10 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
   const [total, setTotal] = useState<number>(1)
   const [skillsSelected, setSkillsSelected] = useState<string>('')
 
-  console.log('listSkills', listSkills)
-
   let filterArray = Skills
 
   const handleOnChange = (data: string) => {
     setSkillsSelected(data)
-    handleAddSkill(data)
   }
 
   const handleAddSkill = (data: string) => {
@@ -66,6 +63,13 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
           placeholder={placeholder}
           style={pickerSelectStyles}
           useNativeAndroidPickerStyle={Platform.OS === 'ios' ? false : true}
+          onDonePress={() => {
+            setListSkills([...listSkills, { name: skillsSelected }])
+            let indexSkillSelected = filterArray.findIndex(
+              (skill) => skill.value === skillsSelected,
+            )
+            filterArray.splice(indexSkillSelected, 1)
+          }}
         />
       ))}
       <TouchableOpacity
@@ -79,7 +83,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
         activeOpacity={0.8}
         onPress={() => {
           setTotal(total + 1)
-          handleAddSkill(skillsSelected)
+          // handleAddSkill(skillsSelected)
         }}
       >
         <View
@@ -115,13 +119,8 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={() => {
-            if (skillsSelected !== '') {
-              setListSkills([...listSkills, { name: skillsSelected }])
-              setSkillsSelected('')
-            } else {
-              dispatch(addListSkill(listSkills))
-              navigation.goBack()
-            }
+            dispatch(addListSkill(listSkills))
+            navigation.goBack()
           }}
         />
       </View>
