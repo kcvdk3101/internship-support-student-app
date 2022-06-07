@@ -19,7 +19,7 @@ import AuthenticationScreen from '../../screens/authentication/AuthenticationScr
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const dispatch = useAppDispatch()
-  const { isAuthenticated, user } = useAppSelector((state) => state.auth)
+  const { user } = useAppSelector((state) => state.auth)
 
   const [showModal, setShowModal] = useState(false)
 
@@ -43,11 +43,15 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       },
       {
         text: 'Confirm',
-        onPress: () => {
-          dispatch(logout())
-          props.navigation.navigate('HomeTab')
-          props.navigation.closeDrawer()
-          Alert.alert('Logout successfully')
+        onPress: async () => {
+          const response = await dispatch(logout())
+          if (response.meta.requestStatus === 'fulfilled') {
+            props.navigation.navigate('HomeTab')
+            props.navigation.closeDrawer()
+            Alert.alert('Logout successfully')
+          } else {
+            Alert.alert('Something wrong!')
+          }
         },
       },
     ])
@@ -60,12 +64,13 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           <Drawer.Section>
             {user ? (
               <TouchableOpacity onPress={() => props.navigation.navigate('Account')}>
-                <Avatar firstName={user.firstName} lastName={user.lastName} />
+                <Avatar firstName={user.firstName as string} lastName={user.lastName as string} />
               </TouchableOpacity>
             ) : (
               <GeneralButton
                 bgColor={Theme.palette.white.primary}
                 onPress={handleOpenModal}
+                isLoading={false}
                 label="Sign in"
                 isAlignCenter={true}
                 txtColor={Theme.palette.main.primary}

@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Theme from '../../utils/Theme'
 // import Theme from '../../../utils/Theme'
 
 type GeneralButtonProps = {
   isAlignCenter: boolean
+  isLoading: boolean
   bgColor: string
   txtColor: string
   label: string
@@ -14,6 +15,7 @@ type GeneralButtonProps = {
 
 const GeneralButton: React.FC<GeneralButtonProps> = ({
   isAlignCenter,
+  isLoading,
   bgColor,
   txtColor,
   disabled,
@@ -41,16 +43,20 @@ const GeneralButton: React.FC<GeneralButtonProps> = ({
           },
         ]}
       >
-        <Text
-          style={[
-            styles.text,
-            {
-              color: txtColor,
-            },
-          ]}
-        >
-          {label}
-        </Text>
+        {isLoading ? (
+          <ActivityIndicator size={'large'} />
+        ) : (
+          <Text
+            style={[
+              styles.text,
+              {
+                color: txtColor,
+              },
+            ]}
+          >
+            {label}
+          </Text>
+        )}
       </View>
     </TouchableOpacity>
   )

@@ -76,7 +76,6 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
             }}
           >
             <LoginScreen
-              handleShowModal={handleShowModal}
               handleCloseModal={handleCloseModal}
               handleDisplayFPScreen={handleDisplayFPScreen}
               navigation={navigation}

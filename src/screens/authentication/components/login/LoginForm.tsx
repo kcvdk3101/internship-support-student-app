@@ -1,17 +1,18 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React from 'react'
+import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
 import { login } from '../../../../features/authenticationSlice'
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux'
+import { useAppDispatch } from '../../../../hooks/redux'
 import Theme from '../../../../utils/Theme'
 
 type LoginFormProps = {
+  handleGetLoading: (loading: boolean) => void
   handleDisplayFPScreen: () => void
   handleCloseModal: () => void
   navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
@@ -27,21 +28,17 @@ const loginSchema = yup.object({
     .string()
     .required('Mail is required')
     .matches(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@st.huflit.edu.vn/,
       'Please enter correct format',
     ),
   password: yup
     .string()
     .required('Password is required.')
     .min(8, 'Password should be at least 8 characters.'),
-  // .matches(
-  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-  //   'Password contains at least 8 characters, 1 uppercase letter, ' +
-  //     '1 lowercase letter, 1 number and 1 special character!',
-  // ),
 })
 
 const LoginForm: React.FC<LoginFormProps> = ({
+  handleGetLoading,
   handleDisplayFPScreen,
   navigation,
   handleCloseModal,
@@ -52,28 +49,35 @@ const LoginForm: React.FC<LoginFormProps> = ({
     formState: { errors },
   } = useForm({
     defaultValues: {
-      email: '18DH110815@st.huflit.edu.vn',
-      password: '12345678',
+      email: '18dh110815@st.huflit.edu.vn',
+      password: '0777724500',
     },
     resolver: yupResolver(loginSchema),
   })
   const dispatch = useAppDispatch()
-
-  const user = useAppSelector((state) => state.auth.user)
+  const [loading, setLoading] = useState(false)
 
   const onSubmit = async (data: FieldProps) => {
+    handleGetLoading(true)
+    setLoading(true)
     try {
-      dispatch(
+      const respsonse = await dispatch(
         login({
           email: data.email,
           password: data.password,
         }),
       )
-      Alert.alert('Login successfully!')
+      if (respsonse.meta.requestStatus === 'fulfilled') {
+        Alert.alert('Login successfully!')
+      } else {
+        Alert.alert('Something wrong!')
+      }
     } catch (error) {
       console.log(error)
     } finally {
       handleCloseModal()
+      setLoading(false)
+      handleGetLoading(false)
     }
   }
 
@@ -102,6 +106,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             placeholderTextColor={Theme.palette.white.primary}
             value={value}
             onChangeText={onChange}
+            editable={!loading}
           />
         )}
         name="email"
@@ -129,6 +134,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
             placeholderTextColor={Theme.palette.white.primary}
             value={value}
             onChangeText={onChange}
+            editable={!loading}
           />
         )}
         name="password"
@@ -138,7 +144,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       )}
 
       <View style={styles.forgotPasswordContainer}>
-        <Pressable onPress={handleDisplayFPScreen}>
+        <Pressable onPress={!loading ? handleDisplayFPScreen : () => {}}>
           <Text style={styles.textButton}>Forgot password?</Text>
         </Pressable>
       </View>
@@ -148,6 +154,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         txtColor={Theme.palette.white.primary}
         onPress={handleSubmit(onSubmit)}
         label="Sign in"
+        isLoading={loading}
         isAlignCenter={false}
       />
     </View>
