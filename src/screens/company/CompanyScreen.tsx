@@ -17,12 +17,8 @@ type CompanyScreenProps = {
 
 const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector((state) => state.auth.user)
   const status = useAppSelector((state) => state.corp.status)
   const getLimitedCorporation = useAppSelector((state) => state.corp.corporationsByLimit)
-
-  const [data, setData] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -51,33 +47,16 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
             >
               <NewestCard
                 card={{
+                  companyId: item.id,
                   banner: 'https://picsum.photos/200',
                   name: item.name,
-                  desc: item.overtimeRequire,
+                  location: `${item.location[0].details}, ${item.location[0].street} Street, Ward ${item.location[0].ward}, District ${item.location[0].district} District`,
                   jobs: item.numberEmployees,
-                  kw: [
-                    {
-                      name: 'React',
-                      bgColor: '#61dafb',
-                      txtColor: '#282c34',
-                    },
-                    {
-                      name: 'PHP',
-                      bgColor: '#5c76b4',
-                      txtColor: '#08090c',
-                    },
-                    {
-                      name: 'JavaScript',
-                      bgColor: '#e4d04b',
-                      txtColor: '#2f302e',
-                    },
-                  ],
                 }}
                 navigation={navigation}
               />
             </View>
           )}
-          // ListFooterComponent={<PopularCompanies />}
         />
       )}
     </View>

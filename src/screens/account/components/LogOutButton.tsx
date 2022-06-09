@@ -1,13 +1,41 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
 import Theme from '../../../utils/Theme'
+import { useAppDispatch } from '../../../hooks/redux'
+import { logout } from '../../../features/authenticationSlice'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 
-type Props = {}
+type LogOutButtonProps = {
+  navigation: NavigationProp<ParamListBase>
+}
 
-const LogOutButton = (props: Props) => {
+const LogOutButton: React.FC<LogOutButtonProps> = ({ navigation }) => {
+  const dispatch = useAppDispatch()
+
+  function handleLogout() {
+    return Alert.alert('Logout', 'Are you sure ?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Confirm',
+        onPress: async () => {
+          const response = await dispatch(logout())
+          if (response.meta.requestStatus === 'fulfilled') {
+            navigation.navigate('HomeTab')
+            Alert.alert('Logout successfully')
+          } else {
+            Alert.alert('Something wrong!')
+          }
+        },
+      },
+    ])
+  }
+
   return (
     <View style={styles.signOutContainer}>
-      <TouchableOpacity style={styles.btnLogOut}>
+      <TouchableOpacity style={styles.btnLogOut} onPress={() => handleLogout()}>
         <View>
           <Image
             style={styles.logOutImage}

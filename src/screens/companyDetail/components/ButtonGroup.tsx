@@ -9,10 +9,7 @@ type ButtonGroupProps = {
   handleChangeIndex: (num: number) => void
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({
-  index,
-  handleChangeIndex,
-}) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({ index, handleChangeIndex }) => {
   return (
     <View style={styles.buttonGroupcontainer}>
       <TouchableOpacity
@@ -21,14 +18,12 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
           styles.buttonLeft,
           {
             backgroundColor:
-              index === 0
-                ? Theme.palette.main.primary
-                : Theme.palette.paragraph.primary,
+              index === 0 ? Theme.palette.main.primary : Theme.palette.paragraph.primary,
           },
         ]}
         onPress={() => handleChangeIndex(0)}
       >
-        <Text style={styles.buttonText}>About</Text>
+        <Text style={styles.buttonText}>Opening</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[
@@ -36,14 +31,12 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({
           styles.buttonRight,
           {
             backgroundColor:
-              index === 1
-                ? Theme.palette.main.primary
-                : Theme.palette.paragraph.primary,
+              index === 1 ? Theme.palette.main.primary : Theme.palette.paragraph.primary,
           },
         ]}
         onPress={() => handleChangeIndex(1)}
       >
-        <Text style={styles.buttonText}>Opening</Text>
+        <Text style={styles.buttonText}>Reviews</Text>
       </TouchableOpacity>
     </View>
   )
@@ -56,7 +49,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: screenWidth * 0.35,
+    marginTop: screenWidth * 0.4,
   },
   buttonContainer: {
     flex: 1,

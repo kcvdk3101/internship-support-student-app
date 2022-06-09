@@ -17,13 +17,7 @@ type JobCardProps = {
   skillList?: Skill[]
 }
 
-const JobCard: React.FC<JobCardProps> = ({
-  title,
-  location,
-  salary,
-  timestamp,
-  skillList,
-}) => {
+const JobCard: React.FC<JobCardProps> = ({ title, location, salary, timestamp, skillList }) => {
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback

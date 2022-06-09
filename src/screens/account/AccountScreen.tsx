@@ -1,7 +1,8 @@
+import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import CreateCVButton from '../../components/buttons/CreateCVButton'
+import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
@@ -9,8 +10,6 @@ import Theme from '../../utils/Theme'
 import Avatar from './components/Avatar'
 import EditProfileButton from './components/EditProfileButton'
 import LogOutButton from './components/LogOutButton'
-import { Ionicons } from '@expo/vector-icons'
-import GeneralButton from '../../components/buttons/GeneralButton'
 
 type AccountScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -54,11 +53,12 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
             isAlignCenter={true}
             label="CREATE NEW CV"
             txtColor={Theme.palette.white.primary}
+            isLoading={false}
           />
         </View>
 
         {/* Logout Button */}
-        <LogOutButton />
+        <LogOutButton navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   )

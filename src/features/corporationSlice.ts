@@ -26,7 +26,15 @@ export const getCorporationsByLimit = createAsyncThunk(
   'corporation/getCorporationsByLimit',
   async (limit: number) => {
     const corporationsByLimit = await corporationApi.getCorporationsByLimit(limit)
-    return corporationsByLimit.data.data
+    return corporationsByLimit.data
+  },
+)
+
+export const getCorporationsById = createAsyncThunk(
+  'corporation/getCorporationsById',
+  async (id: string) => {
+    const getCorporationsById = await corporationApi.getCorporationById(id)
+    return getCorporationsById.corporation
   },
 )
 

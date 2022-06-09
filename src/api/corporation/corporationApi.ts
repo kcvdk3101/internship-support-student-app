@@ -1,5 +1,3 @@
-import axios from 'axios'
-import { CORPORATION_URL } from '../../utils/Config'
 import { CorporationModel } from '../../models/corporation.model'
 import axiosCorporation from './axiosCorporation'
 
@@ -13,15 +11,17 @@ const corporationApi = {
   },
 
   getCorporationsByLimit(limit: number) {
-    return axiosCorporation.get<string, any>(`${url}/all?limit=${limit}&offset=0`)
+    return axiosCorporation.get<string, { data: CorporationModel[] }>(
+      `${url}/all?limit=${limit}&offset=0`,
+    )
   },
 
   getCorporationByPresentId(presentId: number) {
     return axiosCorporation.get<string, CorporationModel>(`${url}/presenter?id=${presentId}`)
   },
 
-  getCorporationById(id: number) {
-    return axiosCorporation.get<string, CorporationModel>(`${url}?id=${id}`)
+  getCorporationById(id: string) {
+    return axiosCorporation.get<string, { corporation: CorporationModel[] }>(`${url}?id=${id}`)
   },
 }
 

@@ -12,7 +12,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   return (
     <View style={styles.container}>
       <View>
-        {isAuthenticated && user && <Text style={styles.helloText}>Hello, {user.fullName}</Text>}
+        {isAuthenticated && user && (
+          <Text style={styles.helloText}>
+            Welcome, {user.lastName} {user.firstName}
+          </Text>
+        )}
         <Text style={styles.bannerText}>Find Your</Text>
         <Text style={styles.bannerText}>Dream Job</Text>
       </View>
@@ -29,7 +33,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   helloText: {
-    ...Theme.fonts.body.body1,
+    marginBottom: 8,
+    ...Theme.fonts.headline.h6,
     color: Theme.palette.black.primary,
   },
   bannerText: {

@@ -19,7 +19,7 @@ import AuthenticationScreen from '../../screens/authentication/AuthenticationScr
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const dispatch = useAppDispatch()
-  const { user } = useAppSelector((state) => state.auth)
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth)
 
   const [showModal, setShowModal] = useState(false)
 
@@ -62,7 +62,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
       <DrawerContentScrollView {...props}>
         <View style={styles.innerContainer}>
           <Drawer.Section>
-            {user ? (
+            {isAuthenticated ? (
               <TouchableOpacity onPress={() => props.navigation.navigate('Account')}>
                 <Avatar firstName={user.firstName as string} lastName={user.lastName as string} />
               </TouchableOpacity>
@@ -123,7 +123,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
         </View>
       </DrawerContentScrollView>
       <Drawer.Section>
-        {user && (
+        {isAuthenticated && (
           <DrawerItem
             onPress={() => handleLogout(props)}
             icon={() => <Ionicons name="exit" color={Theme.palette.red.signOut} size={24} />}

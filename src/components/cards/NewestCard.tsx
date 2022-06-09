@@ -3,21 +3,15 @@ import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Theme from '../../utils/Theme'
-import ChipButton from '../buttons/ChipButton'
-
-type KeyWord = {
-  name: string
-  bgColor: string
-  txtColor: string
-}
+import { Ionicons } from '@expo/vector-icons'
 
 type NewestCardProps = {
   card: {
+    companyId: string
     banner: string
     name: string
-    desc: string
+    location: string
     jobs: number
-    kw: KeyWord[]
   }
   navigation: NavigationProp<ParamListBase>
 }
@@ -26,36 +20,25 @@ const NewestCard: React.FC<NewestCardProps> = ({ card, navigation }) => {
   return (
     <TouchableWithoutFeedback
       style={styles.cardContainer}
-      onPress={() => navigation.navigate('CompanyDetailScreen')}
+      onPress={() =>
+        navigation.navigate('CompanyDetailScreen', {
+          companyId: card.companyId,
+        })
+      }
     >
       <Image style={styles.image} source={{ uri: card.banner }} resizeMode="cover" />
       <View style={styles.cardBody}>
         <Text style={styles.companyName}>{card.name}</Text>
-        <Text numberOfLines={2} style={styles.companyDesc}>
-          {card.desc}
-        </Text>
         <View style={styles.jobAvailableContainer}>
-          <Image
-            style={styles.jobAvailableImage}
-            source={require('../../assets/images/icon-company.png')}
-            resizeMode="contain"
-          />
+          <Ionicons name="location-sharp" size={20} color={Theme.palette.black.primary} />
+
+          <Text style={styles.jobAvailable}>{card.location}</Text>
+        </View>
+        <View style={styles.jobAvailableContainer}>
+          <Ionicons name="briefcase" size={20} color={Theme.palette.black.primary} />
           <Text style={styles.jobAvailable}>
             {card.jobs} {card.jobs > 1 ? 'Jobs' : 'Job'} Available
           </Text>
-        </View>
-        <View style={styles.skillList}>
-          {card.kw.map((kw, index) => (
-            <ChipButton
-              key={index}
-              name={kw.name}
-              bgColor={kw.bgColor}
-              txtColor={kw.txtColor}
-              fsize={14}
-              disabled={true}
-              mrgnV={6}
-            />
-          ))}
         </View>
       </View>
     </TouchableWithoutFeedback>
@@ -91,14 +74,8 @@ const styles = StyleSheet.create({
   },
   jobAvailableContainer: {
     flexDirection: 'row',
-    flexWrap: 'nowrap',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     marginVertical: 8,
-  },
-  jobAvailableImage: {
-    flexShrink: 0,
-    width: 20,
-    height: 20,
   },
   jobAvailable: {
     marginLeft: 8,

@@ -42,33 +42,6 @@ const authenticationSlice = createSlice({
       AsyncStorageLib.setItem(IS_FIRST_TIME, JSON.stringify(FIRST_TIME_OPEN_VALUE))
       state.isFirstTimeOpen = true
     },
-    // login(state, action) {
-    //   state.user = {
-    //     id: '9E746DB7-7DF5-4009-9A08-7FF7039B82EB',
-    //     firstName: 'Khôi',
-    //     lastName: 'Vương Đình',
-    //     fullName: 'Vương Đình Khôi',
-    //     email: '18dh110815@st.huflit.edu.vn',
-    //     birthDate: '01/30/2000',
-    //     identityNumber: '18DH110815',
-    //     address: '882 Ngo Quyen Street, Ho Chi Minh City,Vietnam',
-    //     phoneNumber: '0777724500',
-    //     class: 'PM1804',
-    //     term: 'K24',
-    //     status: 'Chưa thực tập',
-    //     academicYear: 'K24',
-    //     slug: 'vuong-dinh-khoi',
-    //     isActive: true,
-    //     isRegistered: true,
-    //     createdAt: '2022-05-20T16:53:39.000Z',
-    //     updatedAt: '2022-05-20T16:53:39.000Z',
-    //   }
-    //   state.isAuthenticated = true
-    // },
-    // logout(state) {
-    //   state.user = null
-    //   state.isAuthenticated = false
-    // },
   },
   extraReducers: (builder) => {
     // Login
@@ -91,6 +64,10 @@ const authenticationSlice = createSlice({
 
     builder.addCase(logout.fulfilled, (state, action) => {
       state.isAuthenticated = false
+      state.user = {
+        id: '',
+        email: '',
+      }
     })
     builder.addCase(logout.rejected, (state, action) => {
       state.isAuthenticated = true
