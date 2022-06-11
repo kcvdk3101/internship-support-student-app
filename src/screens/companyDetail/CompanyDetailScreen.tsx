@@ -58,8 +58,16 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
           <CompanyInformation companyDetail={companyDetail[0]} navigation={navigation} />
         )}
       </View>
-      <ButtonGroup index={index} handleChangeIndex={handleChangeIndex} />
-      {index === 0 ? <CompanyJobList companyId={companyId} /> : <CompanyReview />}
+      {companyDetail.length > 0 && (
+        <>
+          <ButtonGroup index={index} handleChangeIndex={handleChangeIndex} />
+          {index === 0 ? (
+            <CompanyJobList companyId={companyId} />
+          ) : (
+            <CompanyReview companyReview={companyDetail[0].review} />
+          )}
+        </>
+      )}
     </ScrollView>
   )
 }

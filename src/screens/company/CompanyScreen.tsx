@@ -21,9 +21,6 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
   const dispatch = useAppDispatch()
   const status = useAppSelector((state) => state.corp.status)
   const getLimitedCorporation = useAppSelector((state) => state.corp.corporationsByLimit)
-
-  console.log(getLimitedCorporation)
-
   useEffect(() => {
     ;(async () => {
       try {
@@ -49,7 +46,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
                     companyId: corp.id,
                     banner: 'https://picsum.photos/200',
                     name: corp.name,
-                    location: `${corp.location[0].details}, ${corp.location[0].street} Street, Ward ${corp.location[0].ward}, District ${corp.location[0].district} District`,
+                    location: `${corp.location[0].details}, ${corp.location[0].street} Street, Ward ${corp.location[0].ward}, District ${corp.location[0].district}`,
                     jobs: corp.numberEmployees,
                   }}
                   navigation={navigation}
@@ -57,34 +54,11 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
               </View>
             ))
           ) : (
-            <View>
+            <View style={{ marginHorizontal: 20 }}>
               <Text>Result not found</Text>
             </View>
           )}
         </ScrollView>
-        // <FlatList
-        //   ListHeaderComponent={<TopKeyword />}
-        //   data={getLimitedCorporation}
-        //   keyExtractor={(item, index) => index.toString()}
-        //   renderItem={({ item }) => (
-        //     <View
-        //       style={{
-        //         marginHorizontal: 20,
-        //       }}
-        //     >
-        // <NewestCard
-        //   card={{
-        //     companyId: item.id,
-        //     banner: 'https://picsum.photos/200',
-        //     name: item.name,
-        //     location: `${item.location[0].details}, ${item.location[0].street} Street, Ward ${item.location[0].ward}, District ${item.location[0].district} District`,
-        //     jobs: item.numberEmployees,
-        //   }}
-        //   navigation={navigation}
-        // />
-        //     </View>
-        //   )}
-        // />
       )}
     </View>
   )

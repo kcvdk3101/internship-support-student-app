@@ -1,4 +1,5 @@
 import { Location } from './location.model'
+import { Review } from './review.model'
 
 export interface CorporationModel {
   id: string
@@ -19,4 +20,5 @@ export interface CorporationModel {
   updatedAt: string
   image: any[]
   location: Location[]
+  review: Review[]
 }

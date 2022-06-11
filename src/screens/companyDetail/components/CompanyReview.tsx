@@ -1,13 +1,30 @@
+import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import { Review } from '../../../models/review.model'
 import Theme from '../../../utils/Theme'
+import { Rating, AirbnbRating } from 'react-native-ratings'
 
-type CompanyReviewProps = {}
+type CompanyReviewProps = {
+  companyReview: Review[]
+}
 
-const CompanyReview: React.FC<CompanyReviewProps> = () => {
+const CompanyReview: React.FC<CompanyReviewProps> = ({ companyReview }) => {
+  const [rating, setRating] = useState('')
+
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>List review</Text>
+      <View>
+        <Text>Review Heading Text</Text>
+        <Text>Comment</Text>
+        <View>
+          <Rating
+            // showRating
+            onFinishRating={(rating: string) => console.log(rating)}
+            style={{ paddingVertical: 10 }}
+          />
+        </View>
+      </View>
     </View>
   )
 }
