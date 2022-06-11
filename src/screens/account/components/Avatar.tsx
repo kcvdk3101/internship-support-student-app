@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
-import { StudentModel } from '../../../models/index'
 import Theme from '../../../utils/Theme'
+import { StudentModel } from '../../../models/student.model'
 
 type AvatarProps = {
   user: StudentModel | null

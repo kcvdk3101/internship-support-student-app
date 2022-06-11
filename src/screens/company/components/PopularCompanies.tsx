@@ -1,21 +1,18 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import Theme from '../../../utils/Theme'
-import { popularcompaniesData } from '../../../db/PopularCompanyData'
+import { StyleSheet, Text, View } from 'react-native'
 import CompanyCard from '../../../components/cards/CompanyCard'
+import { popularcompaniesData } from '../../../db/PopularCompanyData'
+import Theme from '../../../utils/Theme'
 
 type PopularCompaniesProps = {}
 
 const PopularCompanies: React.FC<PopularCompaniesProps> = () => {
   return (
     <View>
-      <Text style={styles.heading}>popular comapanies</Text>
-      <FlatList
-        data={popularcompaniesData}
-        numColumns={2}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <CompanyCard company={item} />}
-      />
+      <Text style={styles.heading}>Popular from comapanies</Text>
+      {popularcompaniesData.map((company, index) => (
+        <CompanyCard key={index} company={company} />
+      ))}
     </View>
   )
 }

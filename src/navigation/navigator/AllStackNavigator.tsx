@@ -73,11 +73,15 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
 const CVStack = createStackNavigator()
 export const CVStackScreen = () => (
   <CVStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
+    screenOptions={({ navigation }) => ({
+      headerLeft: () => (
+        <Pressable style={styles.positionLeft} onPress={() => navigation.openDrawer()}>
+          <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
+        </Pressable>
+      ),
+    })}
   >
-    <CVStack.Screen name="CVScreen" component={CVScreen} />
+    <CVStack.Screen name="Your CV" component={CVScreen} />
   </CVStack.Navigator>
 )
 

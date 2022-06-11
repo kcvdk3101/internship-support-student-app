@@ -42,6 +42,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
               isAlignCenter={true}
               label="CREATE NEW CV"
               onPress={() => navigation.navigate('CVForm')}
+              isLoading={false}
             />
           </View>
           <ScrollView style={styles.cvList}>
@@ -87,6 +88,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             label="Sign in"
             isAlignCenter={true}
             txtColor={Theme.palette.white.primary}
+            isLoading={false}
           />
         </View>
       )}

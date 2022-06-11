@@ -10,7 +10,6 @@ type CompanyJobListProps = {
 }
 
 const CompanyJobList: React.FC<CompanyJobListProps> = ({ companyId }) => {
-  console.log(companyId)
   const dispatch = useAppDispatch()
   const jobsInCorp = useAppSelector((state) => state.job.jobsInCorp)
 

@@ -6,6 +6,7 @@ import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { cvData } from '../../db/CVData'
 import { useAppSelector } from '../../hooks/redux'
+import { StudentModel } from '../../models/student.model'
 import Theme from '../../utils/Theme'
 import Avatar from './components/Avatar'
 import EditProfileButton from './components/EditProfileButton'
@@ -27,7 +28,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
           </Pressable>
         </View>
         {/* Avatar */}
-        <Avatar user={user} />
+        <Avatar user={user as StudentModel} />
 
         {/* Edit Profile Button */}
         <EditProfileButton />
