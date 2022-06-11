@@ -1,17 +1,48 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ScrollView, StyleSheet, Text, View, TextInput } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import PopularCompanyCard from '../../components/cards/PopularCompanyCard'
-import { screenWidth } from '../../constant'
+import RecommendedJobCard from '../../components/cards/RecommendedJobCard'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import { Ionicons } from '@expo/vector-icons'
-import RecommendedJobCard from '../../components/cards/RecommendedJobCard'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { Searchbar } from 'react-native-paper'
 
 type HomeScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
+
+const SearchBar = () => {
+  return (
+    <View style={seacrhbar.searchbar}>
+      <View style={seacrhbar.buttonSearch}>
+        <Ionicons name="search" size={20} color={Theme.palette.black.primary} />
+      </View>
+      <Text style={seacrhbar.textInput}>Search Job</Text>
+    </View>
+  )
+}
+
+const seacrhbar = StyleSheet.create({
+  searchbar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: Theme.palette.white.primary,
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 16,
+  },
+  buttonSearch: {
+    marginRight: 8,
+    ...Theme.shadow.depth5,
+  },
+  textInput: {
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.black.primary,
+  },
+})
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth)
@@ -29,27 +60,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <Text style={styles.bannerText}>Dream Job</Text>
         </View>
 
+        <SearchBar />
+
         {/* Popular From Companies */}
         <View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.subContainer}>
             <Text style={styles.heading}>Recommended</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('JobDetailScreen')}>
-              <Text
-                style={{
-                  textTransform: 'capitalize',
-                  ...Theme.fonts.body.body2,
-                  color: Theme.palette.background.modal,
-                  marginTop: 24,
-                }}
-              >
-                Show all
-              </Text>
+            <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+              <Text style={styles.showText}>Show all</Text>
             </TouchableOpacity>
           </View>
           <ScrollView
@@ -68,12 +86,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
         {/* Popular From Companies */}
         <View style={{ marginBottom: 16 }}>
-          <Text style={styles.heading}>Popular comapanies</Text>
-          <PopularCompanyCard />
-          <PopularCompanyCard />
-          <PopularCompanyCard />
-          <PopularCompanyCard />
-          <PopularCompanyCard />
+          <View style={styles.subContainer}>
+            <Text style={styles.heading}>Popular comapanies</Text>
+            <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+              <Text style={styles.showText}>Show all</Text>
+            </TouchableOpacity>
+          </View>
+          {Array.from({ length: 5 }).map((_, index) => (
+            <PopularCompanyCard key={index} />
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -102,6 +123,17 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     ...Theme.fonts.headline.h6,
     color: Theme.palette.black.primary,
+    marginTop: 24,
+  },
+  subContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  showText: {
+    textTransform: 'capitalize',
+    ...Theme.fonts.body.body2,
+    color: Theme.palette.background.modal,
     marginTop: 24,
   },
 })

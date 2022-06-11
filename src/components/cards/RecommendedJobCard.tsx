@@ -46,7 +46,7 @@ export default RecommendedJobCard
 const styles = StyleSheet.create({
   container: {
     width: screenWidth * 0.75,
-    backgroundColor: Theme.palette.main.primary,
+    backgroundColor: Theme.palette.main.third,
     borderRadius: 16,
     padding: 16,
     paddingHorizontal: 20,
