@@ -19,7 +19,9 @@ const CompanyReview: React.FC<CompanyReviewProps> = ({ companyReview }) => {
         <Text>Comment</Text>
         <View>
           <Rating
-            // showRating
+            ratingCount={4}
+            showReadOnlyText
+            showRating
             onFinishRating={(rating: string) => console.log(rating)}
             style={{ paddingVertical: 10 }}
           />

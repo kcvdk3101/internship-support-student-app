@@ -12,6 +12,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
+import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import ForgotPasswordScreen from './components/forgotPassword/ForgotPasswordScreen'
 import LoginScreen from './components/login/LoginScreen'
@@ -21,8 +22,6 @@ type AuthenticationScreenProps = {
   handleCloseModal: () => void
   navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
 }
-
-const width = Dimensions.get('screen').width
 
 const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
   handleShowModal,
@@ -41,19 +40,19 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
 
   const updateCurrentSlideIndex = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x
-    const currentIndex = Math.round(contentOffsetX / width)
+    const currentIndex = Math.round(contentOffsetX / screenWidth)
     setCurrentSlideIndex(currentIndex)
   }
 
   const goToNextSlide = () => {
     const nextSlideIndex = currentSlideIndex + 1
-    scrollRef.current?.scrollTo({ x: nextSlideIndex * width, animated: true })
+    scrollRef.current?.scrollTo({ x: nextSlideIndex * screenWidth, animated: true })
     setCurrentSlideIndex(currentSlideIndex + 1)
   }
 
   const goBackSlide = () => {
     const nextSlideIndex = currentSlideIndex - 1
-    scrollRef.current?.scrollTo({ x: nextSlideIndex * width, animated: true })
+    scrollRef.current?.scrollTo({ x: nextSlideIndex * screenWidth, animated: true })
     setCurrentSlideIndex(currentSlideIndex - 1)
   }
 
@@ -71,7 +70,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{
-              width: width,
+              width: screenWidth,
               justifyContent: 'flex-end',
             }}
           >
@@ -84,7 +83,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={{
-              width: width,
+              width: screenWidth,
               justifyContent: 'flex-end',
             }}
           >

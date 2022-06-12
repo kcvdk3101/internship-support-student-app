@@ -180,6 +180,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={handleSubmit(onSubmit)}
+          isLoading={false}
         />
       </View>
     </View>

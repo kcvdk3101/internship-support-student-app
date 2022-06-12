@@ -97,6 +97,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
             bgColor={Theme.palette.main.primary}
             txtColor={Theme.palette.white.primary}
             isAlignCenter={true}
+            isLoading={false}
             onPress={handleSubmit(onSubmit)}
           />
           <View style={{ height: 10 }} />
@@ -105,6 +106,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
             bgColor={Theme.palette.paragraph.primary}
             txtColor={Theme.palette.black.primary}
             isAlignCenter={true}
+            isLoading={false}
             onPress={() => navigation.goBack()}
           />
         </View>

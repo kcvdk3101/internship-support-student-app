@@ -71,7 +71,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             onBlur={onBlur}
             keyboardType={keyboardType}
             returnKeyType={returnKeyType}
-            style={styles.textInput}
+            style={[styles.textInput, { height: multiline ? 120 : 'auto' }]}
             placeholder={placeholder}
             placeholderTextColor={Theme.palette.paragraph.primary}
             value={value}
@@ -79,6 +79,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             onChangeText={onChange}
             multiline={multiline}
             numberOfLines={multiline ? 4 : 0}
+            blurOnSubmit={multiline}
           />
         )}
         name={inputName}
