@@ -44,7 +44,7 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: 'white' }}>
       <View style={styles.backgroundImageContainer}>
         <Image
           source={{
@@ -59,14 +59,14 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
         )}
       </View>
       {companyDetail.length > 0 && (
-        <>
+        <View style={{ marginTop: screenHeight * 0.2 }}>
           <ButtonGroup index={index} handleChangeIndex={handleChangeIndex} />
           {index === 0 ? (
             <CompanyJobList companyId={companyId} />
           ) : (
-            <CompanyReview companyReview={companyDetail[0].review} />
+            <CompanyReview companyReviews={companyDetail[0].review} navigation={navigation} />
           )}
-        </>
+        </View>
       )}
     </ScrollView>
   )
@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    width: screenWidth,
     height: screenHeight * 0.5,
   },
   backgroundImage: {
     flex: 1,
     width: screenWidth,
+    height: screenHeight * 0.5,
   },
   buttonGoBack: {
     position: 'absolute',

@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignSelf: 'center',
-    marginTop: screenWidth * 0.4,
   },
   buttonContainer: {
     flex: 1,
