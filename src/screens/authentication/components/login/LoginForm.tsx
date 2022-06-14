@@ -61,16 +61,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
     handleGetLoading(true)
     setLoading(true)
     try {
-      const respsonse = await dispatch(
+      const response = await dispatch(
         login({
           email: data.email,
           password: data.password,
         }),
       )
-      if (respsonse.meta.requestStatus === 'fulfilled') {
+      console.log(response)
+      if (response.meta.requestStatus === 'fulfilled') {
         Alert.alert('Login successfully!')
       } else {
-        Alert.alert('Something wrong!')
+        Alert.alert('Something wrong! Try again')
       }
     } catch (error) {
       console.log(error)

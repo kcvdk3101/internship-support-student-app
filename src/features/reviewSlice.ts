@@ -1,14 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import reviewApi from '../api/university/reviewApi'
+import { Review } from '../models/review.model'
 
 const initialState = {
   review: [],
 }
 
+export const addNewReview = createAsyncThunk(
+  'review/addNewReview',
+  async ({ corporationId, review }: { corporationId: string; review: Review[] }) => {
+    const response = await reviewApi.addNewReview(corporationId, review)
+    return response
+  },
+)
+
 export const reviewSlice = createSlice({
   name: 'review',
   initialState,
   reducers: {},
-  extraReducers: {},
 })
 
 export const {} = reviewSlice.actions

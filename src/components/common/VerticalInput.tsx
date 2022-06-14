@@ -20,6 +20,7 @@ type VerticalInputProps = {
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters' | undefined
   returnKeyType: ReturnKeyTypeOptions
   keyboardType: KeyboardTypeOptions
+  editable: boolean
   control: Control<any, any>
   errors: any
 }
@@ -51,6 +52,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
   autoCapitalize,
   returnKeyType,
   keyboardType,
+  editable,
   control,
   errors,
 }) => {
@@ -80,6 +82,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             multiline={multiline}
             numberOfLines={multiline ? 4 : 0}
             blurOnSubmit={multiline}
+            editable={editable}
           />
         )}
         name={inputName}

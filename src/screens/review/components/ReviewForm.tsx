@@ -1,25 +1,45 @@
-import { KeyboardAvoidingView, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { screenHeight } from '../../../constant'
 import { Ionicons } from '@expo/vector-icons'
-import Theme from '../../../utils/Theme'
+import { yupResolver } from '@hookform/resolvers/yup'
+import React, { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { StyleSheet, Text, View, KeyboardAvoidingView, Platform } from 'react-native'
 import { Rating } from 'react-native-ratings'
+import * as yup from 'yup'
 import GeneralButton from '../../../components/buttons/GeneralButton'
 import VerticalInput from '../../../components/common/VerticalInput'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { screenHeight } from '../../../constant'
+import { getCorporationsById } from '../../../features/corporationSlice'
+import { addNewReview } from '../../../features/reviewSlice'
+import { useAppDispatch } from '../../../hooks/redux'
+import { Review } from '../../../models/review.model'
+import Theme from '../../../utils/Theme'
 
 type ReviewFormProps = {
+  companyId: string
   handleCloseReviewForm: () => void
 }
 
-const ReviewForm: React.FC<ReviewFormProps> = ({ handleCloseReviewForm }) => {
+type Input = {
+  title: string
+  content: string
+}
+
+const reviewSchema = yup.object({
+  title: yup.string().required(),
+  content: yup.string().required(),
+})
+
+const ReviewForm: React.FC<ReviewFormProps> = ({ companyId, handleCloseReviewForm }) => {
+  const dispatch = useAppDispatch()
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({})
+  } = useForm<Input>({
+    resolver: yupResolver(reviewSchema),
+  })
 
+  const [loading, setLoading] = useState(false)
   const [review1, setReview1] = useState(1)
   const [review2, setReview2] = useState(1)
   const [review3, setReview3] = useState(1)
@@ -70,10 +90,56 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ handleCloseReviewForm }) => {
     },
   ]
 
+  const onSubmit = async (data: Input) => {
+    let review: Review[] = []
+    review.push({
+      title: data.title,
+      comment: data.content,
+      isRecommendable: 'Yes',
+      rating: (review1 + review2 + review3 + review4 + review5) / 5,
+      subReview: [
+        {
+          content: 'Salary & benefits',
+          rating: review1,
+        },
+        {
+          content: 'Training & learning',
+          rating: review2,
+        },
+        {
+          content: 'Management cares',
+          rating: review3,
+        },
+        {
+          content: 'Culture & fun',
+          rating: review4,
+        },
+        {
+          content: 'Office * workspace',
+          rating: review5,
+        },
+      ],
+    })
+
+    try {
+      setLoading(true)
+      const response = await dispatch(addNewReview({ corporationId: companyId, review }))
+      if (response.meta.requestStatus === 'fulfilled') {
+        setLoading(false)
+        dispatch(getCorporationsById(companyId))
+      }
+    } catch (error) {
+      console.log(error as any)
+    } finally {
+      setLoading(false)
+      handleCloseReviewForm()
+    }
+  }
+
   return (
     <View style={styles.form}>
       <Ionicons name="close" onPress={handleCloseReviewForm} size={30} style={{ width: 50 }} />
-      <View>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <VerticalInput
           label="Title"
           type="name"
@@ -82,6 +148,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ handleCloseReviewForm }) => {
           autoCapitalize="none"
           returnKeyType="next"
           keyboardType="ascii-capable"
+          editable={!loading}
           control={control}
           errors={errors}
         />
@@ -94,6 +161,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ handleCloseReviewForm }) => {
           returnKeyType="done"
           keyboardType="ascii-capable"
           multiline={true}
+          editable={!loading}
           control={control}
           errors={errors}
         />
@@ -122,14 +190,15 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ handleCloseReviewForm }) => {
             </View>
           ))}
         </View>
-      </View>
+      </KeyboardAvoidingView>
 
       <GeneralButton
-        isLoading={false}
+        isLoading={loading}
         label="Post Review"
         txtColor={Theme.palette.white.primary}
         bgColor={Theme.palette.main.third}
         isAlignCenter={true}
+        onPress={handleSubmit(onSubmit)}
       />
     </View>
   )

@@ -99,8 +99,6 @@ export default CompanyInformation
 const styles = StyleSheet.create({
   container: {
     width: screenWidth,
-    position: 'absolute',
-    top: screenWidth * 0.1,
     ...Theme.shadow.depth2,
   },
   buttonContainer: {
@@ -115,7 +113,6 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   companyLogoContainer: {
-    ...Theme.shadow.depth2,
     alignItems: 'center',
   },
   companyLogo: {
@@ -125,9 +122,9 @@ const styles = StyleSheet.create({
   },
   companyName: {
     textAlign: 'center',
-    marginVertical: 8,
+    marginVertical: 16,
     ...Theme.fonts.headline.h4,
-    color: Theme.palette.white.primary,
+    color: Theme.palette.main.secondary,
   },
   containerInformation: {
     marginHorizontal: 32,

@@ -7,11 +7,12 @@ import Theme from '../../../utils/Theme'
 import ReviewScreen from '../../review/ReviewScreen'
 
 type CompanyReviewProps = {
+  companyId: string
   companyReviews: Review[]
   navigation: NavigationProp<ParamListBase>
 }
 
-const CompanyReview: React.FC<CompanyReviewProps> = ({ companyReviews, navigation }) => {
+const CompanyReview: React.FC<CompanyReviewProps> = ({ companyId, companyReviews, navigation }) => {
   const [openReviewForm, setOpenReviewForm] = useState(false)
 
   const handleOpenReviewForm = () => {
@@ -44,8 +45,10 @@ const CompanyReview: React.FC<CompanyReviewProps> = ({ companyReviews, navigatio
             <View
               key={index}
               style={{
+                borderTopColor: Theme.palette.main.primary,
                 borderBottomColor: Theme.palette.main.primary,
                 borderBottomWidth: 3,
+                borderTopWidth: 3,
                 paddingBottom: 8,
               }}
             >
@@ -72,7 +75,11 @@ const CompanyReview: React.FC<CompanyReviewProps> = ({ companyReviews, navigatio
       )}
 
       {openReviewForm && (
-        <ReviewScreen handleCloseReviewForm={handleCloseReviewForm} navigation={navigation} />
+        <ReviewScreen
+          companyId={companyId}
+          handleCloseReviewForm={handleCloseReviewForm}
+          navigation={navigation}
+        />
       )}
     </View>
   )
@@ -91,6 +98,6 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    ...Theme.fonts.body.body1,
+    ...Theme.fonts.body.body2,
   },
 })

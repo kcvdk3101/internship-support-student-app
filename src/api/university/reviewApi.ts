@@ -3,7 +3,7 @@ import axiosUniversity from './axiosUniversity'
 
 const reviewApi = {
   addNewReview(corporationId: string, review: Review[]) {
-    return axiosUniversity.post(`/review?corporationId=${corporationId}`, review)
+    return axiosUniversity.post(`/review?corporationId=${corporationId}`, { review })
   },
 }
 

@@ -8,24 +8,28 @@ import Theme from '../../utils/Theme'
 import ReviewForm from './components/ReviewForm'
 
 type ReviewScreenProps = {
+  companyId: string
   handleCloseReviewForm: () => void
   navigation: NavigationProp<ParamListBase>
 }
 
-const ReviewScreen: React.FC<ReviewScreenProps> = ({ handleCloseReviewForm, navigation }) => {
+const ReviewScreen: React.FC<ReviewScreenProps> = ({
+  companyId,
+  handleCloseReviewForm,
+  navigation,
+}) => {
   return (
     <View>
       <Modal animationType="slide" transparent={true} visible={true}>
         <View style={{ flex: 1, backgroundColor: Theme.palette.background.modal }}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          <View
             style={{
               height: screenHeight,
               justifyContent: 'flex-end',
             }}
           >
-            <ReviewForm handleCloseReviewForm={handleCloseReviewForm} />
-          </KeyboardAvoidingView>
+            <ReviewForm companyId={companyId} handleCloseReviewForm={handleCloseReviewForm} />
+          </View>
         </View>
       </Modal>
     </View>

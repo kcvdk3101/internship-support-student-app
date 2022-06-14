@@ -9,6 +9,9 @@ const jobApi = {
       `${url}/all/corporation?id=${id}&limit=10&offset=0`,
     )
   },
+  getJobById(id: string) {
+    return axiosCorporation.get<string, JobModel>(`${url}/job?id=${id}`)
+  },
 }
 
 export default jobApi

@@ -1,7 +1,8 @@
+import { Common } from './common'
 import { Location } from './location.model'
 import { Review } from './review.model'
 
-export interface CorporationModel {
+export interface CorporationModel extends Common {
   id: string
   name: string
   hotline: string
@@ -14,10 +15,6 @@ export interface CorporationModel {
   origin: string
   numberEmployees: number
   slug: string
-  isActive: boolean
-  isRegistered: boolean
-  createdAt: string
-  updatedAt: string
   image: any[]
   location: Location[]
   review: Review[]
