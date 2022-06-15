@@ -17,6 +17,7 @@ import LanguagesScreen from '../../screens/generalInformation/components/Languag
 import TechnicalSkillsScreen from '../../screens/generalInformation/components/TechnicalSkillsScreen'
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
+import JobDetailScreen from '../../screens/jobDetail/JobDetailScreen'
 import Theme from '../../utils/Theme'
 
 // Home Stack
@@ -48,7 +49,6 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
       component={CompanyScreen}
       options={{
         headerStyle: {
-          // height: 100,
           backgroundColor: Theme.palette.white.primary,
         },
         headerLeft: () => (
@@ -56,7 +56,6 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
             <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
-        // headerTitle: () => <CustomSearchBar />,
       }}
     />
     <CompanyStack.Screen

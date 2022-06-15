@@ -1,5 +1,5 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { screenHeight, screenWidth } from '../../constant'
 import { getCorporationsById } from '../../features/corporationSlice'
@@ -16,10 +16,6 @@ type CompanyDetailScreenProps = {
   route: any
 }
 
-const wait = (timeout: number) => {
-  return new Promise((resolve) => setTimeout(resolve, timeout))
-}
-
 const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, navigation }) => {
   const { companyId } = route.params
   const dispatch = useAppDispatch()
@@ -27,17 +23,31 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
   const [companyDetail, setCompanyDetail] = useState<CorporationModel[]>([])
   const [index, setIndex] = useState(0)
   const [refreshing, setRefreshing] = useState(false)
+  const [openReviewForm, setOpenReviewForm] = useState(false)
 
-  const onRefresh = React.useCallback(() => {
+  const handleOpenReviewForm = () => {
+    setOpenReviewForm(true)
+  }
+
+  const handleCloseReviewForm = () => {
+    setOpenReviewForm(false)
+  }
+
+  const onRefresh = useCallback(async () => {
     setRefreshing(true)
-    wait(2000).then(() => setRefreshing(false))
+    const response = await dispatch(getCorporationsById(companyId))
+    if (response.payload !== undefined) {
+      setCompanyDetail(response.payload as CorporationModel[])
+      setRefreshing(false)
+    } else {
+      setRefreshing(false)
+    }
   }, [])
 
   useEffect(() => {
     ;(async () => {
       if (typeof companyId === 'string') {
         const response = await dispatch(getCorporationsById(companyId))
-        console.log('khoi nguuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu')
         if (response.payload !== undefined) {
           setCompanyDetail(response.payload as CorporationModel[])
         } else {
@@ -48,7 +58,7 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
         setCompanyDetail([])
       }
     })()
-  }, [companyId, refreshing])
+  }, [companyId, refreshing, openReviewForm])
 
   const handleChangeIndex = (num: number) => {
     setIndex(num)
@@ -69,12 +79,15 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
           <View style={{ marginTop: 20 }}>
             <ButtonGroup index={index} handleChangeIndex={handleChangeIndex} />
             {index === 0 ? (
-              <CompanyJobList companyId={companyId} />
+              <CompanyJobList companyId={companyId} navigation={navigation} />
             ) : (
               <CompanyReview
+                openReviewForm={openReviewForm}
                 companyId={companyId}
                 companyReviews={companyDetail[0].review}
                 navigation={navigation}
+                handleOpenReviewForm={handleOpenReviewForm}
+                handleCloseReviewForm={handleCloseReviewForm}
               />
             )}
           </View>

@@ -1,7 +1,9 @@
 import { Ionicons } from '@expo/vector-icons'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
+
 import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 
@@ -15,14 +17,20 @@ type JobCardProps = {
   salary: string
   timestamp: string
   skillList?: Skill[]
+  navigation: NavigationProp<ParamListBase>
 }
 
-const JobCard: React.FC<JobCardProps> = ({ title, location, salary, timestamp, skillList }) => {
+const JobCard: React.FC<JobCardProps> = ({
+  title,
+  location,
+  salary,
+  timestamp,
+  skillList,
+  navigation,
+}) => {
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback
-      // onPress={() => navigation.navigate('JobDetailScreen')}
-      >
+      <TouchableWithoutFeedback onPress={() => navigation.navigate('JobDetail')}>
         <Text style={styles.heading}>{title}</Text>
         <View style={styles.detailsContainer}>
           <View style={styles.detail}>
@@ -68,7 +76,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 15,
     borderColor: Theme.palette.main.third,
-    padding: 16,
+    padding: 20,
     marginVertical: 8,
   },
   heading: {
@@ -84,9 +92,10 @@ const styles = StyleSheet.create({
   detail: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 4,
+    margin: 4,
   },
   text: {
+    flexGrow: 1,
     ...Theme.fonts.body.body1,
   },
 })

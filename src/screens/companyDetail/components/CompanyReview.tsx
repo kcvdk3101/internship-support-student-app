@@ -7,21 +7,31 @@ import Theme from '../../../utils/Theme'
 import ReviewScreen from '../../review/ReviewScreen'
 
 type CompanyReviewProps = {
+  openReviewForm: boolean
   companyId: string
   companyReviews: Review[]
   navigation: NavigationProp<ParamListBase>
+  handleOpenReviewForm: () => void
+  handleCloseReviewForm: () => void
 }
 
-const CompanyReview: React.FC<CompanyReviewProps> = ({ companyId, companyReviews, navigation }) => {
-  const [openReviewForm, setOpenReviewForm] = useState(false)
+const CompanyReview: React.FC<CompanyReviewProps> = ({
+  openReviewForm,
+  companyId,
+  companyReviews,
+  navigation,
+  handleOpenReviewForm,
+  handleCloseReviewForm,
+}) => {
+  // const [openReviewForm, setOpenReviewForm] = useState(false)
 
-  const handleOpenReviewForm = () => {
-    setOpenReviewForm(true)
-  }
+  // const handleOpenReviewForm = () => {
+  //   setOpenReviewForm(true)
+  // }
 
-  const handleCloseReviewForm = () => {
-    setOpenReviewForm(false)
-  }
+  // const handleCloseReviewForm = () => {
+  //   setOpenReviewForm(false)
+  // }
 
   return (
     <View style={styles.container}>

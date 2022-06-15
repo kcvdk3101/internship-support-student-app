@@ -4,6 +4,7 @@ import React from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
+import JobDetailScreen from '../../screens/jobDetail/JobDetailScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
 import Theme from '../../utils/Theme'
 import { AuthStackScreen, CVFormStackScreen } from './AllStackNavigator'
@@ -56,6 +57,18 @@ const DrawerNavigator = () => {
         component={CVFormStackScreen}
         options={({ navigation, route }) => ({
           headerShown: false,
+        })}
+      />
+      <Drawer.Screen
+        name="JobDetail"
+        component={JobDetailScreen}
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            </Pressable>
+          ),
+          title: 'Job Detail',
         })}
       />
     </Drawer.Navigator>

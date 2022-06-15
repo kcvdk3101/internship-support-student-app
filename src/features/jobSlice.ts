@@ -15,10 +15,10 @@ const initialState: JobSliceState = {
   jobsInCorp: [],
 }
 
-export const getAllJobInCorporation = createAsyncThunk(
-  'job/getAllJobInCorporation',
+export const getAllJobsInCorporation = createAsyncThunk(
+  'job/getAllJobsInCorporation',
   async (id: string) => {
-    const response = await jobApi.getAllJobInCorporation(id)
+    const response = await jobApi.getAllJobsInCorporation(id)
     return response.data
   },
 )
@@ -28,17 +28,17 @@ const jobSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAllJobInCorporation.pending, (state, action) => {
+    builder.addCase(getAllJobsInCorporation.pending, (state, action) => {
       state.status = 'loading'
       state.jobsInCorp = []
     })
 
-    builder.addCase(getAllJobInCorporation.fulfilled, (state, action) => {
+    builder.addCase(getAllJobsInCorporation.fulfilled, (state, action) => {
       state.status = 'idle'
       state.jobsInCorp = action.payload
     })
 
-    builder.addCase(getAllJobInCorporation.rejected, (state, action) => {
+    builder.addCase(getAllJobsInCorporation.rejected, (state, action) => {
       state.status = 'fail'
       state.jobsInCorp = []
     })

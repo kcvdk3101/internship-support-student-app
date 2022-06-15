@@ -38,6 +38,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
       ) : (
         <ScrollView>
           <TopKeyword />
+          <Text style={styles.heading}>Recommended Company</Text>
           {getLimitedCorporation.length > 0 ? (
             getLimitedCorporation.map((corp, index) => (
               <View key={index} style={{ marginHorizontal: 20 }}>
@@ -46,7 +47,7 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
                     companyId: corp.id,
                     banner: 'https://picsum.photos/200',
                     name: corp.name,
-                    location: `${corp.location[0].details}, ${corp.location[0].street} Street, Ward ${corp.location[0].ward}, District ${corp.location[0].district}`,
+                    location: `${corp.location[0].details}, ${corp.location[0].street} Street, District ${corp.location[0].district}`,
                     jobs: corp.numberEmployees,
                   }}
                   navigation={navigation}
@@ -70,6 +71,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginVertical: 8,
+  },
+  heading: {
+    textTransform: 'capitalize',
+    ...Theme.fonts.headline.h6,
+    color: Theme.palette.black.primary,
+    marginHorizontal: 20,
+    marginBottom: 8,
   },
   newest: {
     marginTop: 24,

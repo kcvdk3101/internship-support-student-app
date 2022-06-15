@@ -107,7 +107,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ companyId, handleCloseReviewFor
           rating: review2,
         },
         {
-          content: 'Management cares',
+          content: 'Management cares about me',
           rating: review3,
         },
         {
@@ -126,7 +126,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ companyId, handleCloseReviewFor
       const response = await dispatch(addNewReview({ corporationId: companyId, review }))
       if (response.meta.requestStatus === 'fulfilled') {
         setLoading(false)
-        dispatch(getCorporationsById(companyId))
       }
     } catch (error) {
       console.log(error as any)
@@ -158,7 +157,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ companyId, handleCloseReviewFor
           inputName="content"
           placeholder="Write your review"
           autoCapitalize="none"
-          returnKeyType="done"
+          returnKeyType="next"
           keyboardType="ascii-capable"
           multiline={true}
           editable={!loading}

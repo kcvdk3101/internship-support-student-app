@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import reviewApi from '../api/university/reviewApi'
+import reviewApi from '../api/corporation/reviewApi'
 import { Review } from '../models/review.model'
 
 const initialState = {

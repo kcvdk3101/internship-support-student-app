@@ -1,21 +1,23 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect } from 'react'
-import { jobData } from '../../../db/JobData'
+import { StyleSheet, View } from 'react-native'
 import JobCard from '../../../components/cards/JobCard'
+import { getAllJobsInCorporation } from '../../../features/jobSlice'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
-import { getAllJobInCorporation } from '../../../features/jobSlice'
 
 type CompanyJobListProps = {
+  navigation: NavigationProp<ParamListBase>
+
   companyId: string
 }
 
-const CompanyJobList: React.FC<CompanyJobListProps> = ({ companyId }) => {
+const CompanyJobList: React.FC<CompanyJobListProps> = ({ companyId, navigation }) => {
   const dispatch = useAppDispatch()
   const jobsInCorp = useAppSelector((state) => state.job.jobsInCorp)
 
   useEffect(() => {
     ;(async () => {
-      await dispatch(getAllJobInCorporation(companyId))
+      await dispatch(getAllJobsInCorporation(companyId))
     })()
   }, [companyId])
 
@@ -26,7 +28,7 @@ const CompanyJobList: React.FC<CompanyJobListProps> = ({ companyId }) => {
         jobsInCorp.map((job, index) => {
           const { location, salary, corporation } = job.details
           const { details, street, district, ward } = location[0]
-          const locationDetail = `${details}, ${street} Street, Ward ${ward}, District ${district}`
+          const locationDetail = `${details}, ${street} Street, District ${district}`
 
           return (
             <JobCard
@@ -35,6 +37,7 @@ const CompanyJobList: React.FC<CompanyJobListProps> = ({ companyId }) => {
               location={locationDetail}
               salary={`${salary[0].gt} - ${salary[0].lt}`}
               timestamp={`${corporation[0].overtimeRequire}`}
+              navigation={navigation}
             />
           )
         })}
