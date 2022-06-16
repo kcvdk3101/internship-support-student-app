@@ -1,9 +1,7 @@
 import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { State } from 'react-native-gesture-handler'
-import { FIRST_TIME_OPEN_VALUE, IS_FIRST_TIME } from '../constant'
-import { StudentModel } from '../models/student.model'
 import userApi from '../api/user/userApi'
+import { FIRST_TIME_OPEN_VALUE, IS_FIRST_TIME } from '../constant'
 import { UserModel } from '../models/user.model'
 
 type AuthenticationSliceStateProps = {
@@ -51,6 +49,8 @@ const authenticationSlice = createSlice({
 
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload
+      AsyncStorageLib.setItem('student_id', JSON.stringify(action.payload.id))
+
       state.isAuthenticated = true
     })
     builder.addCase(login.rejected, (state, action) => {

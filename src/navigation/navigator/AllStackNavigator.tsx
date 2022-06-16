@@ -80,7 +80,13 @@ export const CVStackScreen = () => (
       ),
     })}
   >
-    <CVStack.Screen name="Your CV" component={CVScreen} />
+    <CVStack.Screen
+      name="Your CV"
+      component={CVScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
   </CVStack.Navigator>
 )
 

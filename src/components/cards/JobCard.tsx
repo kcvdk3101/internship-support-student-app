@@ -7,30 +7,26 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 
-type Skill = {
-  name: string
-}
-
 type JobCardProps = {
+  jobId: string
   title: string
   location: string
   salary: string
   timestamp: string
-  skillList?: Skill[]
   navigation: NavigationProp<ParamListBase>
 }
 
 const JobCard: React.FC<JobCardProps> = ({
+  jobId,
   title,
   location,
   salary,
   timestamp,
-  skillList,
   navigation,
 }) => {
   return (
     <View style={styles.container}>
-      <TouchableWithoutFeedback onPress={() => navigation.navigate('JobDetail')}>
+      <TouchableWithoutFeedback onPress={() => navigation.navigate('JobDetail', { jobId })}>
         <Text style={styles.heading}>{title}</Text>
         <View style={styles.detailsContainer}>
           <View style={styles.detail}>

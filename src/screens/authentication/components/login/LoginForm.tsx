@@ -67,7 +67,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
           password: data.password,
         }),
       )
-      console.log(response)
       if (response.meta.requestStatus === 'fulfilled') {
         Alert.alert('Login successfully!')
       } else {

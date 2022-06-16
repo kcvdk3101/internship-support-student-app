@@ -1,15 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Theme from '../../../utils/Theme'
-import { screenWidth } from '../../../constant'
 
 type ButtonGroupProps = {
   index: number
+  titleTab1: string
+  titleTab2: string
   handleChangeIndex: (num: number) => void
 }
 
-const ButtonGroup: React.FC<ButtonGroupProps> = ({ index, handleChangeIndex }) => {
+const ButtonGroup: React.FC<ButtonGroupProps> = ({
+  index,
+  titleTab1,
+  titleTab2,
+  handleChangeIndex,
+}) => {
   return (
     <View style={styles.buttonGroupcontainer}>
       <TouchableOpacity
@@ -23,7 +29,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ index, handleChangeIndex }) =
         ]}
         onPress={() => handleChangeIndex(0)}
       >
-        <Text style={styles.buttonText}>Opening</Text>
+        <Text style={styles.buttonText}>{titleTab1}</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={[
@@ -36,7 +42,7 @@ const ButtonGroup: React.FC<ButtonGroupProps> = ({ index, handleChangeIndex }) =
         ]}
         onPress={() => handleChangeIndex(1)}
       >
-        <Text style={styles.buttonText}>Reviews</Text>
+        <Text style={styles.buttonText}>{titleTab2}</Text>
       </TouchableOpacity>
     </View>
   )

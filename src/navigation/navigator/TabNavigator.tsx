@@ -21,8 +21,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           height: 85,
         },
         headerStyle: {
-          // height: 80,
-          backgroundColor: Theme.palette.white.primary,
+          backgroundColor: 'white',
         },
         headerLeft: () => (
           <Pressable style={styles.positionLeft} onPress={() => props.navigation.openDrawer()}>
@@ -58,6 +57,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           headerTitleStyle: {
             flex: 1,
             textAlign: 'center',
+            backgroundColor: 'white',
           },
         }}
       />
@@ -77,7 +77,12 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           title: 'Your CV',
           tabBarLabel: 'CV',
           tabBarIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
-          headerShown: isAuthenticated ? true : false,
+          headerTitle: () => <Image source={logo} resizeMode="contain" style={styles.tinyLogo} />,
+          headerTitleStyle: {
+            flex: 1,
+            textAlign: 'center',
+          },
+          // headerShown: false,
         }}
       />
     </Tab.Navigator>

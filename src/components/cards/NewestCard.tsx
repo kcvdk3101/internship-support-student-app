@@ -1,9 +1,9 @@
+import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import Theme from '../../utils/Theme'
-import { Ionicons } from '@expo/vector-icons'
 
 type NewestCardProps = {
   card: {

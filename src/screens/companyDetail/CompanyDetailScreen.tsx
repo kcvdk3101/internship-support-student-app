@@ -77,7 +77,12 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
         </View>
         {companyDetail.length > 0 && (
           <View style={{ marginTop: 20 }}>
-            <ButtonGroup index={index} handleChangeIndex={handleChangeIndex} />
+            <ButtonGroup
+              index={index}
+              titleTab1="Opening"
+              titleTab2="Reviews"
+              handleChangeIndex={handleChangeIndex}
+            />
             {index === 0 ? (
               <CompanyJobList companyId={companyId} navigation={navigation} />
             ) : (
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
   backgroundImageContainer: {
     justifyContent: 'flex-end',
     alignItems: 'center',
-    marginTop: 4,
+    marginTop: 8,
   },
   backgroundImage: {
     flex: 1,

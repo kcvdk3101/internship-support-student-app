@@ -23,6 +23,11 @@ export const getAllJobsInCorporation = createAsyncThunk(
   },
 )
 
+export const getJobById = createAsyncThunk('job/getJobById', async (jobId: string) => {
+  const response = await jobApi.getJobById(jobId)
+  return response
+})
+
 const jobSlice = createSlice({
   name: 'job',
   initialState,

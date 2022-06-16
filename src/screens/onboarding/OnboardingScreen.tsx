@@ -1,7 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useRef, useState } from 'react'
 import {
-  Dimensions,
   FlatList,
   Image,
   NativeScrollEvent,
@@ -11,11 +10,12 @@ import {
   Text,
   View,
 } from 'react-native'
+import { screenWidth } from '../../constant'
 import { splashSlides } from '../../db/SplashData'
+import { openedApp } from '../../features/authenticationSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import IndicatorList from './components/IndicatorList'
-import { openedApp } from '../../features/authenticationSlice'
 
 type OnboardingScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -27,16 +27,10 @@ type FlatListProps = {
   title: string
 }
 
-const { width } = Dimensions.get('window')
-
 const renderItem = (item: FlatListProps) => {
   return (
     <View style={styles.slideContainer}>
-      <Image
-        source={item.image}
-        style={styles.slideImage}
-        resizeMode="contain"
-      />
+      <Image source={item.image} style={styles.slideImage} resizeMode="contain" />
       <Text style={styles.slideText}>{item.title}</Text>
     </View>
   )
@@ -50,18 +44,16 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
 
   const flatListRef = useRef<FlatList>(null)
 
-  const updateCurrentSlideIndex = (
-    event: NativeSyntheticEvent<NativeScrollEvent>,
-  ) => {
+  const updateCurrentSlideIndex = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x
-    const currentIndex = Math.round(contentOffsetX / width)
+    const currentIndex = Math.round(contentOffsetX / screenWidth)
     setCurrentSlideIndex(currentIndex)
   }
 
   const goToNextSlide = () => {
     const nextSlideIndex = currentSlideIndex + 1
     if (nextSlideIndex != splashSlides.length) {
-      const offset = nextSlideIndex * width
+      const offset = nextSlideIndex * screenWidth
       flatListRef.current?.scrollToOffset({ offset, animated: true })
       setCurrentSlideIndex(currentSlideIndex + 1)
     }
@@ -69,7 +61,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
 
   const skip = () => {
     const lastSlideIndex = splashSlides.length - 1
-    const offset = lastSlideIndex * width
+    const offset = lastSlideIndex * screenWidth
     flatListRef.current?.scrollToOffset({ offset, animated: true })
     setCurrentSlideIndex(lastSlideIndex)
   }
@@ -113,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   slideImage: {
-    width: width,
+    width: screenWidth,
   },
   slideText: {
     marginTop: 30,

@@ -33,6 +33,7 @@ const CompanyJobList: React.FC<CompanyJobListProps> = ({ companyId, navigation }
           return (
             <JobCard
               key={index}
+              jobId={job.id}
               title={job.title}
               location={locationDetail}
               salary={`${salary[0].gt} - ${salary[0].lt}`}
