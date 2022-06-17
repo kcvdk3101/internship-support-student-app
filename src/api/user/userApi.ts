@@ -11,6 +11,18 @@ const userApi = {
   logout() {
     return axiosUser.post<string, string>(`${url}/logout`)
   },
+  changePassword(userId: string, data: { currentPassword: string; newPassword: string }) {
+    return axiosUser.patch<string, { message: string; status: number; result: boolean }>(
+      `${url}/${userId}/password`,
+      data,
+    )
+  },
+  resetPassword(email: string) {
+    return axiosUser.post<string, { password: string; message: string; result: boolean }>(
+      `${url}/resetPassword`,
+      { email },
+    )
+  },
 }
 
 export default userApi

@@ -68,9 +68,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
         name="email"
       />
       {errors.email && (
-        <Text style={{ color: Theme.palette.red.error }}>
-          This field is required
-        </Text>
+        <Text style={{ color: Theme.palette.red.error }}>This field is required</Text>
       )}
 
       <GeneralButton
@@ -78,6 +76,8 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
         label="Send"
         onPress={handleSubmit(onSubmit)}
         isAlignCenter={false}
+        txtColor={Theme.palette.white.primary}
+        isLoading={false}
       />
     </View>
   )

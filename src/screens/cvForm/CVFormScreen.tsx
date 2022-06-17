@@ -31,7 +31,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FieldProps>({
     defaultValues: {
       cvName: '',
@@ -78,6 +78,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
               keyboardType="ascii-capable"
               control={control}
               errors={errors}
+              editable={!isSubmitting}
             />
             <VerticalSelectInput
               label="Language"

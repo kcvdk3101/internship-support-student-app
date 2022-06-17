@@ -15,18 +15,7 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   handleShowModal,
 }) => {
   return (
-    <View
-      style={{
-        justifyContent: 'space-between',
-        backgroundColor: Theme.palette.white.primary,
-        height: screenHeight * 0.6,
-        paddingHorizontal: 20,
-        paddingVertical: 40,
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        ...Theme.shadow.depth2,
-      }}
-    >
+    <View style={styles.container}>
       <View
         style={{
           flexShrink: 0,
@@ -51,4 +40,15 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
 
 export default ForgotPasswordScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'space-between',
+    backgroundColor: Theme.palette.white.primary,
+    height: screenHeight * 0.6,
+    paddingHorizontal: 20,
+    paddingVertical: 40,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    ...Theme.shadow.depth2,
+  },
+})

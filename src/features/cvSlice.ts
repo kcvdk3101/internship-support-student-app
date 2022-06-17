@@ -11,6 +11,14 @@ type CVSliceStateProps = {
   curCV: CVModel
 }
 
+export const getCVByStudentId = createAsyncThunk(
+  'cv/getCVByStudentId',
+  async ({ studentId, limit, offset }: { studentId: string; limit: number; offset: number }) => {
+    const response = await cvApi.getCV(studentId, limit, offset)
+    return response
+  },
+)
+
 export const addNewCV = createAsyncThunk(
   'cv/addNewCV',
   async ({ studentId, data }: { studentId: string; data: FormData }) => {
@@ -108,6 +116,17 @@ const cvSlice = createSlice({
     builder.addCase(addNewCV.pending, (state, action) => {})
     builder.addCase(addNewCV.fulfilled, (state, action) => {})
     builder.addCase(addNewCV.rejected, (state, action) => {})
+
+    // Get CVs by student Id
+    builder.addCase(getCVByStudentId.pending, (state) => {
+      state.CVs = []
+    })
+    builder.addCase(getCVByStudentId.fulfilled, (state, action) => {
+      state.CVs = action.payload
+    })
+    builder.addCase(getCVByStudentId.rejected, (state, action) => {
+      state.CVs = []
+    })
   },
 })
 

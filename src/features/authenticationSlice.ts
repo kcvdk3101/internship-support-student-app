@@ -8,6 +8,8 @@ type AuthenticationSliceStateProps = {
   user: UserModel
   isAuthenticated: boolean
   isFirstTimeOpen: boolean
+  hasChangedPassword: boolean
+  hasResetPassword: boolean
 }
 
 const initialState: AuthenticationSliceStateProps = {
@@ -17,6 +19,8 @@ const initialState: AuthenticationSliceStateProps = {
   },
   isAuthenticated: false,
   isFirstTimeOpen: false,
+  hasChangedPassword: false,
+  hasResetPassword: false,
 }
 
 export const login = createAsyncThunk(
@@ -30,6 +34,25 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk('auth/logout', async () => {
   const user = await userApi.logout()
   return user
+})
+
+export const changePassword = createAsyncThunk(
+  'auth/changePassword',
+  async ({
+    userId,
+    data,
+  }: {
+    userId: string
+    data: { currentPassword: string; newPassword: string }
+  }) => {
+    const result = await userApi.changePassword(userId, data)
+    return result
+  },
+)
+
+export const resetPassword = createAsyncThunk('auth/resetPassword', async (email: string) => {
+  const response = await userApi.resetPassword(email)
+  return response
 })
 
 const authenticationSlice = createSlice({
@@ -71,6 +94,30 @@ const authenticationSlice = createSlice({
     })
     builder.addCase(logout.rejected, (state, action) => {
       state.isAuthenticated = true
+    })
+
+    // Change password
+    builder.addCase(changePassword.pending, (state) => {
+      state.hasChangedPassword = false
+    })
+
+    builder.addCase(changePassword.fulfilled, (state, action) => {
+      state.hasChangedPassword = action.payload.result
+    })
+    builder.addCase(changePassword.rejected, (state) => {
+      state.hasChangedPassword = false
+    })
+
+    // Reset password
+    builder.addCase(resetPassword.pending, (state) => {
+      state.hasResetPassword = false
+    })
+
+    builder.addCase(resetPassword.fulfilled, (state, action) => {
+      state.hasResetPassword = action.payload.result
+    })
+    builder.addCase(resetPassword.rejected, (state) => {
+      state.hasResetPassword = false
     })
   },
 })

@@ -1,12 +1,15 @@
 import axios from 'axios'
 import { CertificatedModel } from '../../models/certificated.model'
 import { ContactModel } from '../../models/contact.model'
+import { CVModel } from '../../models/cv.model'
 import { ProjectModel } from '../../models/project.model'
 import axiosUniversity from './axiosUniversity'
 
 const cvApi = {
   getCV(studentId: string, limit: number, offset: number) {
-    return axiosUniversity.get(`/resume/student?id=${studentId}&limit=${limit}&offset=${offset}`)
+    return axiosUniversity.get<string, CVModel[]>(
+      `/resume/student?id=${studentId}&limit=${limit}&offset=${offset}`,
+    )
   },
 
   addNewCV(studentId: string, data: FormData) {
@@ -21,9 +24,9 @@ const cvApi = {
     return axiosUniversity.post(`/contact?cvId=${cvId}`, { contacts })
   },
 
-  // updateContact(studentId: string, data: object) {
-  //   return axiosUniversity.patch(`/contact?id=${studentId}`, data)
-  // },
+  updateContact(studentId: string, data: object) {
+    return axiosUniversity.patch(`/contact?id=${studentId}`, data)
+  },
 
   addSkill(
     cvId: string,
@@ -35,9 +38,9 @@ const cvApi = {
     return axiosUniversity.post(`/skill?cvId=${cvId}`, { skills })
   },
 
-  // updateSkill(studentId: string, data: object) {
-  //   return axiosUniversity.patch(`/skill?id=${studentId}`, data)
-  // },
+  updateSkill(studentId: string, data: object) {
+    return axiosUniversity.patch(`/skill?id=${studentId}`, data)
+  },
 
   addNewProject(cvId: string, project: ProjectModel[]) {
     return axiosUniversity.post(`/contact?cvId=${cvId}`, { project })

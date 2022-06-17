@@ -1,6 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
@@ -49,16 +49,18 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             <Text style={styles.heading}>CV / Cover Letter</Text>
             <ScrollView>
               {fetchingCVs ? (
-                <View></View>
-              ) : CVs.length === 0 ? (
                 <View>
-                  <Text>You don't have any CVs yet</Text>
+                  <ActivityIndicator size="large" color="#00ff00" />
                 </View>
-              ) : (
+              ) : CVs && CVs.length > 0 ? (
                 <View>
                   {CVs.map((cv, index) => (
                     <CVCard key={index} name={cv.name} createdAt={cv.createdAt as string} />
                   ))}
+                </View>
+              ) : (
+                <View>
+                  <Text>You don't have any CVs yet</Text>
                 </View>
               )}
             </ScrollView>
