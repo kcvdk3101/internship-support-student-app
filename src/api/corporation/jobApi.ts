@@ -6,6 +6,7 @@ import { Skill } from '../../models/skill.model'
 import axiosCorporation from './axiosCorporation'
 
 const url = '/job'
+const search = '/search'
 
 const jobApi = {
   getAllJobsInCorporation(id: string) {
@@ -13,6 +14,7 @@ const jobApi = {
       `${url}/all/corporation?id=${id}&limit=10&offset=0`,
     )
   },
+
   getJobById(id: string) {
     return axiosCorporation.get<
       string,
@@ -26,15 +28,21 @@ const jobApi = {
     >(`${url}?id=${id}`)
   },
 
-  getAllJobsBySkill(id: string, name: string, limit: number, offset: number) {
+  getAllJobsBySkill(name: string, limit: number, offset: number) {
     return axiosCorporation.get<string, {}>(
-      `/search/skill?name=${name}&limit=${limit}&offset=${offset}`,
+      `${search}/skill?name=${name}&limit=${limit}&offset=${offset}`,
     )
   },
 
-  getAllJobsByTitle(id: string, name: string, limit: number, offset: number) {
+  getAllJobsByTitle(name: string, limit: number, offset: number) {
     return axiosCorporation.get<string, {}>(
-      `/search/title?name=${name}&limit=${limit}&offset=${offset}`,
+      `${search}/title?name=${name}&limit=${limit}&offset=${offset}`,
+    )
+  },
+
+  getAllJobsByCity(name: string, limit: number, offset: number) {
+    return axiosCorporation.get<string, { data: JobModel[]; pagination: { total: number } }>(
+      `${search}/city?name=${name}&limit=${limit}&offset=${offset}`,
     )
   },
 }

@@ -5,15 +5,17 @@ const url = '/corporation'
 
 const corporationApi = {
   getCorporations({ limit, offset }: { limit: number; offset: number }) {
-    return axiosCorporation.get<string, CorporationModel[]>(
-      `${url}/all?limit=${limit}&offset=${offset}`,
-    )
+    return axiosCorporation.get<
+      string,
+      { data: CorporationModel[]; pagination: { total: number } }
+    >(`${url}/all?limit=${limit}&offset=${offset}`)
   },
 
   getCorporationsByLimit(limit: number) {
-    return axiosCorporation.get<string, { data: CorporationModel[] }>(
-      `${url}/all?limit=${limit}&offset=0`,
-    )
+    return axiosCorporation.get<
+      string,
+      { data: CorporationModel[]; pagination: { total: number } }
+    >(`${url}/all?limit=${limit}&offset=0`)
   },
 
   getCorporationByPresentId(presentId: number) {

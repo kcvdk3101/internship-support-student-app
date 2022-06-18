@@ -1,12 +1,26 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React from 'react'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
+import {
+  Alert,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import corporationApi from '../../api/corporation/corporationApi'
+import jobApi from '../../api/corporation/jobApi'
 import PopularCompanyCard from '../../components/cards/PopularCompanyCard'
 import RecommendedJobCard from '../../components/cards/RecommendedJobCard'
 import { useAppSelector } from '../../hooks/redux'
+import { CorporationModel } from '../../models/corporation.model'
+import { JobModel } from '../../models/job.model'
 import Theme from '../../utils/Theme'
+import { Utils } from '../../utils/Utils'
+import SkeletonComponentScreen from '../company/components/SkeletonComponentScreen'
 
 type HomeScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -46,56 +60,102 @@ const seacrhbar = StyleSheet.create({
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { isAuthenticated, user } = useAppSelector((state) => state.auth)
 
+  const [loading, setLoading] = useState<boolean>(false)
+  const [recommendedJobs, setRecommendedJobs] = useState<JobModel[]>([])
+  const [popularCompanies, setPopularCompanies] = useState<CorporationModel[]>([])
+
+  async function init() {
+    setLoading(true)
+    try {
+      const jobsResult = await jobApi.getAllJobsByCity('Ho Chi Minh', 5, 0)
+      const companiesResult = await corporationApi.getCorporations({ limit: 5, offset: 0 })
+      setRecommendedJobs(jobsResult.data)
+      setPopularCompanies(companiesResult.data)
+    } catch (error) {
+      setRecommendedJobs([])
+      setPopularCompanies([])
+      setLoading(false)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onRefresh = useCallback(async () => {
+    init()
+  }, [])
+
+  useEffect(() => {
+    init()
+    return () => {
+      setRecommendedJobs([])
+      setPopularCompanies([])
+    }
+  }, [navigation])
+
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView style={styles.innerContainer}>
-        <View>
-          {isAuthenticated && user && (
-            <Text style={styles.helloText}>
-              Welcome, {user.lastName} {user.firstName}
-            </Text>
-          )}
-          <Text style={styles.bannerText}>Find Your</Text>
-          <Text style={styles.bannerText}>Dream Job</Text>
-        </View>
-
-        <SearchBar />
-
-        {/* Popular From Companies */}
-        <View>
-          <View style={styles.subContainer}>
-            <Text style={styles.heading}>Recommended</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
-              <Text style={styles.showText}>Show all</Text>
-            </TouchableOpacity>
+      {loading ? (
+        <SkeletonComponentScreen />
+      ) : (
+        <ScrollView
+          style={styles.innerContainer}
+          refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}
+        >
+          <View>
+            {isAuthenticated && user && (
+              <Text style={styles.helloText}>
+                Welcome, {user.lastName} {user.firstName}
+              </Text>
+            )}
+            <Text style={styles.bannerText}>Find Your</Text>
+            <Text style={styles.bannerText}>Dream Job</Text>
           </View>
-          <ScrollView
-            horizontal
-            pagingEnabled
-            alwaysBounceHorizontal
-            style={{
-              paddingVertical: 8,
-            }}
-          >
-            {Array.from({ length: 5 }).map((_, index) => (
-              <RecommendedJobCard key={index} />
-            ))}
-          </ScrollView>
-        </View>
 
-        {/* Popular From Companies */}
-        <View style={{ marginBottom: 16 }}>
-          <View style={styles.subContainer}>
-            <Text style={styles.heading}>Popular comapanies</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
-              <Text style={styles.showText}>Show all</Text>
-            </TouchableOpacity>
+          <SearchBar />
+
+          {/* Popular From Companies */}
+          <View>
+            <View style={styles.subContainer}>
+              <Text style={styles.heading}>Recommended</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+                <Text style={styles.showText}>Show all</Text>
+              </TouchableOpacity>
+            </View>
+            <ScrollView
+              horizontal
+              pagingEnabled
+              alwaysBounceHorizontal
+              style={{
+                paddingVertical: 8,
+              }}
+            >
+              {recommendedJobs.length > 0 &&
+                recommendedJobs.map((job, index) => (
+                  <RecommendedJobCard
+                    key={index}
+                    jobTitle={job.title}
+                    dateCreated={Utils.convertDateString(job.dateCreated)}
+                    salary={`${job.details.salary[0].gt} - ${job.details.salary[0].lt} ${job.details.salary[0].unit}`}
+                    corpName={job.details.corporation[0].name}
+                    city={job.details.location[0].city}
+                  />
+                ))}
+            </ScrollView>
           </View>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <PopularCompanyCard key={index} />
-          ))}
-        </View>
-      </ScrollView>
+
+          {/* Popular From Companies */}
+          <View style={{ marginBottom: 16 }}>
+            <View style={styles.subContainer}>
+              <Text style={styles.heading}>Popular comapanies</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+                <Text style={styles.showText}>Show all</Text>
+              </TouchableOpacity>
+            </View>
+            {popularCompanies.length > 0 &&
+              popularCompanies.map((company, index) => <PopularCompanyCard key={index} />)}
+          </View>
+        </ScrollView>
+      )}
     </SafeAreaView>
   )
 }

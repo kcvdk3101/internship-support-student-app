@@ -4,21 +4,33 @@ import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import { Ionicons } from '@expo/vector-icons'
 
-type RecommendedJobCardProps = {}
+type RecommendedJobCardProps = {
+  jobTitle: string
+  salary: string
+  dateCreated: string
+  corpName: string
+  city: string
+}
 
-const RecommendedJobCard: React.FC<RecommendedJobCardProps> = () => {
+const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
+  jobTitle,
+  salary,
+  dateCreated,
+  corpName,
+  city,
+}) => {
   return (
     <View style={styles.container}>
       <View>
-        <Text style={styles.jobTitle}>Job Title</Text>
+        <Text style={styles.jobTitle}>{jobTitle}</Text>
         <View style={styles.jobContainer}>
           <View style={styles.jobDetailContainer}>
             <Ionicons color={Theme.palette.white.secondary} size={20} name="cash" />
-            <Text style={styles.jobDetailContent}>up to 10000 usd</Text>
+            <Text style={styles.jobDetailContent}>{salary}</Text>
           </View>
           <View style={styles.jobDetailContainer}>
             <Ionicons color={Theme.palette.white.secondary} size={20} name="time" />
-            <Text style={styles.jobDetailContent}>64 days ago</Text>
+            <Text style={styles.jobDetailContent}>{dateCreated}</Text>
           </View>
         </View>
       </View>
@@ -33,8 +45,8 @@ const RecommendedJobCard: React.FC<RecommendedJobCardProps> = () => {
           <Image style={styles.btnEditImage} source={{ uri: 'https://picsum.photos/200' }} />
         </View>
         <View style={{ marginLeft: 8 }}>
-          <Text>Company Name</Text>
-          <Text>Ho Chi Minh</Text>
+          <Text style={{ color: Theme.palette.black.primary }}>{corpName}</Text>
+          <Text>{city}</Text>
         </View>
       </View>
     </View>
