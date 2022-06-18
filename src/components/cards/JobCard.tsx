@@ -4,7 +4,6 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 
-import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 
 type JobCardProps = {
@@ -45,7 +44,7 @@ const JobCard: React.FC<JobCardProps> = ({
               color={Theme.palette.paragraph.primary}
               style={styles.icon}
             />
-            <Text style={styles.text}>{salary}</Text>
+            <Text style={styles.text}>{salary} USD</Text>
           </View>
           <View style={styles.detail}>
             <Ionicons
@@ -66,14 +65,14 @@ export default JobCard
 
 const styles = StyleSheet.create({
   container: {
-    width: screenWidth * 0.9,
     alignSelf: 'center',
     backgroundColor: Theme.palette.white.primary,
     borderWidth: 2,
-    borderRadius: 15,
+    borderRadius: 12,
     borderColor: Theme.palette.main.third,
-    padding: 20,
-    marginVertical: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    margin: 8,
   },
   heading: {
     ...Theme.fonts.headline.h6,
@@ -82,16 +81,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   icon: {
-    flexShrink: 0,
     marginRight: 8,
   },
   detail: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 4,
+    marginVertical: 4,
   },
   text: {
-    flexGrow: 1,
-    ...Theme.fonts.body.body1,
+    ...Theme.fonts.body.body2,
   },
 })

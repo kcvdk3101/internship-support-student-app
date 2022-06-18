@@ -31,17 +31,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
   }, [])
 
   return (
-    <View
-      style={{
-        justifyContent: 'center',
-        backgroundColor: Theme.palette.white.primary,
-        height: screenHeight * 0.6,
-        paddingHorizontal: 20,
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        ...Theme.shadow.depth2,
-      }}
-    >
+    <View style={styles.container}>
       <Ionicons
         name="close"
         onPress={!getLoading ? handleCloseModal : () => {}}
@@ -60,4 +50,14 @@ const LoginScreen: React.FC<LoginScreenProps> = ({
 
 export default LoginScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    backgroundColor: Theme.palette.white.primary,
+    height: screenHeight * 0.6,
+    paddingHorizontal: 20,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    ...Theme.shadow.depth2,
+  },
+})

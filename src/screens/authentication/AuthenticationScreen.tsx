@@ -2,7 +2,6 @@ import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useRef, useState } from 'react'
 import {
-  Dimensions,
   KeyboardAvoidingView,
   Modal,
   NativeScrollEvent,

@@ -26,9 +26,9 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
         <TouchableOpacity style={styles.buttonGoBack} onPress={goBack}>
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonGoBack}>
+        {/* <TouchableOpacity style={styles.buttonGoBack}>
           <Ionicons name="ios-heart" size={24} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={styles.companyLogoContainer}>
         <Image
@@ -47,7 +47,7 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
             color={Theme.palette.black.primary}
             style={styles.icon}
           />
-          <Text>{email}</Text>
+          <Text style={{ ...Theme.fonts.body.body2 }}>{email}</Text>
         </View>
         <View style={styles.detailsContainer}>
           <Ionicons
@@ -56,7 +56,7 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
             color={Theme.palette.black.primary}
             style={styles.icon}
           />
-          <Text>{locationDetail}</Text>
+          <Text style={{ ...Theme.fonts.body.body2 }}>{locationDetail}</Text>
         </View>
         <View
           style={{
@@ -72,7 +72,7 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
               color={Theme.palette.black.primary}
               style={styles.icon}
             />
-            <Text>{numberEmployees}</Text>
+            <Text style={{ ...Theme.fonts.body.body2 }}>{numberEmployees}</Text>
           </View>
           <View style={styles.detailsContainer}>
             <Ionicons
@@ -81,13 +81,13 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
               color={Theme.palette.black.primary}
               style={styles.icon}
             />
-            <Text>{special}</Text>
+            <Text style={{ ...Theme.fonts.body.body2 }}>{special}</Text>
           </View>
           <View />
         </View>
         <View style={styles.detailsContainer}>
           <Ionicons name="flag" size={20} color={Theme.palette.black.primary} style={styles.icon} />
-          <Text>{origin}</Text>
+          <Text style={{ ...Theme.fonts.body.body2 }}>{origin}</Text>
         </View>
       </View>
     </View>
@@ -127,10 +127,11 @@ const styles = StyleSheet.create({
     color: Theme.palette.main.secondary,
   },
   containerInformation: {
-    marginHorizontal: 32,
     backgroundColor: Theme.palette.white.primary,
     borderRadius: 15,
-    padding: 20,
+    marginHorizontal: 16,
+    paddingVertical: 20,
+    paddingHorizontal: 16,
     ...Theme.shadow.depth2,
   },
   detailsContainer: {
@@ -140,6 +141,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     flexShrink: 0,
-    marginRight: 4,
+    marginRight: 8,
   },
 })

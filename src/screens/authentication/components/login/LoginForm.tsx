@@ -2,11 +2,11 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
-import { TextInput } from 'react-native-gesture-handler'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
+import VerticalInput from '../../../../components/common/VerticalInput'
 import { login } from '../../../../features/authenticationSlice'
 import { useAppDispatch } from '../../../../hooks/redux'
 import Theme from '../../../../utils/Theme'
@@ -46,7 +46,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       email: '18dh110815@st.huflit.edu.vn',
@@ -88,60 +88,31 @@ const LoginForm: React.FC<LoginFormProps> = ({
       </View>
       <Text style={styles.subtitle}>Sign in to your account</Text>
 
-      <Controller
+      <VerticalInput
+        label="Email"
+        type="email"
+        inputName="email"
+        placeholder="Enter student email"
+        autoCapitalize="none"
+        returnKeyType="next"
+        keyboardType="email-address"
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            autoCapitalize="none"
-            autoCompleteType="email"
-            autoCorrect={false}
-            onBlur={onBlur}
-            keyboardType="email-address"
-            returnKeyType="next"
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor={Theme.palette.white.primary}
-            value={value}
-            onChangeText={onChange}
-            editable={!loading}
-          />
-        )}
-        name="email"
+        errors={errors}
+        editable={!isSubmitting}
       />
-      {errors.email && (
-        <Text style={{ color: Theme.palette.red.error }}>{errors.email.message}</Text>
-      )}
 
-      <Controller
+      <VerticalInput
+        label="Password"
+        type="password"
+        inputName="password"
+        placeholder="Enter password"
+        autoCapitalize="none"
+        returnKeyType="done"
+        keyboardType="ascii-capable"
         control={control}
-        rules={{
-          required: true,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            autoCapitalize="none"
-            autoCompleteType="password"
-            autoCorrect={false}
-            onBlur={onBlur}
-            secureTextEntry
-            textContentType="password"
-            returnKeyType="done"
-            style={styles.textInput}
-            placeholder="Password"
-            placeholderTextColor={Theme.palette.white.primary}
-            value={value}
-            onChangeText={onChange}
-            editable={!loading}
-          />
-        )}
-        name="password"
+        errors={errors}
+        editable={!isSubmitting}
       />
-      {errors.password && (
-        <Text style={{ color: Theme.palette.red.error }}>{errors.password.message}</Text>
-      )}
 
       <View style={styles.forgotPasswordContainer}>
         <Pressable onPress={!loading ? handleDisplayFPScreen : () => {}}>

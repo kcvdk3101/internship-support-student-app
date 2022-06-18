@@ -45,10 +45,8 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
     if (data.cvName === '' || data.selectedLanguage === '') return
 
     try {
-      const response = dispatch(addCVName(data.cvName))
-      if (response.payload === data.cvName) {
-        navigation.navigate('GeneralInformationScreen')
-      }
+      dispatch(addCVName(data.cvName))
+      navigation.navigate('GeneralInformationScreen')
     } catch (error) {
       console.log(error)
       navigation.navigate('CVScreen')

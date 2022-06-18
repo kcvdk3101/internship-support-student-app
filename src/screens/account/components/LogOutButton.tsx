@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     tintColor: Theme.palette.red.signOut,
   },
   logOutText: {
-    marginLeft: 25,
+    marginLeft: 12,
     color: Theme.palette.red.signOut,
     ...Theme.fonts.headline.h6,
   },
