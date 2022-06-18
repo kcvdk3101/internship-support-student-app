@@ -64,6 +64,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
         rules={{
           required: true,
         }}
+        name={inputName}
         render={({ field: { onChange, onBlur, value } }) => (
           <TextInput
             autoCapitalize={autoCapitalize}
@@ -77,6 +78,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             placeholder={placeholder}
             placeholderTextColor={Theme.palette.paragraph.primary}
             value={value}
+            secureTextEntry={type === 'password'}
             clearButtonMode="always"
             onChangeText={onChange}
             multiline={multiline}
@@ -85,7 +87,6 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             editable={editable}
           />
         )}
-        name={inputName}
       />
       {errors?.[inputName] && (
         <Text style={{ color: Theme.palette.red.error }}>This field is required</Text>

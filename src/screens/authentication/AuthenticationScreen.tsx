@@ -11,7 +11,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { screenWidth } from '../../constant'
+import { screenHeight, screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import ForgotPasswordScreen from './components/forgotPassword/ForgotPasswordScreen'
 import LoginScreen from './components/login/LoginScreen'
@@ -86,7 +86,12 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
               justifyContent: 'flex-end',
             }}
           >
-            <ForgotPasswordScreen goBackSlide={goBackSlide} handleShowModal={handleShowModal} />
+            <ForgotPasswordScreen
+              goBackSlide={goBackSlide}
+              handleShowModal={handleShowModal}
+              handleCloseModal={handleCloseModal}
+              navigation={navigation}
+            />
           </KeyboardAvoidingView>
         </ScrollView>
       </Modal>

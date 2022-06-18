@@ -23,16 +23,6 @@ const CompanyReview: React.FC<CompanyReviewProps> = ({
   handleOpenReviewForm,
   handleCloseReviewForm,
 }) => {
-  // const [openReviewForm, setOpenReviewForm] = useState(false)
-
-  // const handleOpenReviewForm = () => {
-  //   setOpenReviewForm(true)
-  // }
-
-  // const handleCloseReviewForm = () => {
-  //   setOpenReviewForm(false)
-  // }
-
   return (
     <View style={styles.container}>
       <View
@@ -58,8 +48,8 @@ const CompanyReview: React.FC<CompanyReviewProps> = ({
                 borderTopColor: Theme.palette.main.primary,
                 borderBottomColor: Theme.palette.main.primary,
                 borderBottomWidth: 3,
-                borderTopWidth: 3,
                 paddingBottom: 8,
+                marginTop: 8,
               }}
             >
               <Text style={{ ...Theme.fonts.headline.h6 }}>{review.title}</Text>
@@ -99,7 +89,7 @@ export default CompanyReview
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 16,
+    marginHorizontal: 24,
   },
   heading: {
     marginVertical: 8,

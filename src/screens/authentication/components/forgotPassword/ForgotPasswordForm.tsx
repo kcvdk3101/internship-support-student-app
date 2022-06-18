@@ -1,28 +1,42 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
 import Theme from '../../../../utils/Theme'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
+import VerticalInput from '../../../../components/common/VerticalInput'
+import { logout, resetPassword } from '../../../../features/authenticationSlice'
+import { useAppDispatch } from '../../../../hooks/redux'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
 
-type ForgotPasswordFormProps = {}
+type ForgotPasswordFormProps = {
+  loading: boolean
+  navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  handleCloseModal: () => void
+}
 
 type FieldProps = {
   email: string
 }
 
 const forgotPasswordSchema = yup.object({
-  email: yup
-    .string()
-    .required('Mail is required')
-    .matches(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      'Please enter correct format',
-    ),
+  email: yup.string().required('Mail is required'),
+  // .matches(
+  //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+  //   'Please enter correct format',
+  // ),
 })
 
-const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
+const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
+  loading,
+  navigation,
+  setLoading,
+  handleCloseModal,
+}) => {
+  const dispatch = useAppDispatch()
   const {
     control,
     handleSubmit,
@@ -35,7 +49,36 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
   })
 
   const onSubmit = (data: FieldProps) => {
-    console.log(data)
+    return Alert.alert('Reset password', 'Are you sure to reset your password ?', [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Confirm',
+        onPress: async () => {
+          setLoading(true)
+          try {
+            const response = await dispatch(resetPassword(data.email))
+            if (response.meta.requestStatus === 'fulfilled') {
+              const result = await dispatch(logout())
+              if (result.meta.requestStatus === 'fulfilled') {
+                setLoading(false)
+                navigation.navigate('HomeTab')
+                Alert.alert('Login again with password is your phone number')
+              }
+            } else {
+              Alert.alert('Something wrong!')
+            }
+          } catch (error) {
+            Alert.alert('Something wrong!')
+          } finally {
+            handleCloseModal()
+            setLoading(false)
+          }
+        },
+      },
+    ])
   }
 
   return (
@@ -45,31 +88,24 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
         <Text style={styles.subtitle}>We will reset your password</Text>
       </View>
 
-      <Controller
-        control={control}
-        rules={{
-          required: true,
+      <View
+        style={{
+          marginBottom: 28,
         }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            autoCapitalize="none"
-            autoCompleteType="email"
-            autoCorrect={false}
-            onBlur={onBlur}
-            keyboardType="email-address"
-            returnKeyType="next"
-            style={styles.textInput}
-            placeholder="Email"
-            placeholderTextColor={Theme.palette.white.primary}
-            value={value}
-            onChangeText={onChange}
-          />
-        )}
-        name="email"
-      />
-      {errors.email && (
-        <Text style={{ color: Theme.palette.red.error }}>This field is required</Text>
-      )}
+      >
+        <VerticalInput
+          label="Email"
+          type="email"
+          inputName="email"
+          placeholder="Enter email"
+          autoCapitalize="none"
+          returnKeyType="next"
+          keyboardType="email-address"
+          control={control}
+          errors={errors}
+          editable={!loading}
+        />
+      </View>
 
       <GeneralButton
         bgColor={Theme.palette.main.primary}
@@ -77,7 +113,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = () => {
         onPress={handleSubmit(onSubmit)}
         isAlignCenter={false}
         txtColor={Theme.palette.white.primary}
-        isLoading={false}
+        isLoading={loading}
       />
     </View>
   )
@@ -88,7 +124,7 @@ export default ForgotPasswordForm
 const styles = StyleSheet.create({
   content: {
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
   },
   title: {
     color: Theme.palette.main.fourth,
