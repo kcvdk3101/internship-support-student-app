@@ -1,9 +1,9 @@
-import { ContactModel } from './contact.model'
-import { StudentModel } from './student.model'
-import { Common } from './common'
-import { SkillModel } from './skill.model'
 import { CertificatedModel } from './certificated.model'
+import { Common } from './common'
+import { ContactModel } from './contact.model'
 import { ProjectModel } from './project.model'
+import { Skill } from './skill.model'
+import { StudentModel } from './student.model'
 
 export interface CVModel extends Common {
   id?: string
@@ -16,7 +16,7 @@ export interface CVModel extends Common {
   details: {
     student: StudentModel[]
     contacts: ContactModel[]
-    skills: SkillModel[]
+    skills: Skill[]
     certificated: CertificatedModel[]
     project: ProjectModel[]
   }

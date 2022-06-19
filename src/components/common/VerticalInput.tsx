@@ -89,7 +89,7 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
         )}
       />
       {errors?.[inputName] && (
-        <Text style={{ color: Theme.palette.red.error }}>This field is required</Text>
+        <Text style={{ color: Theme.palette.red.error }}>{errors?.[inputName].message}</Text>
       )}
     </View>
   )

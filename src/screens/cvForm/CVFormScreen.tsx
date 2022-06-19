@@ -1,17 +1,28 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { ParamListBase } from '@react-navigation/native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
+import {
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  Image,
+  TouchableOpacity,
+} from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../components/buttons/GeneralButton'
+import VerticalImagePicker from '../../components/common/VerticalImagePicker'
 import VerticalInput from '../../components/common/VerticalInput'
 import VerticalSelectInput from '../../components/common/VerticalSelectInput'
 import { languages } from '../../constant'
 import { addCVName } from '../../features/cvSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
+import * as ImagePicker from 'expo-image-picker'
 
 type CVFormScreenProps = {
   navigation: DrawerNavigationProp<ParamListBase>
@@ -19,12 +30,10 @@ type CVFormScreenProps = {
 
 type FieldProps = {
   cvName: string
-  selectedLanguage: string
 }
 
 const cvFormSchema = yup.object({
-  cvName: yup.string().required(),
-  selectedLanguage: yup.string().required(),
+  cvName: yup.string().required('This field is required'),
 })
 
 const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
@@ -33,22 +42,52 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FieldProps>({
+    mode: 'onSubmit',
     defaultValues: {
       cvName: '',
-      selectedLanguage: '',
     },
     resolver: yupResolver(cvFormSchema),
   })
   const dispatch = useAppDispatch()
 
+  const [image, setImage] = useState<string>('')
+  const [errorImage, setErrorImage] = useState<string>('')
+
+  useEffect(() => {
+    return () => {
+      setImage('')
+      setErrorImage('')
+    }
+  }, [])
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    })
+
+    console.log(result)
+
+    if (!result.cancelled) {
+      setImage(result.uri)
+      setErrorImage('')
+    }
+  }
+
   const onSubmit = async (data: FieldProps) => {
-    if (data.cvName === '' || data.selectedLanguage === '') return
+    if (data.cvName === '') return
+
+    if (image === '') {
+      setErrorImage('Image is not empty')
+      return
+    }
 
     try {
       dispatch(addCVName(data.cvName))
       navigation.navigate('GeneralInformationScreen')
     } catch (error) {
-      console.log(error)
       navigation.navigate('CVScreen')
     }
   }
@@ -78,18 +117,9 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
               errors={errors}
               editable={!isSubmitting}
             />
-            <VerticalSelectInput
-              label="Language"
-              type="name"
-              inputName="selectedLanguage"
-              placeHolderLabel="Select language"
-              items={languages}
-              control={control}
-              errors={errors}
-            />
+            <VerticalImagePicker image={image} pickImage={pickImage} error={errorImage} />
           </KeyboardAvoidingView>
         </View>
-
         <View>
           <GeneralButton
             label="Start Making CV"
