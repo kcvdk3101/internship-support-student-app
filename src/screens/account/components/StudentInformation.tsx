@@ -8,6 +8,8 @@ type StudentInformationProps = {
 }
 
 const StudentInformation: React.FC<StudentInformationProps> = ({ user }) => {
+  console.log(user)
+
   return (
     <>
       <View style={styles.profile}>
@@ -19,8 +21,19 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ user }) => {
         </Text>
       </View>
 
-      <View>
-        <Text>User information</Text>
+      <View style={styles.container}>
+        <View style={styles.row}>
+          <Text style={styles.title}>Student ID:</Text>
+          <Text style={styles.content}>18DH110815</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.title}>Class:</Text>
+          <Text style={styles.content}>PM1804</Text>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.title}>School year:</Text>
+          <Text style={styles.content}>K24</Text>
+        </View>
       </View>
     </>
   )
@@ -29,6 +42,21 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ user }) => {
 export default StudentInformation
 
 const styles = StyleSheet.create({
+  container: {
+    marginTop: 30,
+    backgroundColor: Theme.palette.white.primary,
+    padding: 15,
+    marginHorizontal: 16,
+    borderRadius: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  title: { flex: 1, ...Theme.fonts.body.body1 },
+  content: { fontWeight: 'bold', ...Theme.fonts.body.body1 },
   profile: {
     justifyContent: 'center',
     alignItems: 'center',

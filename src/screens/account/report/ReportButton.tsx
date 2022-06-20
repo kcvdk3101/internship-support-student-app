@@ -3,25 +3,23 @@ import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import Theme from '../../../utils/Theme'
 
-type ChangePasswordButtonProps = {
-  handleOpenForm: (action: string) => void
-}
+type ReportButtonProps = {}
 
-const ChangePasswordButton: React.FC<ChangePasswordButtonProps> = ({ handleOpenForm }) => {
+const ReportButton: React.FC<ReportButtonProps> = () => {
   return (
-    <View style={styles.changePasswordContainer}>
-      <TouchableOpacity style={styles.btnChangePassword} onPress={() => handleOpenForm('openForm')}>
-        <Ionicons name="lock-closed" size={24} color="black" />
-        <Text style={styles.changePasswordText}>Change password</Text>
+    <View style={styles.reportContainer}>
+      <TouchableOpacity style={styles.btnReport} onPress={() => {}}>
+        <Ionicons name="file-tray-full-sharp" size={24} color="black" />
+        <Text style={styles.reportText}>Report files</Text>
       </TouchableOpacity>
     </View>
   )
 }
 
-export default ChangePasswordButton
+export default ReportButton
 
 const styles = StyleSheet.create({
-  changePasswordContainer: {
+  reportContainer: {
     ...Theme.shadow.depth2,
     backgroundColor: Theme.palette.white.primary,
     marginHorizontal: 16,
@@ -29,12 +27,12 @@ const styles = StyleSheet.create({
     padding: 15,
     borderRadius: 10,
   },
-  btnChangePassword: {
+  btnReport: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  changePasswordText: {
+  reportText: {
     marginLeft: 16,
     color: Theme.palette.main.third,
     ...Theme.fonts.headline.h6,

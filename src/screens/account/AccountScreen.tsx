@@ -11,6 +11,8 @@ import ChangePasswordButton from './changePassword/ChangePasswordButton'
 import ChangePasswordScreen from './changePassword/ChangePasswordScreen'
 import LogOutButton from './components/LogOutButton'
 import StudentInformation from './components/StudentInformation'
+import TeacherInformation from './components/TeacherInformation'
+import ReportButton from './report/ReportButton'
 
 type AccountScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -21,7 +23,14 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
   const user = useAppSelector((state) => state.auth.user)
 
   const [studentCV, setStudentCV] = useState<CVModel[]>([])
-  const [openForm, setOpenForm] = useState(false)
+  const [actions, setActions] = useState({
+    openForm: false,
+    openRegisterForm: false,
+    openReportForm: false,
+  })
+  // const [openForm, setOpenForm] = useState(false)
+  const [openReportForm, setOpenReportForm] = useState(false)
+  const [openRegisterForm, setOpenRegisterForm] = useState(false)
 
   useEffect(() => {
     if (typeof user.id !== 'string' && user.id === undefined) {
@@ -47,12 +56,12 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     }
   }, [])
 
-  const handleOpenForm = () => {
-    setOpenForm(true)
+  const handleActionOpenForm = (action: string) => {
+    setActions({ ...actions, [action]: true })
   }
 
-  const handleCloseForm = () => {
-    setOpenForm(false)
+  const handleActionCloseForm = (action: string) => {
+    setActions({ ...actions, [action]: false })
   }
 
   return (
@@ -65,6 +74,8 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
         </View>
 
         <StudentInformation user={user} />
+
+        <TeacherInformation />
 
         <View style={styles.cvContainer}>
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
@@ -97,12 +108,15 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
           />
         </View>
 
+        {/* Report Button */}
+        <ReportButton />
+
         {/* Change password Button */}
-        <ChangePasswordButton handleOpenForm={handleOpenForm} />
+        <ChangePasswordButton handleOpenForm={handleActionOpenForm} />
 
         {/* Logout Button */}
         <LogOutButton navigation={navigation} />
-        {openForm && <ChangePasswordScreen handleCloseForm={handleCloseForm} />}
+        {actions.openForm && <ChangePasswordScreen handleCloseForm={handleActionCloseForm} />}
       </ScrollView>
     </SafeAreaView>
   )
@@ -119,7 +133,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    margin: 8,
+    marginHorizontal: 16,
   },
   icon: {
     ...Theme.fonts.headline.h4,

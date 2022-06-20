@@ -33,39 +33,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <View style={styles.buttonCreateCV}>
-          <GeneralButton
-            bgColor={Theme.palette.main.third}
-            txtColor={Theme.palette.white.primary}
-            isAlignCenter={true}
-            label="CREATE NEW CV"
-            onPress={() => navigation.navigate('CVForm')}
-            isLoading={false}
-          />
-        </View>
-        <ScrollView style={styles.cvList}>
-          <Text style={styles.heading}>CV / Cover Letter</Text>
-          <ScrollView>
-            {fetchingCVs ? (
-              <View>
-                <ActivityIndicator size="large" color="#00ff00" />
-              </View>
-            ) : CVs && CVs.length > 0 ? (
-              <View>
-                {CVs.map((cv, index) => (
-                  <CVCard key={index} name={cv.name} createdAt={cv.createdAt as string} />
-                ))}
-              </View>
-            ) : (
-              <View>
-                <Text>You don't have any CVs yet</Text>
-              </View>
-            )}
-          </ScrollView>
-        </ScrollView>
-      </View>
-      {/* {isAuthenticated ? (
+      {isAuthenticated ? (
         <View>
           <View style={styles.buttonCreateCV}>
             <GeneralButton
@@ -125,7 +93,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             isLoading={false}
           />
         </View>
-      )} */}
+      )}
       {showModal && (
         <AuthenticationScreen
           handleShowModal={handleShowModal}

@@ -43,7 +43,7 @@ const cvApi = {
   },
 
   addNewProject(cvId: string, project: ProjectModel[]) {
-    return axiosUniversity.post(`/contact?cvId=${cvId}`, { project })
+    return axiosUniversity.post(`/project?cvId=${cvId}`, { project })
   },
 
   updateProject(cvId: string, data: object) {

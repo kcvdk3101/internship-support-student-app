@@ -1,28 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup'
 import { DrawerNavigationProp } from '@react-navigation/drawer'
 import { ParamListBase } from '@react-navigation/native'
+import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  Image,
-  TouchableOpacity,
-} from 'react-native'
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import VerticalImagePicker from '../../components/common/VerticalImagePicker'
 import VerticalInput from '../../components/common/VerticalInput'
-import VerticalSelectInput from '../../components/common/VerticalSelectInput'
-import { languages } from '../../constant'
 import { addCVName } from '../../features/cvSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
-import * as ImagePicker from 'expo-image-picker'
 
 type CVFormScreenProps = {
   navigation: DrawerNavigationProp<ParamListBase>
@@ -67,9 +56,6 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
       aspect: [4, 3],
       quality: 1,
     })
-
-    console.log(result)
-
     if (!result.cancelled) {
       setImage(result.uri)
       setErrorImage('')

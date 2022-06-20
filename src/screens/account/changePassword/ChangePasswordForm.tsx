@@ -11,7 +11,7 @@ import { changePassword } from '../../../features/authenticationSlice'
 import axios from 'axios'
 
 type ChangePasswordFormProps = {
-  handleCloseModal: () => void
+  handleCloseModal: (action: string) => void
 }
 
 type FieldProps = {
@@ -48,7 +48,7 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
     } catch (error) {
       Alert.alert(error as any)
     } finally {
-      handleCloseModal()
+      handleCloseModal('openForm')
     }
   }
 

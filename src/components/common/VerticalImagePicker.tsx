@@ -14,7 +14,7 @@ const VerticalImagePicker: React.FC<VerticalImagePickerProps> = ({ image, error,
     <View style={styles.contaier}>
       <Text>Image</Text>
       <Pressable style={styles.inputContainer} onPress={pickImage}>
-        <Text style={styles.inputText}>Pick an image from camera roll</Text>
+        <Text style={styles.inputText}>Pick an image from gallery</Text>
       </Pressable>
       {error !== '' && <Text style={styles.error}>{error}</Text>}
       {image !== '' && (

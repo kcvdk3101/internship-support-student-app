@@ -6,7 +6,7 @@ import ChangePasswordForm from './ChangePasswordForm'
 import Theme from '../../../utils/Theme'
 
 type ChangePasswordScreenProps = {
-  handleCloseForm: () => void
+  handleCloseForm: (action: string) => void
 }
 
 const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ handleCloseForm }) => {
@@ -21,8 +21,13 @@ const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ handleClose
           }}
         >
           <View style={styles.container}>
-            <Ionicons name="close" onPress={handleCloseForm} size={30} style={{ width: 50 }} />
-            <ChangePasswordForm handleCloseModal={handleCloseForm} />
+            <Ionicons
+              name="close"
+              onPress={() => handleCloseForm('openForm')}
+              size={30}
+              style={{ width: 50 }}
+            />
+            <ChangePasswordForm handleCloseModal={() => handleCloseForm('openForm')} />
           </View>
         </KeyboardAvoidingView>
       </Modal>
