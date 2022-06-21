@@ -4,7 +4,8 @@ import { UNIVERSITY_URL } from '../../utils/Config'
 const axiosUniversity = axios.create({
   baseURL: UNIVERSITY_URL,
   headers: {
-    'Content-type': 'application/json;charset=utf-8',
+    Accept: 'application/json;charset=utf-8',
+    'Content-Type': 'multipart/form-data',
   },
 })
 

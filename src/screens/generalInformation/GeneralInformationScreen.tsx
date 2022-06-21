@@ -1,79 +1,101 @@
-import React, { useState } from 'react'
+import { Ionicons } from '@expo/vector-icons'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React from 'react'
+import { useForm } from 'react-hook-form'
 import {
+  KeyboardAvoidingView,
   KeyboardTypeOptions,
+  Platform,
   ReturnKeyTypeOptions,
   ScrollView,
   StyleSheet,
   Text,
   View,
 } from 'react-native'
-import VerticalInput from '../../components/common/VerticalInput'
-import Theme from '../../utils/Theme'
-import * as yup from 'yup'
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { phoneRegExp } from '../../constant'
-import GeneralButton from '../../components/buttons/GeneralButton'
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import { Ionicons } from '@expo/vector-icons'
-import { useAppSelector } from '../../hooks/redux'
+import * as yup from 'yup'
+import cvApi from '../../api/university/cvApi'
 import ChipButton from '../../components/buttons/ChipButton'
-import { StudentModel } from '../../models/student.model'
+import GeneralButton from '../../components/buttons/GeneralButton'
+import VerticalInput from '../../components/common/VerticalInput'
+import { phoneRegExp } from '../../constant'
+import { useAppSelector } from '../../hooks/redux'
+import Theme from '../../utils/Theme'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
 
 type FieldProps = {
-  fullName: string
+  firstName: string
+  lastName: string
   position: string
   email: string
   phone: string
-  gender: string
-  city: string
-  address: string
+  content: string
 }
 
 const generalInformationSchema = yup.object({
-  fullName: yup.string().required(),
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
   position: yup.string().required(),
   email: yup.string().email('Invalid email format').required(),
   phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
-  address: yup.string().required(),
+  content: yup.string().required(),
 })
 
 const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
-  const { fullName, email, birthDate, phoneNumber, address } = useAppSelector(
-    (state) => state.auth.user as StudentModel,
+  const { firstName, lastName, email, phoneNumber, studentId } = useAppSelector(
+    (state) => state.auth.user,
   )
+  const curCV = useAppSelector((state) => state.cv.curCV)
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FieldProps>({
     resolver: yupResolver(generalInformationSchema),
     defaultValues: {
-      fullName,
+      firstName,
+      lastName,
       email,
       phone: phoneNumber,
-      address,
     },
   })
 
-  const { skills } = useAppSelector((state) => state.cv.curCV.details)
+  const onSubmit = async (data: FieldProps) => {
+    let formData = new FormData()
+    formData.append('files', { files: curCV.images } as any)
+    formData.append('studentName', `${data.lastName} ${data.firstName}`)
+    formData.append('position', data.position)
+    formData.append('content', data.content)
+    formData.append('name', curCV.name)
 
-  const onSubmit = (data: FieldProps) => {
-    navigation.navigate('AdditionalInformationScreen')
+    try {
+      const response = await cvApi.addNewCV(studentId, formData)
+      console.log('khoi nguuuuuuuuuuu', response)
+      navigation.navigate('AdditionalInformationScreen')
+    } catch (error) {
+      console.log('error ne', error)
+    }
   }
 
   const generalInformation = [
     {
-      label: 'Full Name',
-      type: 'username',
-      inputName: 'fullName',
-      placeholder: 'Enter your full name',
+      label: 'First Name',
+      type: 'name',
+      inputName: 'firstName',
+      placeholder: 'Enter your first name',
+      returnKeyType: 'next',
+      keyboardType: 'default',
+    },
+    {
+      label: 'Last Name',
+      type: 'name',
+      inputName: 'lastName',
+      placeholder: 'Enter your last name',
       returnKeyType: 'next',
       keyboardType: 'default',
     },
@@ -98,14 +120,6 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       type: 'number',
       inputName: 'phone',
       placeholder: '',
-      returnKeyType: 'next',
-      keyboardType: 'default',
-    },
-    {
-      label: 'Address',
-      type: 'name',
-      inputName: 'address',
-      placeholder: '',
       returnKeyType: 'done',
       keyboardType: 'default',
     },
@@ -114,9 +128,19 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View style={styles.firstBlock}>
+        <View
+          style={[
+            styles.block,
+            {
+              marginTop: 12,
+            },
+          ]}
+        >
           <Text style={styles.heading}>Profile Information</Text>
-          <View style={styles.form}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.form}
+          >
             {generalInformation.map((info, index) => (
               <VerticalInput
                 key={index}
@@ -128,18 +152,41 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 keyboardType={info.keyboardType as KeyboardTypeOptions}
                 control={control}
                 errors={errors}
+                editable={true}
               />
             ))}
-          </View>
+          </KeyboardAvoidingView>
         </View>
 
-        <View style={styles.secondBlock}>
+        <View style={styles.block}>
+          <Text style={styles.heading}>Summary</Text>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.form}
+          >
+            <VerticalInput
+              label="Content"
+              type="name"
+              inputName="content"
+              placeholder="Write something about yourself"
+              autoCapitalize="none"
+              returnKeyType="next"
+              keyboardType="ascii-capable"
+              multiline={true}
+              editable={!isSubmitting}
+              control={control}
+              errors={errors}
+            />
+          </KeyboardAvoidingView>
+        </View>
+
+        <View style={styles.block}>
           <Text style={styles.heading}>Skills</Text>
           <View style={styles.form}>
             <View style={styles.skillContainer}>
-              {skills && skills.length > 0 ? (
+              {curCV.details.skills && curCV.details.skills.length > 0 ? (
                 <View style={styles.list}>
-                  {skills.map((skill, index) => (
+                  {curCV.details.skills.map((skill, index) => (
                     <ChipButton
                       key={index}
                       name={skill.name}
@@ -165,15 +212,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           </View>
         </View>
       </ScrollView>
-      <View
-        style={{
-          position: 'absolute',
-          bottom: 15,
-          width: '90%',
-          marginHorizontal: 16,
-          marginBottom: 16,
-        }}
-      >
+      <View style={{ marginHorizontal: 32, marginVertical: 16 }}>
         <GeneralButton
           label="Finish to continue"
           bgColor={Theme.palette.main.primary}
@@ -193,21 +232,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  firstBlock: {
+  block: {
     flex: 1,
     backgroundColor: Theme.palette.white.primary,
     borderRadius: 8,
     marginHorizontal: 12,
-    marginTop: 12,
     marginBottom: 16,
-    padding: 8,
-  },
-  secondBlock: {
-    flex: 1,
-    backgroundColor: Theme.palette.white.primary,
-    borderRadius: 8,
-    marginHorizontal: 12,
-    marginBottom: 56,
     padding: 8,
   },
   heading: {

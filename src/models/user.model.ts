@@ -5,4 +5,5 @@ export interface UserModel {
   phoneNumber?: string
   role?: string
   id: string
+  studentId: string
 }

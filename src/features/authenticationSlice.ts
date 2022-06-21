@@ -14,6 +14,7 @@ type AuthenticationSliceStateProps = {
 
 const initialState: AuthenticationSliceStateProps = {
   user: {
+    studentId: '',
     id: '',
     email: '',
   },
@@ -88,6 +89,7 @@ const authenticationSlice = createSlice({
     builder.addCase(logout.fulfilled, (state, action) => {
       state.isAuthenticated = false
       state.user = {
+        studentId: '',
         id: '',
         email: '',
       }

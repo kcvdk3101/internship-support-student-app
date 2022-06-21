@@ -58,7 +58,10 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
 }) => {
   return (
     <View style={styles.container}>
-      <Text>{label}</Text>
+      <View style={{ flexDirection: 'row' }}>
+        <Text>{label}</Text>
+        <Text style={{ color: Theme.palette.red.error, marginLeft: 8 }}>*</Text>
+      </View>
       <Controller
         control={control}
         rules={{

@@ -63,15 +63,24 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
   }
 
   const onSubmit = async (data: FieldProps) => {
-    if (data.cvName === '') return
+    let filename: string = image.split('/').pop() as string
 
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename)
+    let type = match ? `image/${match[1]}` : `image`
+
+    if (data.cvName === '') return
     if (image === '') {
       setErrorImage('Image is not empty')
       return
     }
-
     try {
-      dispatch(addCVName(data.cvName))
+      dispatch(
+        addCVName({
+          name: data.cvName,
+          data: { uri: image, originalname: filename, mimetype: type },
+        }),
+      )
       navigation.navigate('GeneralInformationScreen')
     } catch (error) {
       navigation.navigate('CVScreen')

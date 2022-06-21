@@ -3,9 +3,13 @@ import React from 'react'
 import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import { Ionicons } from '@expo/vector-icons'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 
 type RecommendedJobCardProps = {
+  navigation: NavigationProp<ParamListBase>
   jobTitle: string
+  jobId: string
   salary: string
   dateCreated: string
   corpName: string
@@ -13,14 +17,24 @@ type RecommendedJobCardProps = {
 }
 
 const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
+  navigation,
   jobTitle,
+  jobId,
   salary,
   dateCreated,
   corpName,
   city,
 }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.85}
+      style={styles.container}
+      onPress={() =>
+        navigation.navigate('JobDetail', {
+          jobId: jobId,
+        })
+      }
+    >
       <View>
         <Text style={styles.jobTitle}>{jobTitle}</Text>
         <View style={styles.jobContainer}>
@@ -34,22 +48,16 @@ const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
           </View>
         </View>
       </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-        }}
-      >
+      <View style={styles.corp}>
         <View>
-          <Image style={styles.btnEditImage} source={{ uri: 'https://picsum.photos/200' }} />
+          <Image style={styles.image} source={{ uri: 'https://picsum.photos/200' }} />
         </View>
         <View style={{ marginLeft: 8 }}>
-          <Text style={{ color: Theme.palette.black.primary }}>{corpName}</Text>
-          <Text>{city}</Text>
+          <Text style={{ color: Theme.palette.white.secondary }}>{corpName}</Text>
+          <Text style={{ color: Theme.palette.background.modal }}>{city}</Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -79,7 +87,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     color: Theme.palette.white.secondary,
   },
-  btnEditImage: {
+  corp: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  image: {
     width: 36,
     height: 36,
     borderRadius: 4,

@@ -19,55 +19,6 @@ export const getCVByStudentId = createAsyncThunk(
   },
 )
 
-export const addNewCV = createAsyncThunk(
-  'cv/addNewCV',
-  async ({ studentId, data }: { studentId: string; data: FormData }) => {
-    const response = await cvApi.addNewCV(studentId, data)
-    return response
-  },
-)
-
-export const addContactInformation = createAsyncThunk(
-  'cv/addContactInformation',
-  async ({ cvId, contacts }: { cvId: string; contacts: ContactModel[] }) => {
-    const response = await cvApi.addContact(cvId, contacts)
-    return response
-  },
-)
-
-export const addSkill = createAsyncThunk(
-  'cv/addSkill',
-  async ({
-    cvId,
-    skills,
-  }: {
-    cvId: string
-    skills: {
-      name: string
-      rating: number
-    }[]
-  }) => {
-    const response = await cvApi.addSkill(cvId, skills)
-    return response
-  },
-)
-
-export const addNewProject = createAsyncThunk(
-  'cv/addNewProject',
-  async ({ cvId, project }: { cvId: string; project: ProjectModel[] }) => {
-    const response = await cvApi.addNewProject(cvId, project)
-    return response
-  },
-)
-
-export const addNewCertificated = createAsyncThunk(
-  'cv/addNewCertificated',
-  async ({ cvId, certificated }: { cvId: string; certificated: CertificatedModel[] }) => {
-    const response = await cvApi.addNewCertificated(cvId, certificated)
-    return response
-  },
-)
-
 const initialState: CVSliceStateProps = {
   fetchingCVs: false,
   CVs: [],
@@ -83,6 +34,7 @@ const initialState: CVSliceStateProps = {
       certificated: [],
       project: [],
     },
+    images: [],
   },
 }
 
@@ -91,7 +43,8 @@ const cvSlice = createSlice({
   initialState,
   reducers: {
     addCVName(state, action) {
-      state.curCV.name = action.payload
+      state.curCV.name = action.payload.name
+      state.curCV.images = [action.payload.data]
     },
     addListSkill(state, action) {
       state.curCV.details.skills = action.payload
@@ -112,11 +65,6 @@ const cvSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // Add new CV (files, studentName, position, content, name)
-    builder.addCase(addNewCV.pending, (state, action) => {})
-    builder.addCase(addNewCV.fulfilled, (state, action) => {})
-    builder.addCase(addNewCV.rejected, (state, action) => {})
-
     // Get CVs by student Id
     builder.addCase(getCVByStudentId.pending, (state) => {
       state.CVs = []

@@ -49,8 +49,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      email: '18dh110815@st.huflit.edu.vn',
+      password: '31012000',
     },
     resolver: yupResolver(loginSchema),
   })

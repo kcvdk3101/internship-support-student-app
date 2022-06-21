@@ -128,6 +128,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 recommendedJobs.map((job, index) => (
                   <RecommendedJobCard
                     key={index}
+                    navigation={navigation}
+                    jobId={job.id}
                     jobTitle={job.title}
                     dateCreated={Utils.convertDateString(job.dateCreated)}
                     salary={`${job.details.salary[0].gt} - ${job.details.salary[0].lt} ${job.details.salary[0].unit}`}
