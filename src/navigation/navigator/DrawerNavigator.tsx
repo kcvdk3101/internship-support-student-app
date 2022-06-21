@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
 import JobDetailScreen from '../../screens/jobDetail/JobDetailScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
+import SearchScreen from '../../screens/search/SearchScreen'
 import Theme from '../../utils/Theme'
 import { CVFormStackScreen } from './AllStackNavigator'
 import CustomerDrawerContent from './CustomDrawerContent'
@@ -32,6 +33,21 @@ const DrawerNavigator = () => {
         options={{
           headerShown: false,
         }}
+      />
+      <Drawer.Screen
+        name="SearchScreen"
+        component={SearchScreen}
+        options={({ navigation }) => ({
+          title: 'Search',
+          headerLeft: () => (
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            </Pressable>
+          ),
+          headerStyle: {
+            backgroundColor: 'white',
+          },
+        })}
       />
       <Drawer.Screen
         name="Notifications"
@@ -69,6 +85,9 @@ const DrawerNavigator = () => {
             </Pressable>
           ),
           title: 'Job Detail',
+          headerStyle: {
+            backgroundColor: 'white',
+          },
         })}
       />
     </Drawer.Navigator>

@@ -1,9 +1,17 @@
 import { Ionicons } from '@expo/vector-icons'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import Theme from '../../utils/Theme'
 
-type PopularCompanyCardProps = {}
+type PopularCompanyCardProps = {
+  navigation: NavigationProp<ParamListBase>
+  companyId: string
+  companyName: string
+  location: string
+  overtimeRequire: string
+  special: string
+}
 
 type CompanyDetailInformationProps = {
   icon: string
@@ -16,38 +24,47 @@ const CompanyDetailInformation: React.FC<CompanyDetailInformationProps> = ({ ico
       <Ionicons
         color={Theme.palette.white.secondary}
         size={20}
-        name={icon === 'location' ? 'location' : icon === 'cash' ? 'cash' : 'time'}
+        name={
+          icon === 'location' ? 'location' : icon === 'briefcase' ? 'briefcase' : 'share-social'
+        }
       />
-      <Text style={[styles.content]}>{content}</Text>
+      <Text style={[styles.content]} numberOfLines={1} ellipsizeMode="head">
+        {content}
+      </Text>
     </View>
   )
 }
 
-const PopularCompanyCard: React.FC<PopularCompanyCardProps> = () => {
+const PopularCompanyCard: React.FC<PopularCompanyCardProps> = ({
+  navigation,
+  companyId,
+  companyName,
+  location,
+  overtimeRequire,
+  special,
+}) => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.heading}>Company Name</Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          marginVertical: 8,
-        }}
-      >
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.7}
+      onPress={() =>
+        navigation.navigate('CompanyDetailScreen', {
+          companyId: companyId,
+        })
+      }
+    >
+      <View style={styles.innerContainer}>
         <View style={styles.hot}>
           <Text style={styles.hotText}>Hot</Text>
         </View>
-        <Text style={{ marginLeft: 8, ...Theme.fonts.body.body1, fontWeight: '600' }}>
-          Job Title
-        </Text>
+        <Text style={styles.heading}>{companyName}</Text>
       </View>
       <View style={styles.companyInfo}>
-        <CompanyDetailInformation icon="location" content="District 3, Ho Chi Minh" />
-        <CompanyDetailInformation icon="cash" content="1000-3000 USD" />
-        <CompanyDetailInformation icon="time" content="1 day ago" />
+        <CompanyDetailInformation icon="briefcase" content={overtimeRequire} />
+        <CompanyDetailInformation icon="location" content={location} />
+        <CompanyDetailInformation icon="time" content={special} />
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -58,7 +75,13 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Theme.palette.main.primary,
     borderRadius: 8,
-    padding: 16,
+    padding: 8,
+    marginVertical: 8,
+  },
+  innerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
     marginVertical: 8,
   },
   info: {
@@ -66,6 +89,7 @@ const styles = StyleSheet.create({
     marginVertical: 4,
   },
   heading: {
+    marginLeft: 12,
     ...Theme.fonts.headline.h6,
     fontWeight: '600',
   },

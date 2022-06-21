@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
 import { Pressable, StyleSheet } from 'react-native'
-import CustomSearchBar from '../../components/common/CustomSearchBar'
 import AccountScreen from '../../screens/account/AccountScreen'
 import AdditionalInformationScreen from '../../screens/additionalInformation/AdditionalInformationScreen'
 import CertificationScreen from '../../screens/additionalInformation/components/CertificationScreen'
@@ -13,11 +12,9 @@ import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen
 import ContactScreen from '../../screens/contact/ContactScreen'
 import CVScreen from '../../screens/cv/CVScreen'
 import CVFormScreen from '../../screens/cvForm/CVFormScreen'
-import LanguagesScreen from '../../screens/generalInformation/components/LanguagesScreen'
 import TechnicalSkillsScreen from '../../screens/generalInformation/components/TechnicalSkillsScreen'
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
-import JobDetailScreen from '../../screens/jobDetail/JobDetailScreen'
 import Theme from '../../utils/Theme'
 
 // Home Stack
@@ -29,6 +26,13 @@ export const HomeStackScreen = () => (
     }}
   >
     <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
+    <HomeStack.Screen
+      name="CompanyStackScreen"
+      component={CompanyStackScreen}
+      options={{
+        headerShown: false,
+      }}
+    />
   </HomeStack.Navigator>
 )
 

@@ -65,7 +65,6 @@ export default JobCard
 
 const styles = StyleSheet.create({
   container: {
-    alignSelf: 'center',
     backgroundColor: Theme.palette.white.primary,
     borderWidth: 2,
     borderRadius: 12,

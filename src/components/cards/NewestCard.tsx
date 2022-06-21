@@ -35,10 +35,8 @@ const NewestCard: React.FC<NewestCardProps> = ({ card, navigation }) => {
           <Text style={styles.jobAvailable}>{card.location}</Text>
         </View>
         <View style={styles.jobAvailableContainer}>
-          <Ionicons name="briefcase" size={20} color={Theme.palette.black.primary} />
-          <Text style={styles.jobAvailable}>
-            {card.jobs} {card.jobs > 1 ? 'Jobs' : 'Job'} Available
-          </Text>
+          <Ionicons name="people" size={20} color={Theme.palette.black.primary} />
+          <Text style={styles.jobAvailable}>{card.jobs} employees</Text>
         </View>
       </View>
     </TouchableWithoutFeedback>

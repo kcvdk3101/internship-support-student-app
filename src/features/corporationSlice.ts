@@ -50,7 +50,7 @@ const corporationSlice = createSlice({
     })
     builder.addCase(getCorporations.fulfilled, (state, action) => {
       state.status = 'idle'
-      state.corporations = action.payload
+      state.corporations = action.payload.data
     })
     builder.addCase(getCorporations.rejected, (state, action) => {
       state.status = 'fail'

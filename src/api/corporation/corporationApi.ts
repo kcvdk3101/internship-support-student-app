@@ -25,6 +25,12 @@ const corporationApi = {
   getCorporationById(id: string) {
     return axiosCorporation.get<string, { corporation: CorporationModel[] }>(`${url}?id=${id}`)
   },
+
+  getCorporationByName(name: string) {
+    return axiosCorporation.get<string, { corporation: CorporationModel[] }>(
+      `${url}/filter?name=${name}`,
+    )
+  },
 }
 
 export default corporationApi

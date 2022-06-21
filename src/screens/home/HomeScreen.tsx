@@ -1,15 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
-import {
-  Alert,
-  RefreshControl,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import corporationApi from '../../api/corporation/corporationApi'
 import jobApi from '../../api/corporation/jobApi'
@@ -26,14 +18,17 @@ type HomeScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
 
-const SearchBar = () => {
+const SearchBar: React.FC<{ navigation: NavigationProp<ParamListBase> }> = ({ navigation }) => {
   return (
-    <View style={seacrhbar.searchbar}>
+    <TouchableOpacity
+      style={seacrhbar.searchbar}
+      onPress={() => navigation.navigate('SearchScreen')}
+    >
       <View style={seacrhbar.buttonSearch}>
         <Ionicons name="search" size={20} color={Theme.palette.black.primary} />
       </View>
       <Text style={seacrhbar.textInput}>Search Job</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -111,7 +106,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <Text style={styles.bannerText}>Dream Job</Text>
           </View>
 
-          <SearchBar />
+          <SearchBar navigation={navigation} />
 
           {/* Popular From Companies */}
           <View>
@@ -152,7 +147,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               </TouchableOpacity>
             </View>
             {popularCompanies.length > 0 &&
-              popularCompanies.map((company, index) => <PopularCompanyCard key={index} />)}
+              popularCompanies.map((company, index) => (
+                <PopularCompanyCard
+                  key={index}
+                  navigation={navigation}
+                  companyId={company.id}
+                  companyName={company.name}
+                  location={`District ${company.location[0].district}, ${company.location[0].city}`}
+                  overtimeRequire={company.overtimeRequire}
+                  special={company.special}
+                />
+              ))}
           </View>
         </ScrollView>
       )}

@@ -15,6 +15,12 @@ const jobApi = {
     )
   },
 
+  getAllJobs({ limit, offset }: { limit: number; offset: number }) {
+    return axiosCorporation.get<string, { data: JobModel[]; pagination: { total: number } }>(
+      `${url}/all?limit=${limit}&offset=${offset}`,
+    )
+  },
+
   getJobById(id: string) {
     return axiosCorporation.get<
       string,
@@ -35,7 +41,7 @@ const jobApi = {
   },
 
   getAllJobsByTitle(name: string, limit: number, offset: number) {
-    return axiosCorporation.get<string, {}>(
+    return axiosCorporation.get<string, { data: JobModel[]; pagination: { total: number } }>(
       `${search}/title?name=${name}&limit=${limit}&offset=${offset}`,
     )
   },

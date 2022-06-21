@@ -7,7 +7,6 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
 
 type CompanyJobListProps = {
   navigation: NavigationProp<ParamListBase>
-
   companyId: string
 }
 

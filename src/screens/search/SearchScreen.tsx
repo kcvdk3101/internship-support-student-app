@@ -1,0 +1,201 @@
+import { Ionicons } from '@expo/vector-icons'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React, { useEffect, useState } from 'react'
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  StyleSheet,
+  TextInput,
+  View,
+} from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
+import corporationApi from '../../api/corporation/corporationApi'
+import jobApi from '../../api/corporation/jobApi'
+import JobCard from '../../components/cards/JobCard'
+import PopularCompanyCard from '../../components/cards/PopularCompanyCard'
+import { CorporationModel } from '../../models/corporation.model'
+import { JobModel } from '../../models/job.model'
+import Theme from '../../utils/Theme'
+import ButtonGroup from '../companyDetail/components/ButtonGroup'
+
+type SearchScreenProps = {
+  navigation: NavigationProp<ParamListBase>
+}
+
+type SearchBarProps = {
+  searchInput: string
+  handleOnChange: (value: string) => void
+  handleSubmit: () => void
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ searchInput, handleOnChange, handleSubmit }) => {
+  return (
+    <KeyboardAvoidingView style={seacrhbar.searchbar}>
+      <View style={seacrhbar.buttonSearch}>
+        <Ionicons name="search" size={20} color={Theme.palette.black.primary} />
+      </View>
+      <TextInput
+        style={seacrhbar.textInput}
+        placeholder="Type keyword"
+        placeholderTextColor={Theme.palette.black.primary}
+        focusable={true}
+        autoFocus={true}
+        value={searchInput}
+        onChangeText={(text) => handleOnChange(text)}
+        onSubmitEditing={() => handleSubmit()}
+      />
+    </KeyboardAvoidingView>
+  )
+}
+
+const seacrhbar = StyleSheet.create({
+  searchbar: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: Theme.palette.white.primary,
+    borderRadius: 8,
+    padding: 16,
+    marginTop: 8,
+  },
+  buttonSearch: {
+    marginRight: 8,
+    ...Theme.shadow.depth5,
+  },
+  textInput: {
+    flex: 1,
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.black.primary,
+  },
+})
+
+const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
+  const [index, setIndex] = useState(0)
+  const [searchInput, setSearchInput] = useState('')
+  const [offset, setOffset] = useState<number>(0)
+  const [loading, setLoading] = useState(false)
+
+  const [jobsResult, setJobsResult] = useState<JobModel[]>([])
+  const [companiesResult, setCompaniesResult] = useState<CorporationModel[]>([])
+
+  const handleChangeIndex = (num: number) => {
+    setIndex(num)
+  }
+
+  async function searching() {
+    setLoading(true)
+    try {
+      if (index === 0) {
+        const jobs = await jobApi.getAllJobsByTitle(searchInput, 10, offset)
+        if (jobs.data.length > 0) {
+          setJobsResult(jobs.data)
+          setLoading(false)
+        }
+      } else {
+        if (searchInput === '') {
+          setLoading(false)
+          setCompaniesResult([])
+          return
+        }
+        const companies = await corporationApi.getCorporationByName(searchInput)
+        if (companies.corporation.length > 0) {
+          setCompaniesResult(companies.corporation)
+          setLoading(false)
+        }
+      }
+    } catch (error) {
+      Alert.alert('Something wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      setSearchInput('')
+      setOffset(0)
+      setJobsResult([])
+      setCompaniesResult([])
+    }
+  }, [navigation])
+
+  useEffect(() => {
+    searching()
+  }, [index])
+
+  const handleOnChange = (value: string) => {
+    setSearchInput(value)
+  }
+
+  const handleSubmit = async () => {
+    searching()
+  }
+
+  return (
+    <SafeAreaView>
+      <ScrollView style={styles.container}>
+        <SearchBar
+          searchInput={searchInput}
+          handleOnChange={handleOnChange}
+          handleSubmit={handleSubmit}
+        />
+        <View style={{ marginTop: 16, alignSelf: 'stretch' }}>
+          <ButtonGroup
+            index={index}
+            titleTab1="Jobs"
+            titleTab2="Companies"
+            handleChangeIndex={handleChangeIndex}
+          />
+        </View>
+        {loading ? (
+          <View style={{ marginVertical: 16 }}>
+            <ActivityIndicator size={'large'} />
+          </View>
+        ) : (
+          <View>
+            {index === 0 ? (
+              <View>
+                {jobsResult.map((job, index) => (
+                  <JobCard
+                    key={index}
+                    jobId={job.id}
+                    title={job.title}
+                    location={`District ${job.details.location[0].district}, ${job.details.location[0].city}`}
+                    salary={`${job.details.salary[0].gt} - ${job.details.salary[0].lt} ${job.details.salary[0].unit}`}
+                    timestamp={job.details.corporation[0].overtimeRequire}
+                    navigation={navigation}
+                  />
+                ))}
+              </View>
+            ) : (
+              <View>
+                {companiesResult.map((company, index) => (
+                  <PopularCompanyCard
+                    key={index}
+                    navigation={navigation}
+                    companyId={company.id}
+                    companyName={company.name}
+                    location={`District ${company.location[0].district}, ${company.location[0].city}`}
+                    overtimeRequire={company.overtimeRequire}
+                    special={company.special}
+                  />
+                ))}
+              </View>
+            )}
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  )
+}
+
+export default SearchScreen
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 4,
+    marginHorizontal: 16,
+  },
+})
