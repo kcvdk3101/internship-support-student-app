@@ -1,38 +1,34 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { UserModel } from '../../../models/user.model'
+import { StudentModel } from '../../../models/student.model'
 import Theme from '../../../utils/Theme'
 
 type StudentInformationProps = {
-  user: UserModel | null
+  student: StudentModel
 }
 
-const StudentInformation: React.FC<StudentInformationProps> = ({ user }) => {
-  console.log(user)
-
+const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
   return (
     <>
       <View style={styles.profile}>
         <View style={styles.avatarContainer}>
           <Image style={styles.avatar} source={{ uri: 'https://picsum.photos/id/237/200/300' }} />
         </View>
-        <Text style={styles.profileText}>
-          {user?.lastName} {user?.firstName}
-        </Text>
+        <Text style={styles.profileText}>{student.fullName}</Text>
       </View>
 
       <View style={styles.container}>
         <View style={styles.row}>
           <Text style={styles.title}>Student ID:</Text>
-          <Text style={styles.content}>18DH110815</Text>
+          <Text style={styles.content}>{student.identityNumber}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.title}>Class:</Text>
-          <Text style={styles.content}>PM1804</Text>
+          <Text style={styles.content}>{student.class}</Text>
         </View>
         <View style={styles.row}>
           <Text style={styles.title}>School year:</Text>
-          <Text style={styles.content}>K24</Text>
+          <Text style={styles.content}>{student.term}</Text>
         </View>
       </View>
     </>

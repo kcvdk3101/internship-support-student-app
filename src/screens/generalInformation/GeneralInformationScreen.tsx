@@ -66,6 +66,13 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
   })
 
   const onSubmit = async (data: FieldProps) => {
+    let result = {
+      studentName: `${data.lastName} ${data.firstName}`,
+      position: data.position,
+      content: data.content,
+      name: curCV.name,
+    }
+
     let formData = new FormData()
     formData.append('files', { files: curCV.images } as any)
     formData.append('studentName', `${data.lastName} ${data.firstName}`)
@@ -75,7 +82,8 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
 
     try {
       const response = await cvApi.addNewCV(studentId, formData)
-      console.log('khoi nguuuuuuuuuuu', response)
+      // cv id is here
+      console.log(response)
       navigation.navigate('AdditionalInformationScreen')
     } catch (error) {
       console.log('error ne', error)
@@ -212,7 +220,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           </View>
         </View>
       </ScrollView>
-      <View style={{ marginHorizontal: 32, marginVertical: 16 }}>
+      <View style={{ marginHorizontal: 32, marginBottom: 36 }}>
         <GeneralButton
           label="Finish to continue"
           bgColor={Theme.palette.main.primary}

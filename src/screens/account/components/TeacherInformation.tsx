@@ -2,19 +2,52 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import GeneralButton from '../../../components/buttons/GeneralButton'
 import Theme from '../../../utils/Theme'
+import { TeacherModel } from '../../../models/teacher.model'
 
-type TeacherInformationProps = {}
+type TeacherInformationProps = {
+  teacher?: TeacherModel
+  handleActionOpenForm: (action: string) => void
+}
 
-const TeacherInformation: React.FC<TeacherInformationProps> = ({}) => {
+const TeacherInformation: React.FC<TeacherInformationProps> = ({
+  teacher,
+  handleActionOpenForm,
+}) => {
   return (
     <View style={styles.container}>
-      <GeneralButton
-        bgColor={Theme.palette.main.third}
-        isAlignCenter={true}
-        label="Register Teacher"
-        txtColor={Theme.palette.white.primary}
-        isLoading={false}
-      />
+      {teacher ? (
+        <View style={styles.container}>
+          <View style={styles.row}>
+            <Text style={styles.title}>Fullname: </Text>
+            <Text style={styles.content}>{teacher.fullName}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>Position:</Text>
+            <Text style={styles.content}>{teacher.position}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>Department:</Text>
+            <Text style={styles.content}>{teacher.department}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>Email:</Text>
+            <Text style={styles.content}>{teacher.email}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.title}>Phone number:</Text>
+            <Text style={styles.content}>{teacher.phoneNumber}</Text>
+          </View>
+        </View>
+      ) : (
+        <GeneralButton
+          bgColor={Theme.palette.main.third}
+          isAlignCenter={true}
+          label="Register Teacher"
+          txtColor={Theme.palette.white.primary}
+          isLoading={false}
+          onPress={() => handleActionOpenForm('openRegisterForm')}
+        />
+      )}
     </View>
   )
 }
@@ -29,4 +62,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     borderRadius: 10,
   },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  title: { flex: 1, ...Theme.fonts.body.body1 },
+  content: { fontWeight: 'bold', ...Theme.fonts.body.body1 },
 })

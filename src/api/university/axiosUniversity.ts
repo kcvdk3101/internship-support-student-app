@@ -5,7 +5,7 @@ const axiosUniversity = axios.create({
   baseURL: UNIVERSITY_URL,
   headers: {
     Accept: 'application/json;charset=utf-8',
-    'Content-Type': 'multipart/form-data',
+    'Content-Type': 'multipart/form-data; boundary=------random-boundary',
   },
 })
 

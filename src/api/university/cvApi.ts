@@ -13,7 +13,7 @@ const cvApi = {
   },
 
   addNewCV(studentId: string, data: FormData) {
-    return axiosUniversity.post(`/resume?studentId=${studentId}`, data)
+    return axiosUniversity.post(`/resume?studentId=${studentId}`, { data })
   },
 
   updateCV(cvId: string, data: object) {

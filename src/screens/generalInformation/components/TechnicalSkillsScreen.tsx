@@ -83,7 +83,6 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
         activeOpacity={0.8}
         onPress={() => {
           setTotal(total + 1)
-          // handleAddSkill(skillsSelected)
         }}
       >
         <View
@@ -122,6 +121,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
             dispatch(addListSkill(listSkills))
             navigation.goBack()
           }}
+          isLoading={false}
         />
       </View>
     </View>

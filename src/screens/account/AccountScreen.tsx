@@ -1,18 +1,24 @@
 import { Ionicons } from '@expo/vector-icons'
+import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import studentApi from '../../api/university/studentApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import { getCVByStudentId } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { CVModel } from '../../models/cv.model'
+import { StudentModel } from '../../models/student.model'
+import { TeacherModel } from '../../models/teacher.model'
 import Theme from '../../utils/Theme'
 import ChangePasswordButton from './changePassword/ChangePasswordButton'
 import ChangePasswordScreen from './changePassword/ChangePasswordScreen'
 import LogOutButton from './components/LogOutButton'
 import StudentInformation from './components/StudentInformation'
 import TeacherInformation from './components/TeacherInformation'
+import RegisterTeacherScreen from './registerTeacher/RegisterTeacherScreen'
 import ReportButton from './report/ReportButton'
+import ReportScreen from './report/ReportScreen'
 
 type AccountScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -23,18 +29,31 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
   const user = useAppSelector((state) => state.auth.user)
 
   const [studentCV, setStudentCV] = useState<CVModel[]>([])
+  const [teacher, setTeacher] = useState<TeacherModel>()
   const [actions, setActions] = useState({
     openForm: false,
     openRegisterForm: false,
     openReportForm: false,
   })
-  // const [openForm, setOpenForm] = useState(false)
-  const [openReportForm, setOpenReportForm] = useState(false)
-  const [openRegisterForm, setOpenRegisterForm] = useState(false)
 
   useEffect(() => {
-    if (typeof user.id !== 'string' && user.id === undefined) {
+    if ((typeof user.id !== 'string' && user.id === undefined) || '' || null) {
       navigation.navigate('HomeTab')
+    }
+  }, [user])
+
+  useEffect(() => {
+    ;async () => {
+      let teacherId = await AsyncStorageLib.getItem('teacherId')
+      console.log('teacherId', teacherId)
+      try {
+        const response = await studentApi.getTeacherById(teacherId as string)
+        if (response.teacher.length > 0) {
+          setTeacher(response.teacher[0])
+        }
+      } catch (error) {
+        Alert.alert('Cannot load teacher information')
+      }
     }
   }, [user])
 
@@ -73,9 +92,9 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
           </Pressable>
         </View>
 
-        <StudentInformation user={user} />
+        <StudentInformation student={user.student as StudentModel} />
 
-        <TeacherInformation />
+        <TeacherInformation teacher={teacher} handleActionOpenForm={handleActionOpenForm} />
 
         <View style={styles.cvContainer}>
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
@@ -109,7 +128,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
         </View>
 
         {/* Report Button */}
-        <ReportButton />
+        <ReportButton handleOpenForm={handleActionOpenForm} />
 
         {/* Change password Button */}
         <ChangePasswordButton handleOpenForm={handleActionOpenForm} />
@@ -117,6 +136,9 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
         {/* Logout Button */}
         <LogOutButton navigation={navigation} />
         {actions.openForm && <ChangePasswordScreen handleCloseForm={handleActionCloseForm} />}
+        {actions.openRegisterForm && (
+          <RegisterTeacherScreen handleCloseForm={handleActionCloseForm} />
+        )}
       </ScrollView>
     </SafeAreaView>
   )

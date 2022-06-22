@@ -14,5 +14,8 @@ export interface StudentModel extends Common {
   term?: string
   status: string
   academicYear?: string
+  nameTeacher: string
   slug?: string
+  internshipCertification?: string
+  internshipReport?: string
 }

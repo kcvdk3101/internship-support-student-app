@@ -1,3 +1,5 @@
+import { StudentModel } from './student.model'
+
 export interface UserModel {
   email: string
   firstName?: string
@@ -6,4 +8,5 @@ export interface UserModel {
   role?: string
   id: string
   studentId: string
+  student?: StudentModel
 }

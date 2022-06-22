@@ -23,6 +23,7 @@ const initialState: CVSliceStateProps = {
   fetchingCVs: false,
   CVs: [],
   curCV: {
+    id: '',
     name: '',
     studentName: '',
     position: '',
