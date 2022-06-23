@@ -1,14 +1,13 @@
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import Theme from '../../utils/Theme'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { Button } from 'react-native-paper'
-import { useDispatch } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import GeneralButton from '../../components/buttons/GeneralButton'
 import { deleteCertification, deleteProject } from '../../features/cvSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import Theme from '../../utils/Theme'
 
 type AdditionalInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -62,6 +61,8 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
       },
     ])
   }
+
+  const handleFinishCV = () => {}
 
   return (
     <View style={styles.container}>
@@ -163,6 +164,16 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
           )}
         </View>
       </ScrollView>
+      <View style={{ marginHorizontal: 32, marginBottom: 36 }}>
+        <GeneralButton
+          label="Finish"
+          bgColor={Theme.palette.main.primary}
+          txtColor={Theme.palette.white.primary}
+          isAlignCenter={true}
+          onPress={handleFinishCV}
+          isLoading={false}
+        />
+      </View>
     </View>
   )
 }

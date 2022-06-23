@@ -15,6 +15,8 @@ import VerticalInput from '../../../components/common/VerticalInput'
 import { addCertification } from '../../../features/cvSlice'
 import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type CertificationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -46,19 +48,28 @@ const certificationInformation = [
   {
     label: 'Organization',
     type: 'name',
-    inputName: 'organ',
+    inputName: 'organizer',
     placeholder: '',
     returnKeyType: 'done',
     keyboardType: 'default',
   },
 ]
 
+const certiSchema = yup.object({
+  name: yup.string().required(),
+  issueDate: yup.string().required(),
+  organizer: yup.string().required(),
+})
+
 const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FieldProps>()
+  } = useForm<FieldProps>({
+    mode: 'onChange',
+    resolver: yupResolver(certiSchema),
+  })
   const dispatch = useAppDispatch()
 
   const onSubmit = (data: FieldProps) => {
@@ -87,6 +98,7 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
                 keyboardType={certi.keyboardType as KeyboardTypeOptions}
                 control={control}
                 errors={errors}
+                editable={true}
               />
             ))}
           </View>
@@ -104,6 +116,7 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={handleSubmit(onSubmit)}
+          isLoading={false}
         />
       </View>
     </KeyboardAvoidingView>

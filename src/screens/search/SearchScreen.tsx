@@ -5,6 +5,7 @@ import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   TextInput,
@@ -52,13 +53,13 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchInput, handleOnChange, hand
 
 const seacrhbar = StyleSheet.create({
   searchbar: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: Theme.palette.white.primary,
     borderRadius: 8,
     padding: 16,
-    marginTop: 8,
   },
   buttonSearch: {
     marginRight: 8,
@@ -136,11 +137,16 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
-        <SearchBar
-          searchInput={searchInput}
-          handleOnChange={handleOnChange}
-          handleSubmit={handleSubmit}
-        />
+        <View style={{ flexDirection: 'row' }}>
+          <Pressable onPress={() => navigation.goBack()} style={styles.icon}>
+            <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
+          </Pressable>
+          <SearchBar
+            searchInput={searchInput}
+            handleOnChange={handleOnChange}
+            handleSubmit={handleSubmit}
+          />
+        </View>
         <View style={{ marginTop: 16, alignSelf: 'stretch' }}>
           <ButtonGroup
             index={index}
@@ -197,5 +203,14 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 4,
     marginHorizontal: 16,
+  },
+  icon: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 4,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+    ...Theme.fonts.headline.h4,
+    backgroundColor: Theme.palette.white.primary,
   },
 })

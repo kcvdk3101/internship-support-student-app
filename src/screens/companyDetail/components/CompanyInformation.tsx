@@ -1,11 +1,11 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { screenWidth } from '../../../constant'
-import Theme from '../../../utils/Theme'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { Ionicons } from '@expo/vector-icons'
+import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React from 'react'
+import { Image, Linking, StyleSheet, Text, View } from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
+import { screenWidth } from '../../../constant'
 import { CorporationModel } from '../../../models/corporation.model'
+import Theme from '../../../utils/Theme'
 
 type CompanyInformationProps = {
   navigation: NavigationProp<ParamListBase>
@@ -20,15 +20,17 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
   const goBack = () => {
     navigation.goBack()
   }
+
+  const linkToGoogleMap = (destination: string) => {
+    Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${destination}`)
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.buttonGoBack} onPress={goBack}>
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
-        {/* <TouchableOpacity style={styles.buttonGoBack}>
-          <Ionicons name="ios-heart" size={24} />
-        </TouchableOpacity> */}
       </View>
       <View style={styles.companyLogoContainer}>
         <Image
@@ -56,7 +58,12 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
             color={Theme.palette.black.primary}
             style={styles.icon}
           />
-          <Text style={{ ...Theme.fonts.body.body2 }}>{locationDetail}</Text>
+          <Text
+            style={{ ...Theme.fonts.body.body2, textDecorationLine: 'underline', color: '#0194f3' }}
+            onPress={() => linkToGoogleMap(locationDetail)}
+          >
+            {locationDetail}
+          </Text>
         </View>
         <View
           style={{

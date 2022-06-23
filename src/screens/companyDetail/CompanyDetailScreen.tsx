@@ -1,5 +1,5 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, View } from 'react-native'
 import { screenHeight, screenWidth } from '../../constant'
 import { getCorporationsById } from '../../features/corporationSlice'

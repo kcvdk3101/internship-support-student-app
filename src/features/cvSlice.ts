@@ -9,6 +9,7 @@ type CVSliceStateProps = {
   fetchingCVs: boolean
   CVs: CVModel[]
   curCV: CVModel
+  cvId: string
 }
 
 export const getCVByStudentId = createAsyncThunk(
@@ -37,6 +38,7 @@ const initialState: CVSliceStateProps = {
     },
     images: [],
   },
+  cvId: '',
 }
 
 const cvSlice = createSlice({

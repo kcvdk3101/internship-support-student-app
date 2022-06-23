@@ -39,14 +39,7 @@ const DrawerNavigator = () => {
         component={SearchScreen}
         options={({ navigation }) => ({
           title: 'Search',
-          headerLeft: () => (
-            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-              <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
-            </Pressable>
-          ),
-          headerStyle: {
-            backgroundColor: 'white',
-          },
+          headerShown: false,
         })}
       />
       <Drawer.Screen

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
-import { Pressable, StyleSheet } from 'react-native'
+import { Image, Pressable, StyleSheet } from 'react-native'
 import AccountScreen from '../../screens/account/AccountScreen'
 import AdditionalInformationScreen from '../../screens/additionalInformation/AdditionalInformationScreen'
 import CertificationScreen from '../../screens/additionalInformation/components/CertificationScreen'
@@ -16,6 +16,7 @@ import TechnicalSkillsScreen from '../../screens/generalInformation/components/T
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
 import Theme from '../../utils/Theme'
+import logo from '../../assets/images/FITSI.png'
 
 // Home Stack
 const HomeStack = createStackNavigator()
@@ -60,6 +61,7 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
             <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
+        headerTitle: () => <Image source={logo} resizeMode="contain" style={styles.tinyLogo} />,
       }}
     />
     <CompanyStack.Screen
@@ -240,5 +242,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 4,
     left: 16,
+  },
+  tinyLogo: {
+    height: 35,
   },
 })

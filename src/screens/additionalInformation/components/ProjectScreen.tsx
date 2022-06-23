@@ -15,20 +15,32 @@ import VerticalInput from '../../../components/common/VerticalInput'
 import { addProject } from '../../../features/cvSlice'
 import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 type ProjectScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
 
 type FieldProps = {
-  fullName: string
-  position: string
-  email: string
-  phone: number
-  gender: string
-  city: string
-  address: string
+  projectName: string
+  startTime: string
+  endTime: string
+  teamZone: number
+  responsibility: string
+  source: string
+  description: string
 }
+
+const projectSchema = yup.object({
+  projectName: yup.string().required(),
+  startTime: yup.string().required(),
+  endTime: yup.string().required(),
+  teamZone: yup.number().required(),
+  responsibility: yup.string().required(),
+  source: yup.string().required(),
+  description: yup.string().required(),
+})
 
 const projectInformation = [
   {
@@ -84,6 +96,7 @@ const projectInformation = [
     type: 'name',
     inputName: 'description',
     placeholder: '',
+    multiline: true,
     returnKeyType: 'done',
     keyboardType: 'default',
   },
@@ -94,7 +107,10 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<FieldProps>()
+  } = useForm<FieldProps>({
+    mode: 'onChange',
+    resolver: yupResolver(projectSchema),
+  })
   const dispatch = useAppDispatch()
 
   const onSubmit = (data: FieldProps) => {
@@ -110,7 +126,7 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
       keyboardVerticalOffset={100}
     >
       <ScrollView>
-        <View style={styles.firstBlock}>
+        <View style={styles.block}>
           <View style={styles.form}>
             {projectInformation.map((p, index) => (
               <VerticalInput
@@ -124,6 +140,8 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
                 keyboardType={p.keyboardType as KeyboardTypeOptions}
                 control={control}
                 errors={errors}
+                editable={true}
+                multiline={p.multiline}
               />
             ))}
           </View>
@@ -139,6 +157,7 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
               txtColor={Theme.palette.white.primary}
               isAlignCenter={true}
               onPress={handleSubmit(onSubmit)}
+              isLoading={false}
             />
           </View>
         </View>
@@ -156,22 +175,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 8,
   },
-  firstBlock: {
+  block: {
     flex: 1,
     backgroundColor: Theme.palette.white.primary,
     borderRadius: 8,
     marginHorizontal: 12,
-    marginTop: 12,
     marginBottom: 16,
     padding: 8,
-  },
-  secondBlock: {
-    flex: 1,
-    backgroundColor: Theme.palette.white.primary,
-    borderRadius: 8,
-    marginHorizontal: 12,
-    marginBottom: 56,
-    padding: 8,
+    marginTop: 12,
   },
   heading: {
     ...Theme.fonts.headline.h6,

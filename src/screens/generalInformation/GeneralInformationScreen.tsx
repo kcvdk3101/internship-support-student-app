@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
   KeyboardAvoidingView,
@@ -45,6 +45,49 @@ const generalInformationSchema = yup.object({
   content: yup.string().required(),
 })
 
+const generalInformation = [
+  {
+    label: 'First Name',
+    type: 'name',
+    inputName: 'firstName',
+    placeholder: 'Enter your first name',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Last Name',
+    type: 'name',
+    inputName: 'lastName',
+    placeholder: 'Enter your last name',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Position to Apply',
+    type: 'name',
+    inputName: 'position',
+    placeholder: 'Enter position',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Email',
+    type: 'email',
+    inputName: 'email',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Phone',
+    type: 'number',
+    inputName: 'phone',
+    placeholder: '',
+    returnKeyType: 'done',
+    keyboardType: 'default',
+  },
+]
+
 const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
   const { firstName, lastName, email, phoneNumber, studentId } = useAppSelector(
     (state) => state.auth.user,
@@ -65,7 +108,11 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
     },
   })
 
+  const [loading, setloading] = useState(false)
+
   const onSubmit = async (data: FieldProps) => {
+    setloading(true)
+
     let formData = new FormData()
     formData.append('files', JSON.stringify({ files: curCV.images }))
     formData.append('studentName', `${data.lastName} ${data.firstName}`)
@@ -77,54 +124,14 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       const response = await cvApi.addNewCV(studentId, formData)
       // cv id is here
       console.log(response)
-      // navigation.navigate('AdditionalInformationScreen')
+      navigation.navigate('AdditionalInformationScreen')
     } catch (error) {
       console.log('error ne', error)
+    } finally {
+      setloading(false)
+      navigation.navigate('AdditionalInformationScreen')
     }
   }
-
-  const generalInformation = [
-    {
-      label: 'First Name',
-      type: 'name',
-      inputName: 'firstName',
-      placeholder: 'Enter your first name',
-      returnKeyType: 'next',
-      keyboardType: 'default',
-    },
-    {
-      label: 'Last Name',
-      type: 'name',
-      inputName: 'lastName',
-      placeholder: 'Enter your last name',
-      returnKeyType: 'next',
-      keyboardType: 'default',
-    },
-    {
-      label: 'Position to Apply',
-      type: 'name',
-      inputName: 'position',
-      placeholder: 'Enter position',
-      returnKeyType: 'next',
-      keyboardType: 'default',
-    },
-    {
-      label: 'Email',
-      type: 'email',
-      inputName: 'email',
-      placeholder: '',
-      returnKeyType: 'next',
-      keyboardType: 'default',
-    },
-    {
-      label: 'Phone',
-      type: 'number',
-      inputName: 'phone',
-      placeholder: '',
-      returnKeyType: 'done',
-      keyboardType: 'default',
-    },
-  ]
 
   return (
     <View style={styles.container}>
@@ -153,7 +160,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 keyboardType={info.keyboardType as KeyboardTypeOptions}
                 control={control}
                 errors={errors}
-                editable={true}
+                editable={!loading}
               />
             ))}
           </KeyboardAvoidingView>
@@ -174,7 +181,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
               returnKeyType="next"
               keyboardType="ascii-capable"
               multiline={true}
-              editable={!isSubmitting}
+              editable={!loading}
               control={control}
               errors={errors}
             />
@@ -186,22 +193,36 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           <View style={styles.form}>
             <View style={styles.skillContainer}>
               {curCV.details.skills && curCV.details.skills.length > 0 ? (
-                <View style={styles.list}>
-                  {curCV.details.skills.map((skill, index) => (
-                    <ChipButton
-                      key={index}
-                      name={skill.name}
-                      bgColor={Theme.palette.black.primary}
-                      txtColor={Theme.palette.white.primary}
-                      fsize={14}
-                    />
-                  ))}
+                <View>
+                  <View style={styles.list}>
+                    {curCV.details.skills.map((skill, index) => (
+                      <ChipButton
+                        key={index}
+                        name={skill.name}
+                        bgColor={Theme.palette.black.primary}
+                        txtColor={Theme.palette.white.primary}
+                        fsize={14}
+                      />
+                    ))}
+                  </View>
+                  <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.8}
+                    onPress={
+                      loading ? () => {} : () => navigation.navigate('TechnicalSkillsScreen')
+                    }
+                  >
+                    <View style={styles.buttonContainer}>
+                      <Text style={styles.buttonText}>Add skill</Text>
+                      <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
+                    </View>
+                  </TouchableOpacity>
                 </View>
               ) : (
                 <TouchableOpacity
                   style={styles.button}
                   activeOpacity={0.8}
-                  onPress={() => navigation.navigate('TechnicalSkillsScreen')}
+                  onPress={loading ? () => {} : () => navigation.navigate('TechnicalSkillsScreen')}
                 >
                   <View style={styles.buttonContainer}>
                     <Text style={styles.buttonText}>Add new skill</Text>
@@ -220,7 +241,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={handleSubmit(onSubmit)}
-          isLoading={false}
+          isLoading={loading}
         />
       </View>
     </View>

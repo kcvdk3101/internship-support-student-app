@@ -14,7 +14,6 @@ const cvApi = {
   },
 
   addNewCV(studentId: string, formData: FormData) {
-    console.log(formData)
     return axios({
       url: `${UNIVERSITY_URL}/resume?studentId=${studentId}`,
       method: 'POST',
