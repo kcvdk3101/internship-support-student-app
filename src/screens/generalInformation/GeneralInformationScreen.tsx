@@ -66,15 +66,8 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
   })
 
   const onSubmit = async (data: FieldProps) => {
-    let result = {
-      studentName: `${data.lastName} ${data.firstName}`,
-      position: data.position,
-      content: data.content,
-      name: curCV.name,
-    }
-
     let formData = new FormData()
-    formData.append('files', { files: curCV.images } as any)
+    formData.append('files', JSON.stringify({ files: curCV.images }))
     formData.append('studentName', `${data.lastName} ${data.firstName}`)
     formData.append('position', data.position)
     formData.append('content', data.content)
@@ -84,7 +77,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       const response = await cvApi.addNewCV(studentId, formData)
       // cv id is here
       console.log(response)
-      navigation.navigate('AdditionalInformationScreen')
+      // navigation.navigate('AdditionalInformationScreen')
     } catch (error) {
       console.log('error ne', error)
     }

@@ -10,27 +10,36 @@ type StudentInformationProps = {
 const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
   return (
     <>
-      <View style={styles.profile}>
-        <View style={styles.avatarContainer}>
-          <Image style={styles.avatar} source={{ uri: 'https://picsum.photos/id/237/200/300' }} />
-        </View>
-        <Text style={styles.profileText}>{student.fullName}</Text>
-      </View>
+      {student && (
+        <>
+          <View style={styles.profile}>
+            <View style={styles.avatarContainer}>
+              <Image
+                style={styles.avatar}
+                source={{ uri: 'https://picsum.photos/id/237/200/300' }}
+              />
+            </View>
+            <Text style={styles.profileText}>{student.fullName}</Text>
+          </View>
 
-      <View style={styles.container}>
-        <View style={styles.row}>
-          <Text style={styles.title}>Student ID:</Text>
-          <Text style={styles.content}>{student.identityNumber}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>Class:</Text>
-          <Text style={styles.content}>{student.class}</Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.title}>School year:</Text>
-          <Text style={styles.content}>{student.term}</Text>
-        </View>
-      </View>
+          <View style={styles.container}>
+            <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>Student Information</Text>
+
+            <View style={styles.row}>
+              <Text style={styles.title}>Student ID:</Text>
+              <Text style={styles.content}>{student.identityNumber}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.title}>Class:</Text>
+              <Text style={styles.content}>{student.class}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.title}>School year:</Text>
+              <Text style={styles.content}>{student.term}</Text>
+            </View>
+          </View>
+        </>
+      )}
     </>
   )
 }
@@ -58,6 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   profileText: {
+    textAlign: 'center',
     marginTop: 20,
     ...Theme.fonts.headline.h4,
     ...Theme.shadow.depth2,

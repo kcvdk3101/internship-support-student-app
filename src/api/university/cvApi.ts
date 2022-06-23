@@ -3,6 +3,7 @@ import { CertificatedModel } from '../../models/certificated.model'
 import { ContactModel } from '../../models/contact.model'
 import { CVModel } from '../../models/cv.model'
 import { ProjectModel } from '../../models/project.model'
+import { UNIVERSITY_URL } from '../../utils/Config'
 import axiosUniversity from './axiosUniversity'
 
 const cvApi = {
@@ -12,8 +13,28 @@ const cvApi = {
     )
   },
 
-  addNewCV(studentId: string, data: FormData) {
-    return axiosUniversity.post(`/resume?studentId=${studentId}`, { data })
+  addNewCV(studentId: string, formData: FormData) {
+    console.log(formData)
+    return axios({
+      url: `${UNIVERSITY_URL}/resume?studentId=${studentId}`,
+      method: 'POST',
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data; boundary=------random-boundary',
+      },
+      transformRequest: (data, header) => {
+        return formData
+      },
+    })
+    // return fetch(`${UNIVERSITY_URL}/resume?studentId=${studentId}`, {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'multipart/form-data; boundary=------random-boundary',
+    //   },
+    //   body: data,
+
+    // })
   },
 
   updateCV(cvId: string, data: object) {

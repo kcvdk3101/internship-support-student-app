@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import studentApi from '../../api/university/studentApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
+import CVCard from '../../components/cards/CVCard'
 import { getCVByStudentId } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { CVModel } from '../../models/cv.model'
@@ -18,7 +19,6 @@ import StudentInformation from './components/StudentInformation'
 import TeacherInformation from './components/TeacherInformation'
 import RegisterTeacherScreen from './registerTeacher/RegisterTeacherScreen'
 import ReportButton from './report/ReportButton'
-import ReportScreen from './report/ReportScreen'
 
 type AccountScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -42,38 +42,37 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     }
   }, [user])
 
-  useEffect(() => {
-    ;async () => {
-      let teacherId = await AsyncStorageLib.getItem('teacherId')
-      console.log('teacherId', teacherId)
-      try {
-        const response = await studentApi.getTeacherById(teacherId as string)
-        if (response.teacher.length > 0) {
-          setTeacher(response.teacher[0])
-        }
-      } catch (error) {
-        Alert.alert('Cannot load teacher information')
-      }
-    }
-  }, [user])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     let teacherId = await AsyncStorageLib.getItem('teacherId')
+  //     try {
+  //       const response = await studentApi.getTeacherById(teacherId as string)
+  //       if (response.teacher.length > 0) {
+  //         setTeacher(response.teacher[0])
+  //       }
+  //     } catch (error) {
+  //       Alert.alert('Cannot load teacher information')
+  //     }
+  //   })()
+  // }, [navigation, user.student?.nameTeacher])
 
-  useEffect(() => {
-    ;(async () => {
-      try {
-        const response = await dispatch(
-          getCVByStudentId({ studentId: user.id, limit: 10, offset: 0 }),
-        )
-        if (response.meta.requestStatus === 'fulfilled') {
-          setStudentCV(response.payload as CVModel[])
-        }
-      } catch (error) {
-        Alert.alert('Cannot load your CV')
-      }
-    })()
-    return () => {
-      setStudentCV([])
-    }
-  }, [])
+  // useEffect(() => {
+  //   ;(async () => {
+  //     try {
+  //       const response = await dispatch(
+  //         getCVByStudentId({ studentId: user.id, limit: 10, offset: 0 }),
+  //       )
+  //       if (response.meta.requestStatus === 'fulfilled') {
+  //         setStudentCV(response.payload as CVModel[])
+  //       }
+  //     } catch (error) {
+  //       Alert.alert('Cannot load your CV')
+  //     }
+  //   })()
+  //   return () => {
+  //     setStudentCV([])
+  //   }
+  // }, [])
 
   const handleActionOpenForm = (action: string) => {
     setActions({ ...actions, [action]: true })
@@ -94,23 +93,21 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
 
         <StudentInformation student={user.student as StudentModel} />
 
-        <TeacherInformation teacher={teacher} handleActionOpenForm={handleActionOpenForm} />
+        <TeacherInformation
+          teacher={user.student?.nameTeacher}
+          handleActionOpenForm={handleActionOpenForm}
+        />
 
         <View style={styles.cvContainer}>
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
 
           {/* CV List */}
           <View>
-            {studentCV.length > 0 ? (
+            {user.student?.cv ? (
               <>
-                {/* {cvData.map((cv, index) => (
-                  <CVCard
-                    key={index}
-                    name={cv.name}
-                    createdAt={cv.createdAt}
-                    createdBy={cv.createdBy}
-                  />
-                ))} */}
+                {user.student?.cv.map((cv, index) => (
+                  <CVCard key={index} name={cv.slug as string} createdAt={'today'} />
+                ))}
               </>
             ) : (
               <Text style={styles.notFound}>You don't have any CVs yet</Text>

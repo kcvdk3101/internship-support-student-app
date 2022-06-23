@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
-import { StudentModel } from '../../models/index'
 import Theme from '../../utils/Theme'
 
 type AvatarProps = {
@@ -16,7 +15,7 @@ const Avatar: React.FC<AvatarProps> = ({ firstName, lastName }) => {
       </View>
       <View style={styles.info}>
         <Text style={styles.name}>
-          {firstName} {lastName}
+          {lastName} {firstName}
         </Text>
         <Text style={styles.seemore}>See your profile</Text>
       </View>

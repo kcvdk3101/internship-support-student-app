@@ -32,11 +32,11 @@ const CVCard: React.FC<CVItemProps> = ({ name, createdAt }) => {
           <Text style={styles.text}>{createdAt}</Text>
         </View>
       </View>
-      <View style={styles.btnItem}>
+      {/* <View style={styles.btnItem}>
         <TouchableOpacity>
           <Text style={styles.btnItemText}>preview</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   )
 }

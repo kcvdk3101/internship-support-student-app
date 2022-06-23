@@ -13,8 +13,6 @@ type RegisterTeacherFormProps = {}
 
 const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = () => {
   const user = useAppSelector((state) => state.auth.user)
-
-  console.log(user)
   const placeholder = {
     label: 'Select teacher',
     value: '',
@@ -58,10 +56,11 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = () => {
           teacherId: selectedTeacher,
         },
       ])
-      if (response[0].register.isActive) {
+      if (response.data[0].register.isActive) {
         AsyncStorageLib.setItem('teacherId', JSON.stringify(selectedTeacher))
       }
     } catch (error) {
+      console.log(error)
       Alert.alert('Something wrong!')
     }
   }

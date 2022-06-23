@@ -5,7 +5,7 @@ import Theme from '../../../utils/Theme'
 import { TeacherModel } from '../../../models/teacher.model'
 
 type TeacherInformationProps = {
-  teacher?: TeacherModel
+  teacher?: string
   handleActionOpenForm: (action: string) => void
 }
 
@@ -15,13 +15,14 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
 }) => {
   return (
     <View style={styles.container}>
+      <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>Teacher Information</Text>
       {teacher ? (
-        <View style={styles.container}>
+        <View>
           <View style={styles.row}>
             <Text style={styles.title}>Fullname: </Text>
-            <Text style={styles.content}>{teacher.fullName}</Text>
+            <Text style={styles.content}>{teacher}</Text>
           </View>
-          <View style={styles.row}>
+          {/* <View style={styles.row}>
             <Text style={styles.title}>Position:</Text>
             <Text style={styles.content}>{teacher.position}</Text>
           </View>
@@ -36,7 +37,7 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
           <View style={styles.row}>
             <Text style={styles.title}>Phone number:</Text>
             <Text style={styles.content}>{teacher.phoneNumber}</Text>
-          </View>
+          </View> */}
         </View>
       ) : (
         <GeneralButton

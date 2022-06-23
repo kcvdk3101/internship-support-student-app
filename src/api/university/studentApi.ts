@@ -1,18 +1,14 @@
+import axios from 'axios'
 import { StudentModel } from '../../models/student.model'
 import { TeacherModel } from '../../models/teacher.model'
+import { UNIVERSITY_URL } from '../../utils/Config'
 import axiosUniversity from './axiosUniversity'
 
 const studentApi = {
-  registerTeacher(teacher: { studentId: string; teacherId: string }[]) {
-    return axiosUniversity.post<
-      string,
-      [
-        {
-          register: { id: string; studentId: string; teacherId: string; isActive: boolean }
-          message: string
-        },
-      ]
-    >('/university/student/register-teacher', { teacher })
+  registerTeacher(data: { studentId: string; teacherId: string }[]) {
+    return axios.post(`${UNIVERSITY_URL}/university/student/register-teacher`, {
+      teacher: data,
+    })
   },
 
   getAllTeacher() {
