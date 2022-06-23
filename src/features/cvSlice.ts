@@ -1,12 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import cvApi from '../api/university/cvApi'
-import { CertificatedModel } from '../models/certificated.model'
-import { ContactModel } from '../models/contact.model'
 import { CVModel } from '../models/cv.model'
-import { ProjectModel } from '../models/project.model'
 
 type CVSliceStateProps = {
-  fetchingCVs: boolean
   CVs: CVModel[]
   curCV: CVModel
   cvId: string
@@ -21,7 +17,6 @@ export const getCVByStudentId = createAsyncThunk(
 )
 
 const initialState: CVSliceStateProps = {
-  fetchingCVs: false,
   CVs: [],
   curCV: {
     id: '',
@@ -45,6 +40,9 @@ const cvSlice = createSlice({
   name: 'cv',
   initialState,
   reducers: {
+    saveCVId(state, action) {
+      state.cvId = action.payload
+    },
     addCVName(state, action) {
       state.curCV.name = action.payload.name
       state.curCV.images = [action.payload.data]
@@ -83,6 +81,7 @@ const cvSlice = createSlice({
 
 export const {
   addListSkill,
+  saveCVId,
   addCVName,
   addProject,
   addCertification,

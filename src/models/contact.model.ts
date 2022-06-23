@@ -1,5 +1,5 @@
 export interface ContactModel {
-  id: string
+  id?: string
   title: string
   content: string
   isActive?: boolean

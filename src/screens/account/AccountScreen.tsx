@@ -1,16 +1,11 @@
 import { Ionicons } from '@expo/vector-icons'
-import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Alert, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
-import studentApi from '../../api/university/studentApi'
+import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
-import { getCVByStudentId } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
-import { CVModel } from '../../models/cv.model'
 import { StudentModel } from '../../models/student.model'
-import { TeacherModel } from '../../models/teacher.model'
 import Theme from '../../utils/Theme'
 import ChangePasswordButton from './changePassword/ChangePasswordButton'
 import ChangePasswordScreen from './changePassword/ChangePasswordScreen'
@@ -28,8 +23,6 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
   const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
 
-  const [studentCV, setStudentCV] = useState<CVModel[]>([])
-  const [teacher, setTeacher] = useState<TeacherModel>()
   const [actions, setActions] = useState({
     openForm: false,
     openRegisterForm: false,
@@ -41,20 +34,6 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
       navigation.navigate('HomeTab')
     }
   }, [user])
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     let teacherId = await AsyncStorageLib.getItem('teacherId')
-  //     try {
-  //       const response = await studentApi.getTeacherById(teacherId as string)
-  //       if (response.teacher.length > 0) {
-  //         setTeacher(response.teacher[0])
-  //       }
-  //     } catch (error) {
-  //       Alert.alert('Cannot load teacher information')
-  //     }
-  //   })()
-  // }, [navigation, user.student?.nameTeacher])
 
   // useEffect(() => {
   //   ;(async () => {
@@ -102,7 +81,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
 
           {/* CV List */}
-          <View>
+          <ScrollView scrollEnabled style={{ height: 400 }}>
             {user.student?.cv ? (
               <>
                 {user.student?.cv.map((cv, index) => (
@@ -112,7 +91,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
             ) : (
               <Text style={styles.notFound}>You don't have any CVs yet</Text>
             )}
-          </View>
+          </ScrollView>
 
           {/* Button Upload */}
           <GeneralButton

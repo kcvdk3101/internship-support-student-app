@@ -1,11 +1,11 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useState } from 'react'
-import { ScrollView, StyleSheet, Text, View, ActivityIndicator } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
-import { cvData } from '../../db/CVData'
-import { useAppSelector } from '../../hooks/redux'
+import { getCVByStudentId } from '../../features/cvSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import AuthenticationScreen from '../authentication/AuthenticationScreen'
 
@@ -15,9 +15,29 @@ type CVScreenProps = {
 
 const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
-  const { fetchingCVs, CVs } = useAppSelector((state) => state.cv)
+  const { studentId } = useAppSelector((state) => state.auth.user)
+  const { CVs } = useAppSelector((state) => state.cv)
+
+  const dispatch = useAppDispatch()
 
   const [showModal, setShowModal] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    ;(async () => {
+      setLoading(true)
+      try {
+        const response = await dispatch(getCVByStudentId({ studentId, limit: 10, offset: 0 }))
+        if (response.meta.requestStatus === 'fulfilled') {
+          setLoading(false)
+        }
+      } catch (error) {
+        Alert.alert('Something wrong!')
+      } finally {
+        setLoading(false)
+      }
+    })()
+  }, [isAuthenticated])
 
   const handleShowModal = () => {
     setShowModal(!showModal)
@@ -25,10 +45,6 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   const handleCloseModal = () => {
     setShowModal(false)
-  }
-
-  const handleOpenModal = () => {
-    setShowModal(true)
   }
 
   return (
@@ -48,19 +64,23 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           <ScrollView style={styles.cvList}>
             <Text style={styles.heading}>CV / Cover Letter</Text>
             <ScrollView>
-              {fetchingCVs ? (
+              {loading ? (
                 <View>
-                  <ActivityIndicator size="large" color="#00ff00" />
-                </View>
-              ) : CVs && CVs.length > 0 ? (
-                <View>
-                  {CVs.map((cv, index) => (
-                    <CVCard key={index} name={cv.name} createdAt={cv.createdAt as string} />
-                  ))}
+                  <ActivityIndicator size="large" color={Theme.palette.background.modal} />
                 </View>
               ) : (
                 <View>
-                  <Text>You don't have any CVs yet</Text>
+                  {CVs ? (
+                    <View>
+                      {CVs.map((cv, index) => (
+                        <CVCard key={index} name={cv.name} createdAt={cv.createdAt as string} />
+                      ))}
+                    </View>
+                  ) : (
+                    <View>
+                      <Text>You don't have any CVs yet</Text>
+                    </View>
+                  )}
                 </View>
               )}
             </ScrollView>

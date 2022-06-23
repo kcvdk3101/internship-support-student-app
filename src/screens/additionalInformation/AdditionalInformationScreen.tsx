@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import cvApi from '../../api/university/cvApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import { deleteCertification, deleteProject } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
@@ -19,9 +20,11 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
   const dispatch = useAppDispatch()
   const projects = useAppSelector((state) => state.cv.curCV.details.project)
   const certificates = useAppSelector((state) => state.cv.curCV.details.certificated)
+  const cvId = useAppSelector((state) => state.cv.cvId)
 
   const [checkedProject, setCheckedProject] = useState(false)
   const [checkedCertificate, setCheckedertificate] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (projects.length > 0) {
@@ -62,7 +65,24 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
     ])
   }
 
-  const handleFinishCV = () => {}
+  const handleFinishCV = async () => {
+    let project = projects.map((p) => ({ ...p, technology: [] }))
+    setLoading(true)
+    try {
+      const responseProject = await cvApi.addNewProject(cvId, project)
+      const responseCertificated = await cvApi.addNewCertificated(cvId, certificates)
+
+      if (responseProject.data && responseCertificated.data) {
+        Alert.alert('Create successfully')
+        navigation.navigate('MenuTab')
+        setLoading(false)
+      }
+    } catch (error) {
+      Alert.alert('Something wrong')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -77,12 +97,16 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
                 iconStyle={{ borderColor: Theme.palette.main.primary, borderWidth: 2 }}
                 isChecked={checkedProject}
                 onPress={() => setCheckedProject(!checkedProject)}
+                disabled={loading}
               />
               <Text>Has project</Text>
             </View>
             {checkedProject === true && (
               <View>
-                <TouchableOpacity onPress={() => navigation.navigate('ProjectScreen')}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('ProjectScreen')}
+                  disabled={loading}
+                >
                   <View style={styles.buttonContainer}>
                     <Ionicons name="add" size={24} color={Theme.palette.main.primary} />
                     <Text style={styles.buttonText}>Add</Text>
@@ -126,12 +150,16 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
                 iconStyle={{ borderColor: Theme.palette.main.primary, borderWidth: 2 }}
                 isChecked={checkedCertificate}
                 onPress={() => setCheckedertificate(!checkedCertificate)}
+                disabled={loading}
               />
               <Text>Has certificate</Text>
             </View>
             {checkedCertificate && (
               <View>
-                <TouchableOpacity onPress={() => navigation.navigate('CertificationScreen')}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('CertificationScreen')}
+                  disabled={loading}
+                >
                   <View style={styles.buttonContainer}>
                     <Ionicons name="add" size={24} color={Theme.palette.main.primary} />
                     <Text style={styles.buttonText}>Add</Text>
@@ -170,8 +198,9 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
           bgColor={Theme.palette.main.primary}
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
+          disabled={projects.length === 0 && certificates.length === 0}
           onPress={handleFinishCV}
-          isLoading={false}
+          isLoading={loading}
         />
       </View>
     </View>

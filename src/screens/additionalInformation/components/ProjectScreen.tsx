@@ -24,21 +24,23 @@ type ProjectScreenProps = {
 
 type FieldProps = {
   projectName: string
-  startTime: string
-  endTime: string
-  teamZone: number
-  responsibility: string
-  source: string
+  startDate: string
+  endDate: string
+  teamSize: number
+  role: string
+  responsibilities: string
+  sourceLink: string
   description: string
 }
 
 const projectSchema = yup.object({
   projectName: yup.string().required(),
-  startTime: yup.string().required(),
-  endTime: yup.string().required(),
-  teamZone: yup.number().required(),
-  responsibility: yup.string().required(),
-  source: yup.string().required(),
+  startDate: yup.string().required(),
+  endDate: yup.string().required(),
+  teamSize: yup.number().integer().required(),
+  role: yup.string().required(),
+  responsibilities: yup.string().required(),
+  sourceLink: yup.string().required(),
   description: yup.string().required(),
 })
 
@@ -52,25 +54,33 @@ const projectInformation = [
     keyboardType: 'default',
   },
   {
-    label: 'Start Time',
+    label: 'Start Date',
     type: 'name',
-    inputName: 'startTime',
+    inputName: 'startDate',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
   {
-    label: 'End Time',
+    label: 'End Date',
     type: 'name',
-    inputName: 'endTime',
+    inputName: 'endDate',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
   {
-    label: 'Team zone',
+    label: 'Team size',
     type: 'number',
-    inputName: 'teamZone',
+    inputName: 'teamSize',
+    placeholder: '',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+  },
+  {
+    label: 'Role',
+    type: 'name',
+    inputName: 'role',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
@@ -78,7 +88,7 @@ const projectInformation = [
   {
     label: 'Responsibility',
     type: 'name',
-    inputName: 'responsibility',
+    inputName: 'responsibilities',
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
@@ -110,6 +120,16 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
   } = useForm<FieldProps>({
     mode: 'onChange',
     resolver: yupResolver(projectSchema),
+    defaultValues: {
+      projectName: 'project',
+      startDate: '2022-02-23',
+      endDate: '2022-04-23',
+      teamSize: 4,
+      role: 'Frontend',
+      responsibilities: 'Response to build backend server in e-commercial application',
+      sourceLink: 'https://github.com/kcvdk3101',
+      description: 'Senior Project',
+    },
   })
   const dispatch = useAppDispatch()
 

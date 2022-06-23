@@ -28,33 +28,16 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
   const [total, setTotal] = useState<number>(1)
   const [skillsSelected, setSkillsSelected] = useState<string>('')
 
-  let filterArray = Skills
+  // let filterArray = Skills
+  const [filterArray, setFilterArray] = useState(Skills)
 
   const handleOnChange = (data: string) => {
     setSkillsSelected(data)
   }
 
-  const handleAddSkill = (data: string) => {
-    setListSkills([...listSkills, { name: data }])
-    let indexSkillSelected = filterArray.findIndex((skill) => skill.value === data)
-    filterArray.splice(indexSkillSelected, 1)
-  }
-
   return (
-    <View
-      style={{
-        flex: 1,
-        padding: 16,
-      }}
-    >
-      <Text
-        style={{
-          ...Theme.fonts.headline.h6,
-          marginBottom: 8,
-        }}
-      >
-        List of Skills
-      </Text>
+    <View style={styles.container}>
+      <Text style={styles.heading}>List of Skills</Text>
       {[...Array(total).keys()].map((item, index) => (
         <RNPickerSelect
           key={index}
@@ -69,49 +52,23 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
               (skill) => skill.value === skillsSelected,
             )
             filterArray.splice(indexSkillSelected, 1)
+            setFilterArray(filterArray)
           }}
         />
       ))}
       <TouchableOpacity
-        style={{
-          backgroundColor: 'transparent',
-          ...Theme.shadow.depth1,
-          borderRadius: 8,
-          padding: 12,
-          marginVertical: 4,
-        }}
+        style={styles.buttonAddContainer}
         activeOpacity={0.8}
         onPress={() => {
           setTotal(total + 1)
         }}
       >
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{
-              textAlign: 'center',
-              ...Theme.fonts.body.body1,
-              color: Theme.palette.main.primary,
-            }}
-          >
-            Add new
-          </Text>
+        <View style={styles.buttonAddInnerContainer}>
+          <Text style={styles.buttonAddText}>Add new</Text>
           <Ionicons name="add" size={24} color={Theme.palette.main.primary} />
         </View>
       </TouchableOpacity>
-      <View
-        style={{
-          position: 'absolute',
-          top: screenHeight * 0.8,
-          width: '100%',
-          marginHorizontal: 16,
-        }}
-      >
+      <View style={styles.buttonDone}>
         <GeneralButton
           label="Done"
           bgColor={Theme.palette.main.primary}
@@ -130,7 +87,39 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
 
 export default TechnicalSkillsScreen
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 16,
+  },
+  heading: {
+    ...Theme.fonts.headline.h6,
+    marginBottom: 8,
+  },
+  buttonAddContainer: {
+    backgroundColor: 'transparent',
+    ...Theme.shadow.depth1,
+    borderRadius: 8,
+    padding: 12,
+    marginVertical: 4,
+  },
+  buttonAddInnerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonAddText: {
+    textAlign: 'center',
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.main.primary,
+  },
+  buttonDone: {
+    position: 'absolute',
+    top: screenHeight * 0.8,
+    width: '100%',
+    marginHorizontal: 16,
+  },
+})
 
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {

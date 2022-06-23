@@ -69,6 +69,11 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
   } = useForm<FieldProps>({
     mode: 'onChange',
     resolver: yupResolver(certiSchema),
+    defaultValues: {
+      name: 'TOEIC',
+      issueDate: '2022-07-22',
+      organizer: 'IIG VietNam',
+    },
   })
   const dispatch = useAppDispatch()
 

@@ -1,9 +1,10 @@
 import { Ionicons } from '@expo/vector-icons'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
+  Alert,
   KeyboardAvoidingView,
   KeyboardTypeOptions,
   Platform,
@@ -20,9 +21,10 @@ import ChipButton from '../../components/buttons/ChipButton'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import VerticalInput from '../../components/common/VerticalInput'
 import { phoneRegExp } from '../../constant'
-import { useAppSelector } from '../../hooks/redux'
+import { saveCVId } from '../../features/cvSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
-
+import { StudentModel } from '../../models/student.model'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -90,10 +92,12 @@ const generalInformation = [
 ]
 
 const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
-  const { firstName, lastName, email, phoneNumber, studentId } = useAppSelector(
+  const { firstName, lastName, email, phoneNumber, studentId, student } = useAppSelector(
     (state) => state.auth.user,
   )
   const curCV = useAppSelector((state) => state.cv.curCV)
+  const { birthDate, address } = student as StudentModel
+  const dispatch = useAppDispatch()
 
   const {
     control,
@@ -122,15 +126,39 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
     formData.append('name', curCV.name)
 
     try {
+      let skills = curCV.details.skills.map((s) => ({ ...s, rating: 4 }))
+      let contacts = [
+        {
+          title: 'Phone Number',
+          content: phoneNumber as string,
+        },
+        {
+          title: 'Address',
+          content: address as string,
+        },
+        {
+          title: 'Birthday',
+          content: birthDate as string,
+        },
+      ]
+
       const response = await cvApi.addNewCV(studentId, formData)
-      // cv id is here
-      console.log(response)
-      navigation.navigate('AdditionalInformationScreen')
+      if (response.data.length > 0) {
+        dispatch(saveCVId(response.data[0].id))
+        const responseSkill = await cvApi.addSkill(response.data[0].id, skills)
+        const responseContact = await cvApi.addContact(response.data[0].id, contacts)
+
+        if (responseSkill.data.length > 0 && responseContact.data.length > 0) {
+          navigation.navigate('AdditionalInformationScreen')
+        } else {
+          navigation.navigate('CVForm')
+        }
+      }
     } catch (error) {
-      console.log('error ne', error)
+      Alert.alert('Something wrong !')
+      navigation.navigate('CVForm')
     } finally {
       setloading(false)
-      navigation.navigate('AdditionalInformationScreen')
     }
   }
 
@@ -194,30 +222,16 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           <View style={styles.form}>
             <View style={styles.skillContainer}>
               {curCV.details.skills && curCV.details.skills.length > 0 ? (
-                <View>
-                  <View style={styles.list}>
-                    {curCV.details.skills.map((skill, index) => (
-                      <ChipButton
-                        key={index}
-                        name={skill.name}
-                        bgColor={Theme.palette.black.primary}
-                        txtColor={Theme.palette.white.primary}
-                        fsize={14}
-                      />
-                    ))}
-                  </View>
-                  <TouchableOpacity
-                    style={styles.button}
-                    activeOpacity={0.8}
-                    onPress={
-                      loading ? () => {} : () => navigation.navigate('TechnicalSkillsScreen')
-                    }
-                  >
-                    <View style={styles.buttonContainer}>
-                      <Text style={styles.buttonText}>Add skill</Text>
-                      <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
-                    </View>
-                  </TouchableOpacity>
+                <View style={styles.list}>
+                  {curCV.details.skills.map((skill, index) => (
+                    <ChipButton
+                      key={index}
+                      name={skill.name}
+                      bgColor={Theme.palette.black.primary}
+                      txtColor={Theme.palette.white.primary}
+                      fsize={14}
+                    />
+                  ))}
                 </View>
               ) : (
                 <TouchableOpacity

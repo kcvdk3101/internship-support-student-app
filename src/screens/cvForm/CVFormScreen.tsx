@@ -12,7 +12,6 @@ import VerticalInput from '../../components/common/VerticalInput'
 import { addCVName } from '../../features/cvSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
-import RNFetchBlob from 'rn-fetch-blob'
 
 type CVFormScreenProps = {
   navigation: DrawerNavigationProp<ParamListBase>
@@ -48,7 +47,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
       setImage('')
       setErrorImage('')
     }
-  }, [])
+  }, [navigation])
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({

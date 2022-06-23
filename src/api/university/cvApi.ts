@@ -25,28 +25,33 @@ const cvApi = {
         return formData
       },
     })
-    // return fetch(`${UNIVERSITY_URL}/resume?studentId=${studentId}`, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'multipart/form-data; boundary=------random-boundary',
-    //   },
-    //   body: data,
-
-    // })
   },
 
   updateCV(cvId: string, data: object) {
     return axiosUniversity.patch(`/resume?id=${cvId}`, data)
   },
 
-  addContact(cvId: string, contacts: ContactModel[]) {
-    return axiosUniversity.post(`/contact?cvId=${cvId}`, { contacts })
+  addContact(
+    cvId: string,
+    contact: {
+      title: string
+      content: string
+    }[],
+  ) {
+    return axios.post(
+      `${UNIVERSITY_URL}/contact?cvId=${cvId}`,
+      { contact },
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      },
+    )
   },
 
-  updateContact(studentId: string, data: object) {
-    return axiosUniversity.patch(`/contact?id=${studentId}`, data)
-  },
+  // updateContact(studentId: string, data: object) {
+  //   return axiosUniversity.patch(`/contact?id=${studentId}`, data)
+  // },
 
   addSkill(
     cvId: string,
@@ -55,23 +60,49 @@ const cvApi = {
       rating: number
     }[],
   ) {
-    return axiosUniversity.post(`/skill?cvId=${cvId}`, { skills })
+    return axios.post(
+      `${UNIVERSITY_URL}/skill?cvId=${cvId}`,
+      { skills },
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      },
+    )
   },
 
-  updateSkill(studentId: string, data: object) {
-    return axiosUniversity.patch(`/skill?id=${studentId}`, data)
-  },
+  // updateSkill(studentId: string, data: object) {
+  //   return axiosUniversity.patch(`/skill?id=${studentId}`, data)
+  // },
 
   addNewProject(cvId: string, project: ProjectModel[]) {
-    return axiosUniversity.post(`/project?cvId=${cvId}`, { project })
+    console.log('cvId', cvId)
+    console.log('project', project)
+    return axios.post(
+      `${UNIVERSITY_URL}/project?cvId=${cvId}`,
+      { project },
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      },
+    )
   },
 
-  updateProject(cvId: string, data: object) {
-    return axiosUniversity.patch(`/project?cvId=${cvId}`, data)
-  },
+  // updateProject(cvId: string, data: object) {
+  //   return axiosUniversity.patch(`/project?cvId=${cvId}`, data)
+  // },
 
   addNewCertificated(cvId: string, certificated: CertificatedModel[]) {
-    return axiosUniversity.post(`/certificated?cvId=${cvId}`, { certificated })
+    return axios.post(
+      `${UNIVERSITY_URL}/certificated?cvId=${cvId}`,
+      { certificated },
+      {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+      },
+    )
   },
 
   // updateContact(studentId: string, data: object) {
