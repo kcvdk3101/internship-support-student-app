@@ -12,6 +12,7 @@ import VerticalInput from '../../components/common/VerticalInput'
 import { addCVName } from '../../features/cvSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
+import RNFetchBlob from 'rn-fetch-blob'
 
 type CVFormScreenProps = {
   navigation: DrawerNavigationProp<ParamListBase>
@@ -62,29 +63,29 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
     }
   }
 
-  const onSubmit = async (data: FieldProps) => {
-    let filename: string = image.split('/').pop() as string
-
-    // Infer the type of the image
-    let match = /\.(\w+)$/.exec(filename)
-    let type = match ? `image/${match[1]}` : `image`
-
+  const onSubmit = (data: FieldProps) => {
     if (data.cvName === '') return
     if (image === '') {
       setErrorImage('Image is not empty')
       return
     }
-    try {
-      dispatch(
-        addCVName({
-          name: data.cvName,
-          data: { uri: image, originalname: filename, mimetype: type },
-        }),
-      )
-      navigation.navigate('GeneralInformationScreen')
-    } catch (error) {
-      navigation.navigate('CVScreen')
-    }
+
+    let filename: string = image.split('/').pop() as string
+
+    // Infer the type of the image
+    let match = /\.(\w+)$/.exec(filename)
+    let type = match ? `image/${match[1]}` : `image`
+    dispatch(
+      addCVName({
+        name: data.cvName,
+        data: { uri: image, originalname: filename, mimetype: type },
+      }),
+    )
+    navigation.navigate('GeneralInformationScreen')
+    // try {
+    // } catch (error) {
+    //   navigation.navigate('CVScreen')
+    // }
   }
 
   return (

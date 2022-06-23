@@ -23,6 +23,7 @@ import { phoneRegExp } from '../../constant'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 
+
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }

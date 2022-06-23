@@ -12,7 +12,7 @@ export interface CVModel extends Common {
   position: string
   content: string
   slug?: string
-  images?: string[]
+  images?: any[]
   details: {
     student: StudentModel[]
     contacts: ContactModel[]
