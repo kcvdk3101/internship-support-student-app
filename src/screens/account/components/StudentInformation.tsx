@@ -14,10 +14,7 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
         <>
           <View style={styles.profile}>
             <View style={styles.avatarContainer}>
-              <Image
-                style={styles.avatar}
-                source={{ uri: 'https://picsum.photos/id/237/200/300' }}
-              />
+              <Image style={styles.avatar} source={{ uri: 'https://picsum.photos/200/300' }} />
             </View>
             <Text style={styles.profileText}>{student.fullName}</Text>
           </View>

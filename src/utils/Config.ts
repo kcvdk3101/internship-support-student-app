@@ -1,3 +1,3 @@
-export const USER_URL = 'http://d104-2405-4802-8039-3af0-2448-3aeb-58fb-bca9.ngrok.io'
-export const UNIVERSITY_URL = 'https://0d99-2405-4802-8039-3af0-2448-3aeb-58fb-bca9.ngrok.io'
-export const CORPORATION_URL = 'https://6a5a-2405-4802-8039-3af0-2448-3aeb-58fb-bca9.ngrok.io'
+export const USER_URL = 'https://d6ab-2405-4802-9018-c330-6ce1-ef21-1dc7-ae77.ngrok.io'
+export const UNIVERSITY_URL = 'https://adc8-2405-4802-9018-c330-6ce1-ef21-1dc7-ae77.ngrok.io'
+export const CORPORATION_URL = 'https://28ca-2405-4802-9018-c330-6ce1-ef21-1dc7-ae77.ngrok.io'

@@ -8,7 +8,7 @@ import axiosUniversity from './axiosUniversity'
 
 const cvApi = {
   getCV(studentId: string, limit: number, offset: number) {
-    return axiosUniversity.get<string, CVModel[]>(
+    return axiosUniversity.get<string, { data: CVModel[] }>(
       `/resume/student?id=${studentId}&limit=${limit}&offset=${offset}`,
     )
   },

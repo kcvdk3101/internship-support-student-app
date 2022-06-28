@@ -12,7 +12,7 @@ export const getCVByStudentId = createAsyncThunk(
   'cv/getCVByStudentId',
   async ({ studentId, limit, offset }: { studentId: string; limit: number; offset: number }) => {
     const response = await cvApi.getCV(studentId, limit, offset)
-    return response
+    return response.data
   },
 )
 

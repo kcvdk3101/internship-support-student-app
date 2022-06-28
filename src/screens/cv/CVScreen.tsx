@@ -7,6 +7,7 @@ import CVCard from '../../components/cards/CVCard'
 import { getCVByStudentId } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
+import { Utils } from '../../utils/Utils'
 import AuthenticationScreen from '../authentication/AuthenticationScreen'
 
 type CVScreenProps = {
@@ -25,16 +26,18 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     ;(async () => {
-      setLoading(true)
-      try {
-        const response = await dispatch(getCVByStudentId({ studentId, limit: 10, offset: 0 }))
-        if (response.meta.requestStatus === 'fulfilled') {
+      if (studentId !== '') {
+        setLoading(true)
+        try {
+          const response = await dispatch(getCVByStudentId({ studentId, limit: 10, offset: 0 }))
+          if (response.meta.requestStatus === 'fulfilled') {
+            setLoading(false)
+          }
+        } catch (error) {
+          Alert.alert('Something wrong!')
+        } finally {
           setLoading(false)
         }
-      } catch (error) {
-        Alert.alert('Something wrong!')
-      } finally {
-        setLoading(false)
       }
     })()
   }, [isAuthenticated])
@@ -65,15 +68,20 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             <Text style={styles.heading}>CV / Cover Letter</Text>
             <ScrollView>
               {loading ? (
-                <View>
+                <View style={{ marginVertical: 8 }}>
                   <ActivityIndicator size="large" color={Theme.palette.background.modal} />
                 </View>
               ) : (
-                <View>
-                  {CVs ? (
+                <View style={{ marginVertical: 8 }}>
+                  {CVs && CVs.length > 0 ? (
                     <View>
                       {CVs.map((cv, index) => (
-                        <CVCard key={index} name={cv.name} createdAt={cv.createdAt as string} />
+                        <CVCard
+                          key={index}
+                          name={cv.name}
+                          position={`Position: ${cv.position}`}
+                          createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
+                        />
                       ))}
                     </View>
                   ) : (

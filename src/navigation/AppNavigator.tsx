@@ -16,9 +16,9 @@ const AppNavigator: React.FC = () => {
   }
 
   // FUNCTION USED FOR TESTING FIRST TIME OPEN APP
-  // const clearStorageData = async () => {
-  //   await AsyncStorage.clear()
-  // }
+  const clearStorageData = async () => {
+    await AsyncStorage.clear()
+  }
 
   useEffect(() => {
     // clearStorageData()

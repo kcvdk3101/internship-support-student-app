@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
-import { useAppDispatch, useAppSelector } from '../../hooks/redux'
+import { useAppSelector } from '../../hooks/redux'
 import { StudentModel } from '../../models/student.model'
 import Theme from '../../utils/Theme'
+import { Utils } from '../../utils/Utils'
 import ChangePasswordButton from './changePassword/ChangePasswordButton'
 import ChangePasswordScreen from './changePassword/ChangePasswordScreen'
 import LogOutButton from './components/LogOutButton'
@@ -20,9 +21,7 @@ type AccountScreenProps = {
 }
 
 const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
-  const dispatch = useAppDispatch()
   const user = useAppSelector((state) => state.auth.user)
-
   const [actions, setActions] = useState({
     openForm: false,
     openRegisterForm: false,
@@ -34,24 +33,6 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
       navigation.navigate('HomeTab')
     }
   }, [user])
-
-  // useEffect(() => {
-  //   ;(async () => {
-  //     try {
-  //       const response = await dispatch(
-  //         getCVByStudentId({ studentId: user.id, limit: 10, offset: 0 }),
-  //       )
-  //       if (response.meta.requestStatus === 'fulfilled') {
-  //         setStudentCV(response.payload as CVModel[])
-  //       }
-  //     } catch (error) {
-  //       Alert.alert('Cannot load your CV')
-  //     }
-  //   })()
-  //   return () => {
-  //     setStudentCV([])
-  //   }
-  // }, [])
 
   const handleActionOpenForm = (action: string) => {
     setActions({ ...actions, [action]: true })
@@ -85,7 +66,12 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
             {user.student?.cv ? (
               <>
                 {user.student?.cv.map((cv, index) => (
-                  <CVCard key={index} name={cv.slug as string} createdAt={'today'} />
+                  <CVCard
+                    key={index}
+                    name={cv.name}
+                    position={`Position: ${cv.position}`}
+                    createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
+                  />
                 ))}
               </>
             ) : (

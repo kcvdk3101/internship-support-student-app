@@ -1,42 +1,21 @@
-import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, Text, View } from 'react-native'
 import Theme from '../../utils/Theme'
 
 type CVItemProps = {
   name: string
+  position: string
   createdAt: string
 }
 
-const CVCard: React.FC<CVItemProps> = ({ name, createdAt }) => {
+const CVCard: React.FC<CVItemProps> = ({ name, position, createdAt }) => {
   return (
     <View style={styles.cvItemContainer}>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
-        <Text style={styles.cvItemName}>{name}</Text>
-        <TouchableOpacity>
-          <Image
-            style={styles.deleteIcon}
-            source={require('../../assets/images/icon-delete.png')}
-          />
-        </TouchableOpacity>
+      <Text style={styles.cvItemName}>{name}</Text>
+      <View style={{ marginTop: 8 }}>
+        <Text style={styles.text}>{position}</Text>
+        <Text style={styles.text}>{createdAt}</Text>
       </View>
-      <View style={{ marginTop: 10 }}>
-        <View style={styles.flex}>
-          <Image style={styles.icon} source={require('../../assets/images/icon-bolt.png')} />
-          <Text style={styles.text}>{createdAt}</Text>
-        </View>
-      </View>
-      {/* <View style={styles.btnItem}>
-        <TouchableOpacity>
-          <Text style={styles.btnItemText}>preview</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   )
 }
@@ -52,7 +31,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   cvItemName: {
-    ...Theme.fonts.body.body1,
+    ...Theme.fonts.headline.h6,
     color: Theme.palette.black.primary,
   },
   deleteIcon: {
@@ -60,14 +39,14 @@ const styles = StyleSheet.create({
     height: 30,
     tintColor: Theme.palette.red.signOut,
   },
+  text: {
+    ...Theme.fonts.body.body1,
+    marginTop: 4,
+  },
   icon: {
     width: 15,
     height: 15,
     tintColor: Theme.palette.paragraph.primary,
-  },
-  text: {
-    flex: 1,
-    marginLeft: 10,
   },
   flex: {
     flexDirection: 'row',

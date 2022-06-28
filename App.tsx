@@ -1,5 +1,4 @@
 import AppLoading from 'expo-app-loading'
-import * as Font from 'expo-font'
 import { useState } from 'react'
 import { StatusBar } from 'react-native'
 import { Provider } from 'react-redux'
