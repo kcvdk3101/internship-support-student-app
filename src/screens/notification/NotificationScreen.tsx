@@ -1,32 +1,41 @@
+import React, { useEffect, useState } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React, { useState } from 'react'
-import { notificationsData } from '../../db/NotificationData'
+import postApi from '../../api/university/postApi'
 import NotificationCard from '../../components/cards/NotificationCard'
+import { ADMIN } from '../../constant'
+import { PostModel } from '../../models/post.model'
 
 type NotificationScreenProps = {}
 
 const NotificationScreen: React.FC<NotificationScreenProps> = () => {
   const [isLoading, setIsLoading] = useState(false)
+  const [data, setData] = useState<PostModel[]>([])
+  const [offset, setOffset] = useState(0)
 
-  const handleRefeshing = () => {
-    console.log('refresh new notification')
-    // setIsLoading(!isLoading)
-  }
+  useEffect(() => {
+    ;(async () => {
+      try {
+        const response = await postApi.getAllPosts(ADMIN, offset)
+        if (response.data.length > 0) {
+          setData(response.data)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [])
 
   return (
     <View style={styles.container}>
       <FlatList
-        refreshing={isLoading}
-        onRefresh={handleRefeshing}
-        data={notificationsData}
+        data={data}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item, index }) => (
           <NotificationCard
             key={index}
             title={item.title}
             content={item.content}
-            createdAt={item.createdAt}
-            hadRead={item.hadRead}
+            hadRead={item.isPublished}
           />
         )}
         ListEmptyComponent={() => (
@@ -46,5 +55,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 8,
   },
 })

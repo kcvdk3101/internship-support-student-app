@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, Linking, StyleSheet, Text, View } from 'react-native'
 import { StudentModel } from '../../../models/student.model'
 import Theme from '../../../utils/Theme'
 
@@ -8,6 +8,10 @@ type StudentInformationProps = {
 }
 
 const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
+  const openContact = (phoneNumber: string) => {
+    Linking.openURL(`tel:${phoneNumber}`)
+  }
+
   return (
     <>
       {student && (
@@ -17,6 +21,21 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
               <Image style={styles.avatar} source={{ uri: 'https://picsum.photos/200/300' }} />
             </View>
             <Text style={styles.profileText}>{student.fullName}</Text>
+            <Text
+              style={{
+                marginTop: 8,
+                fontStyle: 'italic',
+                ...Theme.fonts.headline.h6,
+                color:
+                  student.status === 'Chưa thực tập'
+                    ? Theme.palette.red.signOut
+                    : student.status === 'Đang thực tập'
+                    ? Theme.palette.paragraph.primary
+                    : Theme.palette.green.success,
+              }}
+            >
+              {student.status}
+            </Text>
           </View>
 
           <View style={styles.container}>
@@ -25,6 +44,13 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
             <View style={styles.row}>
               <Text style={styles.title}>Student ID:</Text>
               <Text style={styles.content}>{student.identityNumber}</Text>
+            </View>
+            <View style={styles.row}>
+              <Text style={styles.title}>Phone number:</Text>
+
+              <Text style={styles.phone} onPress={() => openContact(student.phoneNumber)}>
+                {student.phoneNumber}
+              </Text>
             </View>
             <View style={styles.row}>
               <Text style={styles.title}>Class:</Text>
@@ -55,10 +81,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   title: { flex: 1, ...Theme.fonts.body.body1 },
   content: { fontWeight: 'bold', ...Theme.fonts.body.body1 },
+  phone: {
+    fontWeight: 'bold',
+    ...Theme.fonts.body.body1,
+    textDecorationLine: 'underline',
+    color: '#0194f3',
+  },
   profile: {
     justifyContent: 'center',
     alignItems: 'center',

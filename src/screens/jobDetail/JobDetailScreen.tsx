@@ -22,6 +22,7 @@ import { Salary } from '../../models/salary.model'
 import { Skill } from '../../models/skill.model'
 import Theme from '../../utils/Theme'
 import { Utils } from '../../utils/Utils'
+import ListCV from './components/ListCV'
 
 type JobDetailScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -42,6 +43,7 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
 
   const [jobById, setJobById] = useState<Response>()
   const [loading, setLoading] = useState(false)
+  const [openCVs, setOpenCVs] = useState(false)
 
   const locationDetail = `${jobById?.location[0].details}, ${jobById?.location[0].street} Street, District ${jobById?.location[0].district}`
 
@@ -62,6 +64,14 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
 
   const linkToGoogleMap = (destination: string) => {
     Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${destination}`)
+  }
+
+  const handleCloseCVs = () => {
+    setOpenCVs(false)
+  }
+
+  const handleOpenCVs = () => {
+    setOpenCVs(true)
   }
 
   return (
@@ -148,8 +158,10 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
               isAlignCenter={true}
               label="Easy to Apply"
               isLoading={false}
+              onPress={handleOpenCVs}
             />
           </View>
+          {openCVs && <ListCV handleCloseModal={handleCloseCVs} />}
         </>
       )}
     </SafeAreaView>

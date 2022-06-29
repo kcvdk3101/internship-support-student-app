@@ -2,7 +2,6 @@ import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { Image, Pressable, StyleSheet, View } from 'react-native'
-import logo from '../../assets/images/FITSI.png'
 import CustomBadge from '../../components/common/CustomBadge'
 import { notificationsData } from '../../db/NotificationData'
 import { useAppSelector } from '../../hooks/redux'
@@ -35,14 +34,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
               props.navigation.navigate('Notifications')
             }}
           >
-            <View>
-              <Ionicons name="notifications" size={28} color={Theme.palette.black.primary} />
-              <CustomBadge
-                visible={notificationsData.length > 0}
-                size={12}
-                bgColor={Theme.palette.main.primary}
-              />
-            </View>
+            <Ionicons name="notifications" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
       }}
@@ -53,7 +45,13 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
-          headerTitle: () => <Image source={logo} resizeMode="contain" style={styles.tinyLogo} />,
+          headerTitle: () => (
+            <Image
+              source={require('../../assets/images/FITSI.png')}
+              resizeMode="contain"
+              style={styles.tinyLogo}
+            />
+          ),
           headerTitleStyle: {
             flex: 1,
             textAlign: 'center',
@@ -77,7 +75,13 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           title: 'Your CV',
           tabBarLabel: 'CV',
           tabBarIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
-          headerTitle: () => <Image source={logo} resizeMode="contain" style={styles.tinyLogo} />,
+          headerTitle: () => (
+            <Image
+              source={require('../../assets/images/FITSI.png')}
+              resizeMode="contain"
+              style={styles.tinyLogo}
+            />
+          ),
           headerTitleStyle: {
             flex: 1,
             textAlign: 'center',

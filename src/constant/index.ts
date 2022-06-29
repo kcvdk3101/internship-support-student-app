@@ -1,29 +1,10 @@
 import { Dimensions } from 'react-native'
-import Theme from '../utils/Theme'
-
-export const socialLinks = [
-  {
-    icon: 'logo-facebook',
-    path: 'https://www.facebook.com/',
-    color: Theme.palette.black.primary,
-  },
-  {
-    icon: 'logo-youtube',
-    path: 'https://www.youtube.com/channel/UC4F4wansipyY1b5FnrA2xOQ',
-    color: Theme.palette.black.primary,
-  },
-  {
-    icon: 'logo-github',
-    path: 'https://github.com/kcvdk3101',
-    color: Theme.palette.black.primary,
-  },
-]
 
 export const drawers = [
   {
     icon: 'home',
     label: 'Home',
-    navigate: 'MenuTab',
+    navigate: 'HomeTab',
   },
   {
     icon: 'business',
@@ -34,11 +15,6 @@ export const drawers = [
     icon: 'document',
     label: 'Your CV',
     navigate: 'CVTab',
-  },
-  {
-    icon: 'archive',
-    label: 'Applied Job',
-    navigate: 'AppliedJob',
   },
 ]
 
@@ -69,6 +45,8 @@ export const phoneRegExp =
 
 export const IS_FIRST_TIME = 'IS_FIRST_TIME'
 export const FIRST_TIME_OPEN_VALUE = 'FIRST_TIME_OPEN_VALUE'
+
+export const ADMIN = '91066FB2-C09D-4098-9C7F-9046289F454A'
 
 export const screenWidth = Dimensions.get('screen').width
 export const screenHeight = Dimensions.get('screen').height

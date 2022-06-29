@@ -10,15 +10,10 @@ type AvatarProps = {
 const Avatar: React.FC<AvatarProps> = ({ firstName, lastName }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={{ uri: 'https://picsum.photos/id/237/200/300' }} />
-      </View>
-      <View style={styles.info}>
-        <Text style={styles.name}>
-          {lastName} {firstName}
-        </Text>
-        <Text style={styles.seemore}>See your profile</Text>
-      </View>
+      <Text style={styles.name}>
+        {lastName} {firstName}
+      </Text>
+      <Text style={styles.seemore}>See your profile</Text>
     </View>
   )
 }
@@ -28,27 +23,14 @@ export default Avatar
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     marginVertical: 8,
   },
-  logoContainer: {
-    flexShrink: 0,
-    marginRight: 16,
-    ...Theme.shadow.depth1,
-  },
-  logo: {
-    width: 60,
-    height: 60,
-    borderRadius: 100,
-  },
-  info: {
-    flex: 1,
-  },
   name: {
-    ...Theme.fonts.headline.h5,
-    color: Theme.palette.white.primary,
+    ...Theme.fonts.headline.h6,
+    color: Theme.palette.black.primary,
   },
   seemore: {
     marginTop: 4,

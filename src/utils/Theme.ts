@@ -21,6 +21,9 @@ export default {
       signOut: '#EC1E20',
       error: '#BF0000',
     },
+    green: {
+      success: '#00f48b',
+    },
     background: {
       modal: '#000000AA',
     },

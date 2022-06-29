@@ -1,4 +1,4 @@
-import { Alert, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { Alert, SafeAreaView, StyleSheet, Text, View, Image } from 'react-native'
 import React, { useState } from 'react'
 import {
   DrawerContentScrollView,
@@ -12,7 +12,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Drawer } from 'react-native-paper'
 import OpenURLButton from '../../components/buttons/OpenURLButton'
-import { drawers, socialLinks } from '../../constant'
+import { drawers } from '../../constant'
 import { logout } from '../../features/authenticationSlice'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
@@ -68,19 +68,19 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
               </TouchableOpacity>
             ) : (
               <GeneralButton
-                bgColor={Theme.palette.white.primary}
+                bgColor={Theme.palette.main.primary}
                 onPress={handleOpenModal}
                 isLoading={false}
                 label="Sign in"
                 isAlignCenter={true}
-                txtColor={Theme.palette.main.primary}
+                txtColor={Theme.palette.white.primary}
               />
             )}
             {drawers.map((drw, index) => (
               <DrawerItem
                 key={index}
                 labelStyle={{
-                  color: Theme.palette.white.primary,
+                  color: Theme.palette.main.primary,
                   ...Theme.fonts.body.body1,
                 }}
                 icon={() => (
@@ -94,7 +94,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                         ? 'document'
                         : 'archive'
                     }
-                    color={Theme.palette.white.primary}
+                    color={Theme.palette.main.primary}
                     size={24}
                   />
                 )}
@@ -104,21 +104,24 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
             ))}
           </Drawer.Section>
           <View style={styles.socialLinks}>
-            {socialLinks.map((link, index) => (
-              <OpenURLButton url={link.path} key={index}>
-                <Ionicons
-                  name={
-                    link.icon === 'logo-facebook'
-                      ? 'logo-facebook'
-                      : link.icon === 'logo-youtube'
-                      ? 'logo-youtube'
-                      : 'logo-github'
-                  }
-                  color={link.color}
-                  size={24}
-                />
-              </OpenURLButton>
-            ))}
+            <OpenURLButton url="https://www.facebook.com/nhan.ho.14019">
+              <Image
+                style={{ resizeMode: 'contain', width: 80, height: 80 }}
+                source={require('../../assets/images/facebook.png')}
+              />
+            </OpenURLButton>
+            <OpenURLButton url="https://www.youtube.com/channel/UC4F4wansipyY1b5FnrA2xOQ">
+              <Image
+                style={{ resizeMode: 'contain', width: 80, height: 80 }}
+                source={require('../../assets/images/youtube.png')}
+              />
+            </OpenURLButton>
+            <OpenURLButton url="https://join.skype.com/invite/V8Sbqdc6SoRy">
+              <Image
+                style={{ resizeMode: 'contain', width: 80, height: 80 }}
+                source={require('../../assets/images/skype.png')}
+              />
+            </OpenURLButton>
           </View>
         </View>
       </DrawerContentScrollView>
@@ -155,7 +158,7 @@ export default CustomDrawerContent
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.palette.main.primary,
+    backgroundColor: Theme.palette.white.primary,
   },
   innerContainer: {
     paddingHorizontal: 16,

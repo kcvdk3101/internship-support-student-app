@@ -11,7 +11,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native'
-import { screenHeight, screenWidth } from '../../constant'
+import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import ForgotPasswordScreen from './components/forgotPassword/ForgotPasswordScreen'
 import LoginScreen from './components/login/LoginScreen'

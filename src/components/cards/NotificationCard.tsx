@@ -6,24 +6,18 @@ import Theme from '../../utils/Theme'
 type NotificationCardProps = {
   title: string
   content: string
-  createdAt: string | Date | number
   hadRead: boolean
 }
 
-const NotificationCard: React.FC<NotificationCardProps> = ({
-  title,
-  content,
-  createdAt,
-  hadRead,
-}) => {
+const NotificationCard: React.FC<NotificationCardProps> = ({ title, content, hadRead }) => {
+  const hadBeenRead = hadRead ? Theme.palette.black.primary : Theme.palette.white.primary
+
   return (
     <View
       style={[
         styles.container,
         {
-          backgroundColor: hadRead
-            ? Theme.palette.white.primary
-            : Theme.palette.main.secondary,
+          backgroundColor: hadRead ? Theme.palette.white.primary : Theme.palette.main.secondary,
         },
       ]}
     >
@@ -32,25 +26,11 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
           style={[
             styles.heading,
             {
-              color: hadRead
-                ? Theme.palette.black.primary
-                : Theme.palette.white.primary,
+              color: hadBeenRead,
             },
           ]}
         >
           {title}
-        </Text>
-        <Text
-          style={[
-            styles.timestamp,
-            {
-              color: hadRead
-                ? Theme.palette.black.primary
-                : Theme.palette.white.primary,
-            },
-          ]}
-        >
-          {createdAt}
         </Text>
       </View>
       <View style={styles.contentContainer}>
@@ -58,9 +38,7 @@ const NotificationCard: React.FC<NotificationCardProps> = ({
           style={[
             styles.content,
             {
-              color: hadRead
-                ? Theme.palette.black.primary
-                : Theme.palette.white.primary,
+              color: hadBeenRead,
             },
           ]}
         >
@@ -75,9 +53,11 @@ export default NotificationCard
 
 const styles = StyleSheet.create({
   container: {
-    width: screenWidth,
     padding: 12,
     ...Theme.shadow.depth3,
+    marginBottom: 8,
+    marginHorizontal: 8,
+    borderRadius: 4,
   },
   headingContainer: {
     flexDirection: 'row',

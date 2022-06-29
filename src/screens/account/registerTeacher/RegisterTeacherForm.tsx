@@ -9,9 +9,11 @@ import GeneralButton from '../../../components/buttons/GeneralButton'
 import { useAppSelector } from '../../../hooks/redux'
 import AsyncStorageLib from '@react-native-async-storage/async-storage'
 
-type RegisterTeacherFormProps = {}
+type RegisterTeacherFormProps = {
+  handleCloseForm: (action: string) => void
+}
 
-const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = () => {
+const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseForm }) => {
   const user = useAppSelector((state) => state.auth.user)
   const placeholder = {
     label: 'Select teacher',
@@ -40,7 +42,7 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = () => {
           setTeachers([])
         }
       } catch (error) {
-        Alert.alert('Something wrong')
+        Alert.alert('Cannot load list teacher')
       }
     })()
     return () => {
@@ -56,12 +58,15 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = () => {
           teacherId: selectedTeacher,
         },
       ])
-      if (response.data[0].register.isActive) {
-        AsyncStorageLib.setItem('teacherId', JSON.stringify(selectedTeacher))
+      if (response[0].register.isActive) {
+        await AsyncStorageLib.setItem('@teacherId', selectedTeacher)
+        Alert.alert(response[0].message)
       }
     } catch (error) {
       console.log(error)
       Alert.alert('Something wrong!')
+    } finally {
+      handleCloseForm('openRegisterForm')
     }
   }
 

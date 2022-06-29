@@ -36,7 +36,7 @@ const RegisterTeacherScreen: React.FC<RegisterTeacherScreenProps> = ({ handleClo
                 size={30}
                 style={{ width: 50 }}
               />
-              <RegisterTeacherForm />
+              <RegisterTeacherForm handleCloseForm={handleCloseForm} />
             </View>
           </KeyboardAvoidingView>
         </SafeAreaView>

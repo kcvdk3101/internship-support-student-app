@@ -1,11 +1,15 @@
 import { Ionicons } from '@expo/vector-icons'
+import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import studentApi from '../../api/university/studentApi'
+import teacherApi from '../../api/university/teacherApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { useAppSelector } from '../../hooks/redux'
 import { StudentModel } from '../../models/student.model'
+import { TeacherModel } from '../../models/teacher.model'
 import Theme from '../../utils/Theme'
 import { Utils } from '../../utils/Utils'
 import ChangePasswordButton from './changePassword/ChangePasswordButton'
@@ -14,7 +18,6 @@ import LogOutButton from './components/LogOutButton'
 import StudentInformation from './components/StudentInformation'
 import TeacherInformation from './components/TeacherInformation'
 import RegisterTeacherScreen from './registerTeacher/RegisterTeacherScreen'
-import ReportButton from './report/ReportButton'
 
 type AccountScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -22,11 +25,40 @@ type AccountScreenProps = {
 
 const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
   const user = useAppSelector((state) => state.auth.user)
+  const CVs = useAppSelector((state) => state.cv.CVs)
+
   const [actions, setActions] = useState({
     openForm: false,
     openRegisterForm: false,
     openReportForm: false,
   })
+  const [teacher, setTeacher] = useState<TeacherModel>({
+    id: '',
+    firstName: '',
+    lastName: '',
+    fullName: '',
+    position: '',
+    department: '',
+    email: '',
+    phoneNumber: '',
+    studentAmount: 0,
+    maximumStudentAmount: 0,
+  })
+
+  useEffect(() => {
+    ;(async () => {
+      try {
+        let teacherId = await AsyncStorageLib.getItem('@teacherId')
+        if (teacherId === null) return
+
+        const response = await teacherApi.getTeacherById(teacherId)
+        console.log(response)
+        if (response.teacher.length > 0) {
+          setTeacher(response.teacher[0])
+        }
+      } catch (error) {}
+    })()
+  }, [])
 
   useEffect(() => {
     if ((typeof user.id !== 'string' && user.id === undefined) || '' || null) {
@@ -53,19 +85,16 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
 
         <StudentInformation student={user.student as StudentModel} />
 
-        <TeacherInformation
-          teacher={user.student?.nameTeacher}
-          handleActionOpenForm={handleActionOpenForm}
-        />
+        <TeacherInformation teacher={teacher} handleActionOpenForm={handleActionOpenForm} />
 
         <View style={styles.cvContainer}>
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
 
           {/* CV List */}
-          <ScrollView scrollEnabled style={{ height: 400 }}>
-            {user.student?.cv ? (
+          <ScrollView scrollEnabled style={{ height: CVs.length > 0 ? 400 : 'auto' }}>
+            {CVs && CVs.length > 0 ? (
               <>
-                {user.student?.cv.map((cv, index) => (
+                {CVs.map((cv, index) => (
                   <CVCard
                     key={index}
                     name={cv.name}
@@ -90,7 +119,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
         </View>
 
         {/* Report Button */}
-        <ReportButton handleOpenForm={handleActionOpenForm} />
+        {/* <ReportButton handleOpenForm={handleActionOpenForm} /> */}
 
         {/* Change password Button */}
         <ChangePasswordButton handleOpenForm={handleActionOpenForm} />

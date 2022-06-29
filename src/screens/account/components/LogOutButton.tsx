@@ -1,9 +1,10 @@
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
-import Theme from '../../../utils/Theme'
-import { useAppDispatch } from '../../../hooks/redux'
-import { logout } from '../../../features/authenticationSlice'
+import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
+import React from 'react'
+import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { logout } from '../../../features/authenticationSlice'
+import { useAppDispatch } from '../../../hooks/redux'
+import Theme from '../../../utils/Theme'
 
 type LogOutButtonProps = {
   navigation: NavigationProp<ParamListBase>
@@ -36,13 +37,7 @@ const LogOutButton: React.FC<LogOutButtonProps> = ({ navigation }) => {
   return (
     <View style={styles.signOutContainer}>
       <TouchableOpacity style={styles.btnLogOut} onPress={() => handleLogout()}>
-        <View>
-          <Image
-            style={styles.logOutImage}
-            resizeMode="contain"
-            source={require('../../../assets/images/icon-logout.png')}
-          />
-        </View>
+        <Ionicons name="log-out" size={28} color="black" />
         <Text style={styles.logOutText}>Log out</Text>
       </TouchableOpacity>
     </View>
@@ -65,11 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  logOutImage: {
-    width: 30,
-    height: 30,
-    tintColor: Theme.palette.red.signOut,
-  },
+
   logOutText: {
     marginLeft: 12,
     color: Theme.palette.red.signOut,
