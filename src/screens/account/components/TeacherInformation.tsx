@@ -1,4 +1,4 @@
-import { Linking, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Linking, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import GeneralButton from '../../../components/buttons/GeneralButton'
 import Theme from '../../../utils/Theme'
@@ -6,11 +6,13 @@ import { TeacherModel } from '../../../models/teacher.model'
 
 type TeacherInformationProps = {
   teacher: TeacherModel
+  loading: boolean
   handleActionOpenForm: (action: string) => void
 }
 
 const TeacherInformation: React.FC<TeacherInformationProps> = ({
   teacher,
+  loading,
   handleActionOpenForm,
 }) => {
   const openContact = (phoneNumber: string) => {
@@ -24,44 +26,52 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
   return (
     <View style={styles.container}>
       <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>Teacher Information</Text>
-      {teacher.id !== '' ? (
-        <View>
-          <View style={styles.row}>
-            <Text style={styles.title}>Fullname: </Text>
-            <Text style={styles.content}>{teacher.fullName}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.title}>Email:</Text>
-            <Text style={styles.content} selectable={true}>
-              {teacher.email}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.title}>Phone number:</Text>
-            <Text style={styles.phone} onPress={() => openContact(teacher.phoneNumber)}>
-              {teacher.phoneNumber}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.title}>Zalo contact:</Text>
-            <Text style={styles.phone} onPress={() => openZalo(teacher.phoneNumber)}>
-              {teacher.phoneNumber}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.title}>Department:</Text>
-            <Text style={styles.content}>{teacher.department}</Text>
-          </View>
+      {loading ? (
+        <View style={{ marginVertical: 8 }}>
+          <ActivityIndicator size="large" color={Theme.palette.background.modal} />
         </View>
       ) : (
-        <GeneralButton
-          bgColor={Theme.palette.main.third}
-          isAlignCenter={true}
-          label="Register Teacher"
-          txtColor={Theme.palette.white.primary}
-          isLoading={false}
-          onPress={() => handleActionOpenForm('openRegisterForm')}
-        />
+        <View>
+          {teacher.id !== '' ? (
+            <>
+              <View style={styles.row}>
+                <Text style={styles.title}>Fullname: </Text>
+                <Text style={styles.content}>{teacher.fullName}</Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.title}>Email:</Text>
+                <Text style={styles.content} selectable={true}>
+                  {teacher.email}
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.title}>Phone number:</Text>
+                <Text style={styles.phone} onPress={() => openContact(teacher.phoneNumber)}>
+                  {teacher.phoneNumber}
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.title}>Zalo contact:</Text>
+                <Text style={styles.phone} onPress={() => openZalo(teacher.phoneNumber)}>
+                  {teacher.phoneNumber}
+                </Text>
+              </View>
+              <View style={styles.row}>
+                <Text style={styles.title}>Department:</Text>
+                <Text style={styles.content}>{teacher.department}</Text>
+              </View>
+            </>
+          ) : (
+            <GeneralButton
+              bgColor={Theme.palette.main.third}
+              isAlignCenter={true}
+              label="Register Teacher"
+              txtColor={Theme.palette.white.primary}
+              isLoading={false}
+              onPress={() => handleActionOpenForm('openRegisterForm')}
+            />
+          )}
+        </View>
       )}
     </View>
   )

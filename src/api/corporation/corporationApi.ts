@@ -1,3 +1,4 @@
+import { boolean, string } from 'yup'
 import { CorporationModel } from '../../models/corporation.model'
 import axiosCorporation from './axiosCorporation'
 
@@ -30,6 +31,22 @@ const corporationApi = {
     return axiosCorporation.get<string, { corporation: CorporationModel[] }>(
       `${url}/filter?name=${name}`,
     )
+  },
+
+  applyCV(corpId: string, candidates: { studentId: string; cvId: string; jobId: string }[]) {
+    return axiosCorporation.post<
+      string,
+      {
+        candidate: {
+          cvId: string
+          id: string
+          isApproved: boolean
+          jobId: string
+          studentId: string
+        }[]
+        message: string
+      }
+    >(`/employee?corporationId=${corpId}`, { candidates })
   },
 }
 

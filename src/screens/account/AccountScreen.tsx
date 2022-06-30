@@ -2,12 +2,22 @@ import { Ionicons } from '@expo/vector-icons'
 import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
-import { Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Alert,
+  Pressable,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import studentApi from '../../api/university/studentApi'
 import teacherApi from '../../api/university/teacherApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
-import { useAppSelector } from '../../hooks/redux'
+import { getCVByStudentId } from '../../features/cvSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { StudentModel } from '../../models/student.model'
 import { TeacherModel } from '../../models/teacher.model'
 import Theme from '../../utils/Theme'
@@ -24,8 +34,15 @@ type AccountScreenProps = {
 }
 
 const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
-  const user = useAppSelector((state) => state.auth.user)
+  const dispatch = useAppDispatch()
+  const {
+    isAuthenticated,
+    user: { studentId, id, student },
+  } = useAppSelector((state) => state.auth)
   const CVs = useAppSelector((state) => state.cv.CVs)
+
+  const [loadingTeacher, setLoadingTeacher] = useState(false)
+  const [loadingCVs, setLoadingCVs] = useState(false)
 
   const [actions, setActions] = useState({
     openForm: false,
@@ -47,24 +64,47 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     ;(async () => {
+      if (studentId !== '') {
+        setLoadingCVs(true)
+        try {
+          const response = await dispatch(getCVByStudentId({ studentId, limit: 10, offset: 0 }))
+          if (response.meta.requestStatus === 'fulfilled') {
+            setLoadingCVs(false)
+          }
+        } catch (error) {
+          Alert.alert('Cannot load your CV')
+        } finally {
+          setLoadingCVs(false)
+        }
+      }
+    })()
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    ;(async () => {
+      setLoadingTeacher(true)
       try {
         let teacherId = await AsyncStorageLib.getItem('@teacherId')
         if (teacherId === null) return
 
         const response = await teacherApi.getTeacherById(teacherId)
-        console.log(response)
         if (response.teacher.length > 0) {
           setTeacher(response.teacher[0])
+          setLoadingTeacher(false)
         }
-      } catch (error) {}
+      } catch (error) {
+        Alert.alert('Cannot load teacher information')
+      } finally {
+        setLoadingTeacher(false)
+      }
     })()
   }, [])
 
   useEffect(() => {
-    if ((typeof user.id !== 'string' && user.id === undefined) || '' || null) {
+    if ((typeof id !== 'string' && id === undefined) || '' || null) {
       navigation.navigate('HomeTab')
     }
-  }, [user])
+  }, [id])
 
   const handleActionOpenForm = (action: string) => {
     setActions({ ...actions, [action]: true })
@@ -83,28 +123,40 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
           </Pressable>
         </View>
 
-        <StudentInformation student={user.student as StudentModel} />
+        <StudentInformation student={student as StudentModel} />
 
-        <TeacherInformation teacher={teacher} handleActionOpenForm={handleActionOpenForm} />
+        <TeacherInformation
+          teacher={teacher}
+          loading={loadingTeacher}
+          handleActionOpenForm={handleActionOpenForm}
+        />
 
         <View style={styles.cvContainer}>
           <Text style={styles.cvHeading}>CV / cover cetter</Text>
 
           {/* CV List */}
           <ScrollView scrollEnabled style={{ height: CVs.length > 0 ? 400 : 'auto' }}>
-            {CVs && CVs.length > 0 ? (
-              <>
-                {CVs.map((cv, index) => (
-                  <CVCard
-                    key={index}
-                    name={cv.name}
-                    position={`Position: ${cv.position}`}
-                    createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
-                  />
-                ))}
-              </>
+            {loadingCVs ? (
+              <View style={{ marginTop: 8, marginBottom: 16 }}>
+                <ActivityIndicator size="large" color={Theme.palette.background.modal} />
+              </View>
             ) : (
-              <Text style={styles.notFound}>You don't have any CVs yet</Text>
+              <>
+                {CVs && CVs.length > 0 ? (
+                  <View>
+                    {CVs.map((cv, index) => (
+                      <CVCard
+                        key={index}
+                        name={cv.name}
+                        position={`Position: ${cv.position}`}
+                        createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
+                      />
+                    ))}
+                  </View>
+                ) : (
+                  <Text style={styles.notFound}>You don't have any CVs yet</Text>
+                )}
+              </>
             )}
           </ScrollView>
 

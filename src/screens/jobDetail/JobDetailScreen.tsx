@@ -14,7 +14,8 @@ import { ScrollView } from 'react-native-gesture-handler'
 import jobApi from '../../api/corporation/jobApi'
 import ChipButton from '../../components/buttons/ChipButton'
 import GeneralButton from '../../components/buttons/GeneralButton'
-import { useAppDispatch } from '../../hooks/redux'
+import { getCVByStudentId } from '../../features/cvSlice'
+import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { CorporationModel } from '../../models/corporation.model'
 import { JobModel } from '../../models/job.model'
 import { Location } from '../../models/location.model'
@@ -22,6 +23,7 @@ import { Salary } from '../../models/salary.model'
 import { Skill } from '../../models/skill.model'
 import Theme from '../../utils/Theme'
 import { Utils } from '../../utils/Utils'
+import AuthenticationScreen from '../authentication/AuthenticationScreen'
 import ListCV from './components/ListCV'
 
 type JobDetailScreenProps = {
@@ -39,11 +41,19 @@ type Response = {
 
 const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) => {
   const { jobId } = route.params
+
   const dispatch = useAppDispatch()
+  const {
+    isAuthenticated,
+    user: { studentId },
+  } = useAppSelector((state) => state.auth)
 
   const [jobById, setJobById] = useState<Response>()
+  const [loadingCVs, setLoadingCVs] = useState(false)
+
   const [loading, setLoading] = useState(false)
   const [openCVs, setOpenCVs] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const locationDetail = `${jobById?.location[0].details}, ${jobById?.location[0].street} Street, District ${jobById?.location[0].district}`
 
@@ -60,10 +70,36 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
         setLoading(false)
       }
     })()
-  }, [jobId])
+  }, [isAuthenticated])
+
+  useEffect(() => {
+    ;(async () => {
+      if (studentId !== '') {
+        setLoadingCVs(true)
+        try {
+          const response = await dispatch(getCVByStudentId({ studentId, limit: 10, offset: 0 }))
+          if (response.meta.requestStatus === 'fulfilled') {
+            setLoadingCVs(false)
+          }
+        } catch (error) {
+          Alert.alert('Something wrong!')
+        } finally {
+          setLoadingCVs(false)
+        }
+      }
+    })()
+  }, [openCVs])
 
   const linkToGoogleMap = (destination: string) => {
     Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${destination}`)
+  }
+
+  const handleOpenModal = () => {
+    setShowModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false)
   }
 
   const handleCloseCVs = () => {
@@ -71,7 +107,20 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
   }
 
   const handleOpenCVs = () => {
-    setOpenCVs(true)
+    if (!isAuthenticated) {
+      return Alert.alert('Notice', 'Please login first to get CV', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Go to Login',
+          onPress: handleOpenModal,
+        },
+      ])
+    } else {
+      setOpenCVs(true)
+    }
   }
 
   return (
@@ -161,7 +210,20 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
               onPress={handleOpenCVs}
             />
           </View>
-          {openCVs && <ListCV handleCloseModal={handleCloseCVs} />}
+          {showModal && (
+            <AuthenticationScreen
+              handleShowModal={handleOpenModal}
+              handleCloseModal={handleCloseModal}
+              navigation={navigation}
+            />
+          )}
+          {openCVs && (
+            <ListCV
+              corpId={jobById?.corporation[0].id as string}
+              jobId={jobById?.job[0].id as string}
+              handleCloseModal={handleCloseCVs}
+            />
+          )}
         </>
       )}
     </SafeAreaView>

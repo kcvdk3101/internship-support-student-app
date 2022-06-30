@@ -112,9 +112,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View>
             <View style={styles.subContainer}>
               <Text style={styles.heading}>Recommended</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+              {/* <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
                 <Text style={styles.showText}>Show all</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             <ScrollView
               horizontal
@@ -144,9 +144,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View style={{ marginBottom: 16 }}>
             <View style={styles.subContainer}>
               <Text style={styles.heading}>Popular comapanies</Text>
-              <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+              {/* <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
                 <Text style={styles.showText}>Show all</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
             {popularCompanies.length > 0 &&
               popularCompanies.map((company, index) => (

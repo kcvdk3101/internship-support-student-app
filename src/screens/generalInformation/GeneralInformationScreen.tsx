@@ -40,12 +40,12 @@ type FieldProps = {
 }
 
 const generalInformationSchema = yup.object({
-  firstName: yup.string().required(),
-  lastName: yup.string().required(),
-  position: yup.string().required(),
-  email: yup.string().email('Invalid email format').required(),
-  phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required(),
-  content: yup.string().required(),
+  firstName: yup.string().required('This field is required'),
+  lastName: yup.string().required('This field is required'),
+  position: yup.string().required('This field is required'),
+  email: yup.string().email('Invalid email format').required('This field is required'),
+  phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('This field is required'),
+  content: yup.string().required('This field is required'),
 })
 
 const generalInformation = [

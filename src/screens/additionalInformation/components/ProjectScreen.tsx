@@ -34,14 +34,14 @@ type FieldProps = {
 }
 
 const projectSchema = yup.object({
-  projectName: yup.string().required(),
-  startDate: yup.string().required(),
-  endDate: yup.string().required(),
-  teamSize: yup.number().integer().required(),
-  role: yup.string().required(),
-  responsibilities: yup.string().required(),
-  sourceLink: yup.string().required(),
-  description: yup.string().required(),
+  projectName: yup.string().required('This field is required'),
+  startDate: yup.string().required('This field is required'),
+  endDate: yup.string().required('This field is required'),
+  teamSize: yup.number().integer().required('This field is required'),
+  role: yup.string().required('This field is required'),
+  responsibilities: yup.string().required('This field is required'),
+  sourceLink: yup.string().required('This field is required'),
+  description: yup.string().required('This field is required'),
 })
 
 const projectInformation = [

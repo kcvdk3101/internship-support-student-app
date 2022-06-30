@@ -56,9 +56,9 @@ const certificationInformation = [
 ]
 
 const certiSchema = yup.object({
-  name: yup.string().required(),
-  issueDate: yup.string().required(),
-  organizer: yup.string().required(),
+  name: yup.string().required('This field is required'),
+  issueDate: yup.string().required('This field is required'),
+  organizer: yup.string().required('This field is required'),
 })
 
 const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation }) => {

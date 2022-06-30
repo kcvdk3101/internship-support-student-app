@@ -21,6 +21,8 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
     color: Theme.palette.white.primary,
   }
   let filterTeachers: { label: string; value: string }[] = []
+
+  const [loading, setLoading] = useState(false)
   const [teachers, setTeachers] = useState<TeacherModel[]>([])
   const [selectedTeacher, setSelectedTeacher] = useState<string>('')
 
@@ -51,6 +53,7 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
   }, [])
 
   const registerTeacher = async () => {
+    setLoading(true)
     try {
       const response = await studentApi.registerTeacher([
         {
@@ -60,12 +63,14 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
       ])
       if (response[0].register.isActive) {
         await AsyncStorageLib.setItem('@teacherId', selectedTeacher)
+        setLoading(false)
         Alert.alert(response[0].message)
       }
     } catch (error) {
       console.log(error)
       Alert.alert('Something wrong!')
     } finally {
+      setLoading(false)
       handleCloseForm('openRegisterForm')
     }
   }
@@ -79,6 +84,7 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
         placeholder={placeholder}
         style={pickerSelectStyles}
         useNativeAndroidPickerStyle={Platform.OS === 'ios' ? false : true}
+        disabled={loading}
       />
       <View style={styles.button}>
         <GeneralButton
@@ -87,7 +93,7 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
           onPress={registerTeacher}
-          isLoading={false}
+          isLoading={loading}
         />
       </View>
     </View>

@@ -34,37 +34,8 @@ const styles = StyleSheet.create({
     ...Theme.fonts.headline.h6,
     color: Theme.palette.black.primary,
   },
-  deleteIcon: {
-    width: 30,
-    height: 30,
-    tintColor: Theme.palette.red.signOut,
-  },
   text: {
     ...Theme.fonts.body.body1,
     marginTop: 4,
-  },
-  icon: {
-    width: 15,
-    height: 15,
-    tintColor: Theme.palette.paragraph.primary,
-  },
-  flex: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  btnItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    marginTop: 15,
-    paddingVertical: 5,
-    borderWidth: 1,
-    borderColor: Theme.palette.white.secondary,
-    borderRadius: 10,
-  },
-  btnItemText: {
-    textTransform: 'uppercase',
-    ...Theme.fonts.body.button,
   },
 })
