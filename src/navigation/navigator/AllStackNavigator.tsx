@@ -16,7 +16,6 @@ import TechnicalSkillsScreen from '../../screens/generalInformation/components/T
 import GeneralInformationScreen from '../../screens/generalInformation/GeneralInformationScreen'
 import HomeScreen from '../../screens/home/HomeScreen'
 import Theme from '../../utils/Theme'
-import logo from '../../assets/images/FITSI.png'
 
 // Home Stack
 const HomeStack = createStackNavigator()
@@ -27,13 +26,6 @@ export const HomeStackScreen = () => (
     }}
   >
     <HomeStack.Screen name="HomeScreen" component={HomeScreen} />
-    <HomeStack.Screen
-      name="CompanyStackScreen"
-      component={CompanyStackScreen}
-      options={{
-        headerShown: false,
-      }}
-    />
   </HomeStack.Navigator>
 )
 
@@ -61,7 +53,13 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
             <Ionicons name="menu" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
-        headerTitle: () => <Image source={logo} resizeMode="contain" style={styles.tinyLogo} />,
+        headerTitle: () => (
+          <Image
+            source={require('../../assets/images/FITSI.png')}
+            resizeMode="contain"
+            style={styles.tinyLogo}
+          />
+        ),
       }}
     />
     <CompanyStack.Screen

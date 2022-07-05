@@ -35,8 +35,10 @@ const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
         })
       }
     >
-      <View>
-        <Text style={styles.jobTitle}>{jobTitle}</Text>
+      <Text style={styles.jobTitle}>{jobTitle}</Text>
+      <View
+        style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}
+      >
         <View style={styles.jobContainer}>
           <View style={styles.jobDetailContainer}>
             <Ionicons color={Theme.palette.white.secondary} size={20} name="cash" />
@@ -44,17 +46,17 @@ const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
           </View>
           <View style={styles.jobDetailContainer}>
             <Ionicons color={Theme.palette.white.secondary} size={20} name="time" />
-            <Text style={styles.jobDetailContent}>{dateCreated}</Text>
+            <Text style={styles.jobDetailContent}>Created at: {dateCreated}</Text>
           </View>
         </View>
-      </View>
-      <View style={styles.corp}>
-        <View>
-          <Image style={styles.image} source={{ uri: 'https://picsum.photos/200' }} />
-        </View>
-        <View style={{ marginLeft: 8 }}>
-          <Text style={{ color: Theme.palette.white.secondary }}>{corpName}</Text>
-          <Text style={{ color: Theme.palette.background.modal }}>{city}</Text>
+        <View style={styles.corp}>
+          <View>
+            <Image style={styles.image} source={{ uri: 'https://picsum.photos/200' }} />
+          </View>
+          <View style={{ marginLeft: 8 }}>
+            <Text style={{ color: Theme.palette.white.secondary }}>{corpName}</Text>
+            <Text style={{ color: Theme.palette.background.modal }}>{city}</Text>
+          </View>
         </View>
       </View>
     </TouchableOpacity>
@@ -66,13 +68,17 @@ export default RecommendedJobCard
 const styles = StyleSheet.create({
   container: {
     width: screenWidth * 0.75,
+    height: '100%',
     backgroundColor: Theme.palette.main.third,
     borderRadius: 16,
     padding: 16,
-    paddingHorizontal: 20,
     marginRight: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
   },
   jobTitle: {
+    flexGrow: 0,
     ...Theme.fonts.headline.h6,
     color: Theme.palette.white.primary,
   },

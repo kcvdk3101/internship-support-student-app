@@ -56,6 +56,7 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
       }
       return () => {
         setCompanyDetail([])
+        setIndex(0)
       }
     })()
   }, [companyId, refreshing, openReviewForm])
@@ -72,7 +73,11 @@ const CompanyDetailScreen: React.FC<CompanyDetailScreenProps> = ({ route, naviga
       >
         <View style={styles.backgroundImageContainer}>
           {companyDetail?.length > 0 && (
-            <CompanyInformation companyDetail={companyDetail[0]} navigation={navigation} />
+            <CompanyInformation
+              companyDetail={companyDetail[0]}
+              navigation={navigation}
+              setIndex={setIndex}
+            />
           )}
         </View>
         {companyDetail.length > 0 && (

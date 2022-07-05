@@ -98,7 +98,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
         setLoadingTeacher(false)
       }
     })()
-  }, [])
+  }, [actions.openRegisterForm])
 
   useEffect(() => {
     if ((typeof id !== 'string' && id === undefined) || '' || null) {

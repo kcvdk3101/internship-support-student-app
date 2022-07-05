@@ -1,8 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import React from 'react'
-import { Alert, FlatList, Modal, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Alert, FlatList, Modal, StyleSheet, Text, View } from 'react-native'
 import corporationApi from '../../../api/corporation/corporationApi'
-import studentApi from '../../../api/university/studentApi'
 import { screenHeight, screenWidth } from '../../../constant'
 import { useAppSelector } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
@@ -12,10 +11,11 @@ import CVCardToApply from './CVCardToApply'
 type ListCVProps = {
   corpId: string
   jobId: string
+  loadingCVs: boolean
   handleCloseModal: () => void
 }
 
-const ListCV: React.FC<ListCVProps> = ({ corpId, jobId, handleCloseModal }) => {
+const ListCV: React.FC<ListCVProps> = ({ corpId, jobId, handleCloseModal, loadingCVs }) => {
   const CVs = useAppSelector((state) => state.cv.CVs)
   const studentId = useAppSelector((state) => state.auth.user.studentId)
 
@@ -56,25 +56,31 @@ const ListCV: React.FC<ListCVProps> = ({ corpId, jobId, handleCloseModal }) => {
           <View style={styles.innerContainer}>
             <Ionicons name="close" onPress={handleCloseModal} size={30} style={{ width: 50 }} />
             <Text style={{ marginVertical: 8, ...Theme.fonts.headline.h6 }}>Choose your CV</Text>
-            <FlatList
-              data={CVs}
-              keyExtractor={(_, index) => index.toString()}
-              renderItem={({ item, index }) => (
-                <CVCardToApply
-                  key={index}
-                  cvId={item.id as string}
-                  name={item.name}
-                  position={`Position: ${item.position}`}
-                  createdAt={`Created at : ${Utils.convertDateString(item.createdAt)}`}
-                  chooseCVToApply={chooseCVToApply}
-                />
-              )}
-              ListEmptyComponent={() => (
-                <View>
-                  <Text>You don't have any CVs yet.</Text>
-                </View>
-              )}
-            />
+            {loadingCVs ? (
+              <View>
+                <ActivityIndicator />
+              </View>
+            ) : (
+              <FlatList
+                data={CVs}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item, index }) => (
+                  <CVCardToApply
+                    key={index}
+                    cvId={item.id as string}
+                    name={item.name}
+                    position={`Position: ${item.position}`}
+                    createdAt={`Created at : ${Utils.convertDateString(item.createdAt)}`}
+                    chooseCVToApply={chooseCVToApply}
+                  />
+                )}
+                ListEmptyComponent={() => (
+                  <View>
+                    <Text>You don't have any CVs yet.</Text>
+                  </View>
+                )}
+              />
+            )}
           </View>
         </View>
       </Modal>

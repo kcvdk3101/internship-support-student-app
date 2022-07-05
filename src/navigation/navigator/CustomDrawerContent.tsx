@@ -166,6 +166,6 @@ const styles = StyleSheet.create({
   socialLinks: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    margin: 16,
+    marginVertical: 16,
   },
 })

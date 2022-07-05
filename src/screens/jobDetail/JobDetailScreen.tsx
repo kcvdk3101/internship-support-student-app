@@ -70,7 +70,7 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
         setLoading(false)
       }
     })()
-  }, [isAuthenticated])
+  }, [isAuthenticated, jobId])
 
   useEffect(() => {
     ;(async () => {
@@ -222,6 +222,7 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
               corpId={jobById?.corporation[0].id as string}
               jobId={jobById?.job[0].id as string}
               handleCloseModal={handleCloseCVs}
+              loadingCVs={loadingCVs}
             />
           )}
         </>

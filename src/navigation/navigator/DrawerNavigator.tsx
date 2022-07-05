@@ -4,6 +4,7 @@ import React from 'react'
 import { Pressable, StyleSheet } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import AccountScreen from '../../screens/account/AccountScreen'
+import CompanyDetailScreen from '../../screens/companyDetail/CompanyDetailScreen'
 import JobDetailScreen from '../../screens/jobDetail/JobDetailScreen'
 import NotificationScreen from '../../screens/notification/NotificationScreen'
 import SearchScreen from '../../screens/search/SearchScreen'
@@ -67,6 +68,13 @@ const DrawerNavigator = () => {
         options={({ navigation, route }) => ({
           headerShown: false,
         })}
+      />
+      <Drawer.Screen
+        name="CompanyDetailScreen"
+        component={CompanyDetailScreen}
+        options={{
+          headerShown: false,
+        }}
       />
       <Drawer.Screen
         name="JobDetail"

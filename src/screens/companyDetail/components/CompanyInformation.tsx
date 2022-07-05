@@ -10,16 +10,17 @@ import Theme from '../../../utils/Theme'
 type CompanyInformationProps = {
   navigation: NavigationProp<ParamListBase>
   companyDetail: CorporationModel
+  setIndex: React.Dispatch<React.SetStateAction<number>>
 }
 
-const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, navigation }) => {
+const CompanyInformation: React.FC<CompanyInformationProps> = ({
+  companyDetail,
+  navigation,
+  setIndex,
+}) => {
   const { name, email, location, origin, numberEmployees, special } = companyDetail
   const { details, street, district } = location[0]
   const locationDetail = `${details}, ${street} Street, District ${district}`
-
-  const goBack = () => {
-    navigation.goBack()
-  }
 
   const linkToGoogleMap = (destination: string) => {
     Linking.openURL(`https://www.google.com/maps/dir/?api=1&destination=${destination}`)
@@ -28,7 +29,13 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({ companyDetail, 
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.buttonGoBack} onPress={goBack}>
+        <TouchableOpacity
+          style={styles.buttonGoBack}
+          onPress={() => {
+            setIndex(0)
+            navigation.goBack()
+          }}
+        >
           <Ionicons name="arrow-back" size={24} />
         </TouchableOpacity>
       </View>
@@ -136,10 +143,10 @@ const styles = StyleSheet.create({
   containerInformation: {
     backgroundColor: Theme.palette.white.primary,
     borderRadius: 15,
-    marginHorizontal: 16,
+    marginHorizontal: 8,
     paddingVertical: 20,
     paddingHorizontal: 16,
-    ...Theme.shadow.depth2,
+    ...Theme.shadow.depth1,
   },
   detailsContainer: {
     flexDirection: 'row',

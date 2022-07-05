@@ -40,7 +40,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
         }
       }
     })()
-  }, [isAuthenticated])
+  }, [isAuthenticated, navigation])
 
   const handleShowModal = () => {
     setShowModal(!showModal)

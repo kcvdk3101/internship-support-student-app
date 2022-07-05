@@ -38,15 +38,16 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
   })
 
   const onSubmit = async (data: FieldProps) => {
+    console.log(data)
     try {
       await dispatch(changePassword({ userId: id, data }))
       if (hasChangedPassword) {
         Alert.alert('Password changed successfully!')
       } else {
-        Alert.alert('Something wrong')
+        Alert.alert('Cannot change your password')
       }
     } catch (error) {
-      Alert.alert(error as any)
+      Alert.alert('Something wrong')
     } finally {
       handleCloseModal('openForm')
     }

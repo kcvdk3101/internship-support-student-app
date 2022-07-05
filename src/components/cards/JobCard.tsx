@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     borderColor: Theme.palette.main.third,
     paddingVertical: 16,
     paddingHorizontal: 12,
-    marginHorizontal: 16,
     marginVertical: 8,
   },
   heading: {

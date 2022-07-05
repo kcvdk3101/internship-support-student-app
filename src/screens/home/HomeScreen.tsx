@@ -122,6 +122,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               alwaysBounceHorizontal
               style={{
                 paddingVertical: 8,
+                minHeight: 200,
+                maxHeight: 230,
               }}
             >
               {recommendedJobs.length > 0 &&

@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationContainer } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
 import { IS_FIRST_TIME } from '../constant'
@@ -11,13 +11,13 @@ const AppNavigator: React.FC = () => {
 
   const [value, setValue] = useState<string | null>(null)
   const isFirstTime = async () => {
-    const firstOpen = await AsyncStorage.getItem(IS_FIRST_TIME)
+    const firstOpen = await AsyncStorageLib.getItem(IS_FIRST_TIME)
     setValue(firstOpen)
   }
 
   // FUNCTION USED FOR TESTING FIRST TIME OPEN APP
   const clearStorageData = async () => {
-    await AsyncStorage.clear()
+    await AsyncStorageLib.clear()
   }
 
   useEffect(() => {
