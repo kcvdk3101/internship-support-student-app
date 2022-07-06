@@ -1,14 +1,13 @@
-import { Alert, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import VerticalInput from '../../../components/common/VerticalInput'
-import { SubmitHandler, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import React from 'react'
+import { useForm } from 'react-hook-form'
+import { Alert, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../../components/buttons/GeneralButton'
-import Theme from '../../../utils/Theme'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import VerticalInput from '../../../components/common/VerticalInput'
 import { changePassword } from '../../../features/authenticationSlice'
-import axios from 'axios'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import Theme from '../../../utils/Theme'
 
 type ChangePasswordFormProps = {
   handleCloseModal: (action: string) => void
@@ -79,7 +78,7 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
           placeholder="Enter new password"
           autoCapitalize="none"
           returnKeyType="done"
-          keyboardType="ascii-capable"
+          keyboardType="numeric"
           control={control}
           errors={errors}
           editable={!isSubmitting}

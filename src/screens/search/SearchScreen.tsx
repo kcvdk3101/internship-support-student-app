@@ -1,21 +1,26 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
   Alert,
+  Image,
   KeyboardAvoidingView,
   Pressable,
   SafeAreaView,
   StyleSheet,
   TextInput,
   View,
+  Text,
 } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import corporationApi from '../../api/corporation/corporationApi'
 import jobApi from '../../api/corporation/jobApi'
 import JobCard from '../../components/cards/JobCard'
 import PopularCompanyCard from '../../components/cards/PopularCompanyCard'
+import NoSearching from '../../components/common/NoSearching'
+import { screenHeight, screenWidth } from '../../constant'
 import { CorporationModel } from '../../models/corporation.model'
 import { JobModel } from '../../models/job.model'
 import Theme from '../../utils/Theme'
@@ -32,6 +37,8 @@ type SearchBarProps = {
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ searchInput, handleOnChange, handleSubmit }) => {
+  const { t } = useTranslation()
+
   return (
     <KeyboardAvoidingView style={seacrhbar.searchbar}>
       <View style={seacrhbar.buttonSearch}>
@@ -39,7 +46,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ searchInput, handleOnChange, hand
       </View>
       <TextInput
         style={seacrhbar.textInput}
-        placeholder="Type keyword"
+        placeholder={t('Search fullname')}
         placeholderTextColor={Theme.palette.black.primary}
         focusable={true}
         autoFocus={true}
@@ -73,6 +80,8 @@ const seacrhbar = StyleSheet.create({
 })
 
 const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
+
   const [index, setIndex] = useState(0)
   const [searchInput, setSearchInput] = useState('')
   const [offset, setOffset] = useState<number>(0)
@@ -89,17 +98,17 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
     setLoading(true)
     try {
       if (index === 0) {
-        const jobs = await jobApi.getAllJobsByTitle(searchInput, 10, offset)
+        let jobs
+        if (searchInput === '') {
+          jobs = await jobApi.getAllJobs({ limit: 10, offset })
+        } else {
+          jobs = await jobApi.getAllJobsByTitle(searchInput, 10, offset)
+        }
         if (jobs.data.length > 0) {
           setJobsResult(jobs.data)
           setLoading(false)
         }
       } else {
-        if (searchInput === '') {
-          setLoading(false)
-          setCompaniesResult([])
-          return
-        }
         const companies = await corporationApi.getCorporationByName(searchInput)
         if (companies.corporation.length > 0) {
           setCompaniesResult(companies.corporation)
@@ -114,17 +123,8 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    return () => {
-      setSearchInput('')
-      setOffset(0)
-      setJobsResult([])
-      setCompaniesResult([])
-    }
-  }, [navigation])
-
-  useEffect(() => {
     searching()
-  }, [index])
+  }, [navigation, index, searchInput])
 
   const handleOnChange = (value: string) => {
     setSearchInput(value)
@@ -138,7 +138,17 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
     <SafeAreaView>
       <ScrollView style={styles.container}>
         <View style={{ flexDirection: 'row' }}>
-          <Pressable onPress={() => navigation.goBack()} style={styles.icon}>
+          <Pressable
+            onPress={() => {
+              navigation.goBack()
+              setIndex(0)
+              setSearchInput('')
+              setOffset(0)
+              setJobsResult([])
+              setCompaniesResult([])
+            }}
+            style={styles.icon}
+          >
             <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
           </Pressable>
           <SearchBar
@@ -150,8 +160,8 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
         <View style={{ marginTop: 16, alignSelf: 'stretch' }}>
           <ButtonGroup
             index={index}
-            titleTab1="Jobs"
-            titleTab2="Companies"
+            titleTab1={t('Job')}
+            titleTab2={t('Company')}
             handleChangeIndex={handleChangeIndex}
           />
         </View>
@@ -163,17 +173,21 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
           <View>
             {index === 0 ? (
               <View>
-                {jobsResult.map((job, index) => (
-                  <JobCard
-                    key={index}
-                    jobId={job.id}
-                    title={job.title}
-                    location={`District ${job.details.location[0].district}, ${job.details.location[0].city}`}
-                    salary={`${job.details.salary[0].gt} - ${job.details.salary[0].lt} ${job.details.salary[0].unit}`}
-                    timestamp={job.details.corporation[0].overtimeRequire}
-                    navigation={navigation}
-                  />
-                ))}
+                {jobsResult.length === 0 ? (
+                  <NoSearching />
+                ) : (
+                  jobsResult.map((job, index) => (
+                    <JobCard
+                      key={index}
+                      jobId={job.id}
+                      title={job.title}
+                      location={`District ${job.details.location[0].district}, ${job.details.location[0].city}`}
+                      salary={`${job.details.salary[0].gt} - ${job.details.salary[0].lt} ${job.details.salary[0].unit}`}
+                      timestamp={job.details.corporation[0].overtimeRequire}
+                      navigation={navigation}
+                    />
+                  ))
+                )}
               </View>
             ) : (
               <View>

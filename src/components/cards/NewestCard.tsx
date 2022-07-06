@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cardBody: {
-    marginVertical: 12,
-    paddingHorizontal: 12,
+    margin: 8,
+    paddingHorizontal: 4,
   },
   image: {
     borderTopRightRadius: 10,
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     height: 160,
   },
   companyName: {
+    marginHorizontal: 8,
     ...Theme.fonts.headline.h6,
     color: Theme.palette.main.primary,
   },
@@ -73,7 +74,8 @@ const styles = StyleSheet.create({
   jobAvailableContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 8,
+    marginVertical: 4,
+    marginHorizontal: 8,
   },
   jobAvailable: {
     marginLeft: 8,

@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { RefreshControl, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import corporationApi from '../../api/corporation/corporationApi'
@@ -19,6 +20,8 @@ type HomeScreenProps = {
 }
 
 const SearchBar: React.FC<{ navigation: NavigationProp<ParamListBase> }> = ({ navigation }) => {
+  const { t } = useTranslation()
+
   return (
     <TouchableOpacity
       style={seacrhbar.searchbar}
@@ -27,7 +30,9 @@ const SearchBar: React.FC<{ navigation: NavigationProp<ParamListBase> }> = ({ na
       <View style={seacrhbar.buttonSearch}>
         <Ionicons name="search" size={20} color={Theme.palette.black.primary} />
       </View>
-      <Text style={seacrhbar.textInput}>Search Job</Text>
+      <Text style={seacrhbar.textInput} onPress={() => navigation.navigate('SearchScreen')}>
+        {t('Search fullname')}
+      </Text>
     </TouchableOpacity>
   )
 }
@@ -53,6 +58,7 @@ const seacrhbar = StyleSheet.create({
 })
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
   const { isAuthenticated, user } = useAppSelector((state) => state.auth)
 
   const [loading, setLoading] = useState<boolean>(false)
@@ -99,11 +105,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <View>
             {isAuthenticated && user && (
               <Text style={styles.helloText}>
-                Welcome, {user.lastName} {user.firstName}
+                {t('Welcome')}, {user.lastName} {user.firstName}
               </Text>
             )}
-            <Text style={styles.bannerText}>Find Your</Text>
-            <Text style={styles.bannerText}>Dream Job</Text>
+            <Text style={styles.bannerText}>{t('Find Your')}</Text>
+            <Text style={styles.bannerText}>{t('Dream Job')}</Text>
           </View>
 
           <SearchBar navigation={navigation} />
@@ -111,10 +117,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           {/* Popular From Companies */}
           <View>
             <View style={styles.subContainer}>
-              <Text style={styles.heading}>Recommended</Text>
-              {/* <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
-                <Text style={styles.showText}>Show all</Text>
-              </TouchableOpacity> */}
+              <Text style={styles.heading}>{t('Recommended')}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('SearchScreen')}>
+                <Text style={styles.showText}>{t('Show more')}</Text>
+              </TouchableOpacity>
             </View>
             <ScrollView
               horizontal
@@ -145,10 +151,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           {/* Popular From Companies */}
           <View style={{ marginBottom: 16 }}>
             <View style={styles.subContainer}>
-              <Text style={styles.heading}>Popular comapanies</Text>
-              {/* <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
-                <Text style={styles.showText}>Show all</Text>
-              </TouchableOpacity> */}
+              <Text style={styles.heading}>{t('Popular comapanies')}</Text>
+              <TouchableOpacity onPress={() => navigation.navigate('JobScreen')}>
+                <Text style={styles.showText}>{t('Show more')}</Text>
+              </TouchableOpacity>
             </View>
             {popularCompanies.length > 0 &&
               popularCompanies.map((company, index) => (

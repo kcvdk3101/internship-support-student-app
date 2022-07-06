@@ -1,4 +1,4 @@
-import { Alert, SafeAreaView, StyleSheet, Text, View, Image } from 'react-native'
+import { Alert, SafeAreaView, StyleSheet, Text, View, Image, Switch } from 'react-native'
 import React, { useState } from 'react'
 import {
   DrawerContentScrollView,
@@ -16,12 +16,19 @@ import { drawers } from '../../constant'
 import { logout } from '../../features/authenticationSlice'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
+import LanguagePicker from '../../components/common/LanguagePicker'
+import { useTranslation } from 'react-i18next'
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
+  const { t } = useTranslation()
+
   const dispatch = useAppDispatch()
   const { user, isAuthenticated } = useAppSelector((state) => state.auth)
 
   const [showModal, setShowModal] = useState(false)
+  const [showLanguagePicker, setShowLanguagePicker] = useState(false)
+  const [isEnabled, setIsEnabled] = useState(false)
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState)
 
   const handleShowModal = () => {
     setShowModal(!showModal)
@@ -33,6 +40,14 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
   const handleOpenModal = () => {
     setShowModal(true)
+  }
+
+  const handleOpenLanguagePicker = () => {
+    setShowLanguagePicker(true)
+  }
+
+  const handleCloseLanguagePicker = () => {
+    setShowLanguagePicker(false)
   }
 
   function handleLogout(props: DrawerContentComponentProps) {
@@ -71,7 +86,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 bgColor={Theme.palette.main.primary}
                 onPress={handleOpenModal}
                 isLoading={false}
-                label="Sign in"
+                label={t('Sign in')}
                 isAlignCenter={true}
                 txtColor={Theme.palette.white.primary}
               />
@@ -98,10 +113,34 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                     size={24}
                   />
                 )}
-                label={drw.label}
+                label={t(`${drw.label}`)}
                 onPress={() => props.navigation.navigate(drw.navigate)}
               />
             ))}
+          </Drawer.Section>
+          <Drawer.Section style={{ marginVertical: 8 }}>
+            <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>{t('Preferences')}</Text>
+            <View style={styles.darkmodeContainer}>
+              <Text style={styles.darkmodeText}>{t('Dark mode')}</Text>
+              <Switch
+                trackColor={{
+                  false: Theme.palette.paragraph.primary,
+                  true: Theme.palette.main.primary,
+                }}
+                thumbColor={Theme.palette.white.primary}
+                ios_backgroundColor={Theme.palette.black.primary}
+                onValueChange={toggleSwitch}
+                value={isEnabled}
+              />
+            </View>
+            <DrawerItem
+              labelStyle={{
+                ...Theme.fonts.body.body1,
+                color: Theme.palette.main.primary,
+              }}
+              label={t('Change language')}
+              onPress={handleOpenLanguagePicker}
+            />
           </Drawer.Section>
           <View style={styles.socialLinks}>
             <OpenURLButton url="https://www.facebook.com/nhan.ho.14019">
@@ -149,6 +188,13 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           navigation={props.navigation}
         />
       )}
+
+      {showLanguagePicker && (
+        <LanguagePicker
+          showLanguagePicker={showLanguagePicker}
+          handleCloseLanguagePicker={handleCloseLanguagePicker}
+        />
+      )}
     </SafeAreaView>
   )
 }
@@ -167,5 +213,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginVertical: 16,
+  },
+  darkmodeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginVertical: 8,
+  },
+  darkmodeText: {
+    ...Theme.fonts.body.body1,
+    color: Theme.palette.main.primary,
   },
 })

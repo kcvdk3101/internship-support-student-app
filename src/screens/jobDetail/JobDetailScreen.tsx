@@ -153,7 +153,9 @@ const JobDetailScreen: React.FC<JobDetailScreenProps> = ({ navigation, route }) 
                 }}
               >
                 <Ionicons name="timer-outline" size={24} color={Theme.palette.paragraph.primary} />
-                <Text>{Utils.convertDateString(jobById?.job[0].dateCreated)}</Text>
+                <Text style={{ marginLeft: 4 }}>
+                  Created at: {Utils.convertDateString(jobById?.job[0].dateCreated)}
+                </Text>
               </View>
             </View>
             <View style={styles.jobDetailContainer}>

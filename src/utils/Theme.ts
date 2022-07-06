@@ -1,10 +1,10 @@
 export default {
   palette: {
     main: {
-      primary: '#7166D9',
-      secondary: '#786CE6',
-      third: '#6550BF',
-      fourth: '#504899',
+      primary: '#0A56C2',
+      secondary: '#005AAB',
+      third: '#093CB8',
+      fourth: '#036294',
     },
     white: {
       primary: '#F8F8FF',

@@ -1,5 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import NewestCard from '../../components/cards/NewestCard'
@@ -14,6 +15,8 @@ type CompanyScreenProps = {
 }
 
 const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
+
   const dispatch = useAppDispatch()
   const status = useAppSelector((state) => state.corp.status)
   const getLimitedCorporation = useAppSelector((state) => state.corp.corporationsByLimit)
@@ -34,10 +37,10 @@ const CompanyScreen: React.FC<CompanyScreenProps> = ({ navigation }) => {
       ) : (
         <ScrollView>
           <TopKeyword />
-          <Text style={styles.heading}>Recommended Company</Text>
+          <Text style={styles.heading}>{t('Recommended Company')}</Text>
           {getLimitedCorporation.length > 0 ? (
             getLimitedCorporation.map((corp, index) => (
-              <View key={index} style={{ marginHorizontal: 20 }}>
+              <View key={index} style={{ marginHorizontal: 16 }}>
                 <NewestCard
                   card={{
                     companyId: corp.id,

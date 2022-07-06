@@ -13,7 +13,7 @@ export const drawers = [
   },
   {
     icon: 'document',
-    label: 'Your CV',
+    label: 'CV',
     navigate: 'CVTab',
   },
 ]

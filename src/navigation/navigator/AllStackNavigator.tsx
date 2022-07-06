@@ -55,7 +55,7 @@ export const CompanyStackScreen = (props: DrawerHeaderProps) => (
         ),
         headerTitle: () => (
           <Image
-            source={require('../../assets/images/FITSI.png')}
+            source={require('../../assets/images/huflit.png')}
             resizeMode="contain"
             style={styles.tinyLogo}
           />
@@ -242,6 +242,6 @@ const styles = StyleSheet.create({
     left: 16,
   },
   tinyLogo: {
-    height: 35,
+    width: 90,
   },
 })

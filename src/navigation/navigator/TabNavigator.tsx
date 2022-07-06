@@ -1,9 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
-import { Image, Pressable, StyleSheet, View } from 'react-native'
-import CustomBadge from '../../components/common/CustomBadge'
-import { notificationsData } from '../../db/NotificationData'
+import { Image, Pressable, StyleSheet } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import { CompanyStackScreen, CVStackScreen, HomeStackScreen } from './AllStackNavigator'
@@ -47,7 +45,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
           headerTitle: () => (
             <Image
-              source={require('../../assets/images/FITSI.png')}
+              source={require('../../assets/images/huflit.png')}
               resizeMode="contain"
               style={styles.tinyLogo}
             />
@@ -77,7 +75,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
           tabBarIcon: ({ color, size }) => <Ionicons name="document" color={color} size={size} />,
           headerTitle: () => (
             <Image
-              source={require('../../assets/images/FITSI.png')}
+              source={require('../../assets/images/huflit.png')}
               resizeMode="contain"
               style={styles.tinyLogo}
             />
@@ -86,7 +84,6 @@ const TabNavigator = (props: DrawerHeaderProps) => {
             flex: 1,
             textAlign: 'center',
           },
-          // headerShown: false,
         }}
       />
     </Tab.Navigator>
@@ -107,6 +104,6 @@ const styles = StyleSheet.create({
     right: 16,
   },
   tinyLogo: {
-    height: 35,
+    width: 90,
   },
 })

@@ -1,5 +1,6 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import GeneralButton from '../../components/buttons/GeneralButton'
@@ -15,11 +16,12 @@ type CVScreenProps = {
 }
 
 const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
+
+  const dispatch = useAppDispatch()
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
   const { studentId } = useAppSelector((state) => state.auth.user)
   const { CVs } = useAppSelector((state) => state.cv)
-
-  const dispatch = useAppDispatch()
 
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -95,27 +97,12 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           </ScrollView>
         </View>
       ) : (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
-          <Text
-            style={{
-              marginBottom: 10,
-              ...Theme.fonts.headline.h6,
-              color: Theme.palette.black.primary,
-              textAlign: 'center',
-            }}
-          >
-            Login to create or edit your CV
-          </Text>
+        <View style={styles.loginContainer}>
+          <Text style={styles.logoContent}>Login to create or edit your CV</Text>
           <GeneralButton
             bgColor={Theme.palette.main.primary}
             onPress={handleShowModal}
-            label="Sign in"
+            label={t('Sign in')}
             isAlignCenter={true}
             txtColor={Theme.palette.white.primary}
             isLoading={false}
@@ -140,7 +127,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   heading: {
-    // marginVertical: 15,
     ...Theme.fonts.headline.h5,
     color: Theme.palette.black.primary,
   },
@@ -151,5 +137,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginTop: -28,
     marginBottom: 8,
+  },
+  loginContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logoContent: {
+    marginBottom: 10,
+    ...Theme.fonts.headline.h6,
+    color: Theme.palette.black.primary,
+    textAlign: 'center',
   },
 })
