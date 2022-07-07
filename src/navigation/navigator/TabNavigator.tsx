@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
+import { useTranslation } from 'react-i18next'
 import { Image, Pressable, StyleSheet } from 'react-native'
 import { useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
@@ -8,6 +9,8 @@ import { CompanyStackScreen, CVStackScreen, HomeStackScreen } from './AllStackNa
 
 const Tab = createBottomTabNavigator()
 const TabNavigator = (props: DrawerHeaderProps) => {
+  const { t } = useTranslation()
+
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated)
 
   return (
@@ -41,7 +44,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         name="HomeTab"
         component={HomeStackScreen}
         options={{
-          tabBarLabel: 'Home',
+          tabBarLabel: t('Home'),
           tabBarIcon: ({ color, size }) => <Ionicons name="home" color={color} size={size} />,
           headerTitle: () => (
             <Image
@@ -61,7 +64,7 @@ const TabNavigator = (props: DrawerHeaderProps) => {
         name="CompanyTab"
         component={CompanyStackScreen}
         options={{
-          tabBarLabel: 'Company',
+          tabBarLabel: t('Company'),
           tabBarIcon: ({ color, size }) => <Ionicons name="business" color={color} size={size} />,
           headerShown: false,
         }}

@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
@@ -12,17 +12,20 @@ import {
   StyleSheet,
   Text,
   View,
+  RefreshControl,
 } from 'react-native'
 import studentApi from '../../api/university/studentApi'
 import teacherApi from '../../api/university/teacherApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
+import { login } from '../../features/authenticationSlice'
 import { getCVByStudentId } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import { StudentModel } from '../../models/student.model'
 import { TeacherModel } from '../../models/teacher.model'
 import Theme from '../../utils/Theme'
 import { Utils } from '../../utils/Utils'
+import SkeletonComponentScreen from '../company/components/SkeletonComponentScreen'
 import ChangePasswordButton from './changePassword/ChangePasswordButton'
 import ChangePasswordScreen from './changePassword/ChangePasswordScreen'
 import LogOutButton from './components/LogOutButton'
@@ -45,7 +48,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
   const user = useAppSelector((state) => state.auth.user)
   const CVs = useAppSelector((state) => state.cv.CVs)
 
-  const [loadingTeacher, setLoadingTeacher] = useState(false)
+  const [loading, setLoading] = useState<boolean>(false)
   const [loadingCVs, setLoadingCVs] = useState(false)
 
   const [actions, setActions] = useState({
@@ -53,18 +56,6 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     openRegisterForm: false,
     openReportForm: false,
     openSendEmailTeacher: false,
-  })
-  const [teacher, setTeacher] = useState<TeacherModel>({
-    id: '',
-    firstName: '',
-    lastName: '',
-    fullName: '',
-    position: '',
-    department: '',
-    email: '',
-    phoneNumber: '',
-    studentAmount: 0,
-    maximumStudentAmount: 0,
   })
 
   useEffect(() => {
@@ -84,6 +75,18 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
       }
     })()
   }, [isAuthenticated])
+
+  const onRefresh = useCallback(async () => {
+    try {
+      let email = await AsyncStorageLib.getItem('@email')
+      let password = await AsyncStorageLib.getItem('@password')
+      if (email && password) {
+        await dispatch(login({ email, password }))
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }, [])
 
   // useEffect(() => {
   //   ;(async () => {
@@ -125,84 +128,91 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView nestedScrollEnabled={true}>
-        <View style={styles.headingContainer}>
-          <Pressable onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} style={styles.icon} />
-          </Pressable>
-        </View>
+      {loading ? (
+        <SkeletonComponentScreen />
+      ) : (
+        <ScrollView
+          nestedScrollEnabled={true}
+          refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}
+        >
+          <View style={styles.headingContainer}>
+            <Pressable onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={28} style={styles.icon} />
+            </Pressable>
+          </View>
 
-        <StudentInformation student={student as StudentModel} />
+          <StudentInformation student={student as StudentModel} />
 
-        <TeacherInformation
-          teacher={teacher}
-          loading={loadingTeacher}
-          handleActionOpenForm={handleActionOpenForm}
-        />
-
-        <View style={styles.cvContainer}>
-          <Text style={styles.cvHeading}>CV / cover cetter</Text>
-
-          {/* CV List */}
-          <ScrollView scrollEnabled style={{ height: CVs.length > 0 ? 400 : 'auto' }}>
-            {loadingCVs ? (
-              <View style={{ marginTop: 8, marginBottom: 16 }}>
-                <ActivityIndicator size="large" color={Theme.palette.background.modal} />
-              </View>
-            ) : (
-              <>
-                {CVs && CVs.length > 0 ? (
-                  <View>
-                    {CVs.map((cv, index) => (
-                      <CVCard
-                        key={index}
-                        name={cv.name}
-                        position={`Position: ${cv.position}`}
-                        createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
-                      />
-                    ))}
-                  </View>
-                ) : (
-                  <Text style={styles.notFound}>You don't have any CVs yet</Text>
-                )}
-              </>
-            )}
-          </ScrollView>
-
-          {/* Button Upload */}
-          <GeneralButton
-            bgColor={Theme.palette.main.third}
-            isAlignCenter={true}
-            label="CREATE NEW CV"
-            txtColor={Theme.palette.white.primary}
-            isLoading={false}
+          <TeacherInformation
+            teacher={student?.teacher as TeacherModel[]}
+            loading={loading}
+            handleActionOpenForm={handleActionOpenForm}
           />
-        </View>
 
-        {/* Report Button */}
-        {/* <ReportButton handleOpenForm={handleActionOpenForm} /> */}
+          <View style={styles.cvContainer}>
+            <Text style={styles.cvHeading}>{t('CV')}</Text>
 
-        {/* Change password Button */}
-        <ChangePasswordButton handleOpenForm={handleActionOpenForm} />
+            {/* CV List */}
+            <ScrollView scrollEnabled style={{ height: CVs.length > 0 ? 400 : 'auto' }}>
+              {loadingCVs ? (
+                <View style={{ marginTop: 8, marginBottom: 16 }}>
+                  <ActivityIndicator size="large" color={Theme.palette.background.modal} />
+                </View>
+              ) : (
+                <>
+                  {CVs && CVs.length > 0 ? (
+                    <View>
+                      {CVs.map((cv, index) => (
+                        <CVCard
+                          key={index}
+                          name={cv.name}
+                          position={`Position: ${cv.position}`}
+                          createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
+                        />
+                      ))}
+                    </View>
+                  ) : (
+                    <Text style={styles.notFound}>{t("You don't have any CVs yet")}</Text>
+                  )}
+                </>
+              )}
+            </ScrollView>
 
-        {/* Logout Button */}
-        <LogOutButton navigation={navigation} />
-        {actions.openForm && <ChangePasswordScreen handleCloseForm={handleActionCloseForm} />}
+            {/* Button Upload */}
+            <GeneralButton
+              bgColor={Theme.palette.main.third}
+              isAlignCenter={true}
+              label={t('Create New CV')}
+              txtColor={Theme.palette.white.primary}
+              isLoading={false}
+            />
+          </View>
 
-        {actions.openRegisterForm && (
-          <RegisterTeacherScreen
-            handleOpenForm={handleActionOpenForm}
-            handleCloseForm={handleActionCloseForm}
-          />
-        )}
+          {/* Report Button */}
+          {/* <ReportButton handleOpenForm={handleActionOpenForm} /> */}
 
-        {actions.openSendEmailTeacher && (
-          <RegisterTeacherScreen
-            handleOpenForm={handleActionOpenForm}
-            handleCloseForm={handleActionCloseForm}
-          />
-        )}
-      </ScrollView>
+          {/* Change password Button */}
+          <ChangePasswordButton handleOpenForm={handleActionOpenForm} />
+
+          {/* Logout Button */}
+          <LogOutButton navigation={navigation} />
+          {actions.openForm && <ChangePasswordScreen handleCloseForm={handleActionCloseForm} />}
+
+          {actions.openRegisterForm && (
+            <RegisterTeacherScreen
+              handleOpenForm={handleActionOpenForm}
+              handleCloseForm={handleActionCloseForm}
+            />
+          )}
+
+          {actions.openSendEmailTeacher && (
+            <RegisterTeacherScreen
+              handleOpenForm={handleActionOpenForm}
+              handleCloseForm={handleActionCloseForm}
+            />
+          )}
+        </ScrollView>
+      )}
     </SafeAreaView>
   )
 }

@@ -21,6 +21,8 @@
   "We will reset your password": "Chúng tôi sẽ thiết lập lại mật khẩu mặc định",
   "Sign up for teacher": "Đăng ký Giảng viên",
   "Select teacher": "Chọn Giảng viên",
+  "No teacher yet": "Chưa có Giảng viên",
+  "Have teacher": "Đã có Giảng viên",
 
   "Recruitment News": "Tin tức tuyển dụng",
   "Our partners": "Đối tác của chúng tôi",
@@ -113,6 +115,7 @@
   "Deactivate": "Hủy kích hoạt",
   "Send": "Gửi",
 
+  "Create New CV": "Tạo mới CV",
   "Searching job": "Tìm kiếm công việc",
   "Choose your city": "Chọn địa điểm",
   "Choose level": "Chọn cấp độ",
@@ -127,6 +130,7 @@
   "Identity number has existed": "Mã số đã tồn tại",
   "Class must be exactly 6 characters": "Tên lớp học phải có chính xác 6 ký tự",
   "Class is invalid": "Tên lớp học không hợp lệ",
+  "You don't have any CVs yet": "Bạn chưa có CV nào",
 
   "Accept corporation": "Chấp nhận tài khoản Doanh nghiệp",
   "Accept corporation content": "Bạn có chấp nhận tài khoản Doanh nghiệp này không ?",

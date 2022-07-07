@@ -1,5 +1,6 @@
 import { Common } from './common'
 import { CVModel } from './cv.model'
+import { TeacherModel } from './teacher.model'
 
 export interface StudentModel extends Common {
   id?: string
@@ -19,5 +20,6 @@ export interface StudentModel extends Common {
   slug?: string
   internshipCertification?: string
   internshipReport?: string
+  teacher?: TeacherModel[]
   cv: CVModel[]
 }

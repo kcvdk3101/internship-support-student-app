@@ -37,7 +37,11 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
                     : Theme.palette.green.success,
               }}
             >
-              {student.status}
+              {student.status === 'Chưa thực tập'
+                ? t("Haven't practiced")
+                : student.status === 'Đang thực tập'
+                ? t('Practicing')
+                : t('Trained')}
             </Text>
             <Text
               style={{
@@ -47,7 +51,7 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
                 color: Theme.palette.paragraph.primary,
               }}
             >
-              {student.nameTeacher === '' ? 'Chưa có Giảng viên' : 'Đã có Giảng viên'}
+              {student.nameTeacher === '' ? t('No teacher yet') : t('Have teacher')}
             </Text>
           </View>
 
@@ -57,7 +61,7 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
             </Text>
 
             <View style={styles.row}>
-              <Text style={styles.title}>{t('Indetity number')}:</Text>
+              <Text style={styles.title}>{t('Identity number')}:</Text>
               <Text style={styles.content}>{student.identityNumber}</Text>
             </View>
             <View style={styles.row}>

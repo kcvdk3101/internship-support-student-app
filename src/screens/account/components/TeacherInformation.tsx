@@ -6,7 +6,7 @@ import { TeacherModel } from '../../../models/teacher.model'
 import { useTranslation } from 'react-i18next'
 
 type TeacherInformationProps = {
-  teacher: TeacherModel
+  teacher: TeacherModel[]
   loading: boolean
   handleActionOpenForm: (
     action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
@@ -39,33 +39,33 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
         </View>
       ) : (
         <View>
-          {teacher.id !== '' ? (
+          {teacher[0].id !== '' ? (
             <>
               <View style={styles.row}>
                 <Text style={styles.title}>{t('Full name')}: </Text>
-                <Text style={styles.content}>{teacher.fullName}</Text>
+                <Text style={styles.content}>{teacher[0].fullName}</Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.title}>{t('Email')}:</Text>
                 <Text style={styles.content} selectable={true}>
-                  {teacher.email}
+                  {teacher[0].email}
                 </Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.title}>{t('Phone')}:</Text>
-                <Text style={styles.phone} onPress={() => openContact(teacher.phoneNumber)}>
-                  {teacher.phoneNumber}
+                <Text style={styles.phone} onPress={() => openContact(teacher[0].phoneNumber)}>
+                  {teacher[0].phoneNumber}
                 </Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.title}>Zalo:</Text>
-                <Text style={styles.phone} onPress={() => openZalo(teacher.phoneNumber)}>
-                  {teacher.phoneNumber}
+                <Text style={styles.phone} onPress={() => openZalo(teacher[0].phoneNumber)}>
+                  {teacher[0].phoneNumber}
                 </Text>
               </View>
               <View style={styles.row}>
                 <Text style={styles.title}>{t('Department')}:</Text>
-                <Text style={styles.content}>{teacher.department}</Text>
+                <Text style={styles.content}>{teacher[0].department}</Text>
               </View>
             </>
           ) : (

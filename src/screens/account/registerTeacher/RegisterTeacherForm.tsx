@@ -77,18 +77,16 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
           },
         ])
         if (response[0].register.isActive) {
-          // await AsyncStorageLib.setItem('@teacherId', selectedTeacher)
           setLoading(false)
-          Alert.alert(response[0].message)
-          handleOpenForm('openSendEmailTeacher')
+          Alert.alert('Resgitered teacher successfully!')
+          handleCloseForm('openRegisterForm')
+          // handleOpenForm('openSendEmailTeacher')
         }
       }
     } catch (error) {
-      console.log(error)
       Alert.alert('Something wrong!')
     } finally {
       setLoading(false)
-      handleCloseForm('openRegisterForm')
     }
   }
 
@@ -129,6 +127,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   errorText: {
+    marginVertical: 4,
     ...Theme.fonts.body.body2,
     color: Theme.palette.red.error,
   },

@@ -22,6 +22,8 @@
   "We will reset your password": "We will reset your password",
   "Sign up for teacher": "Sign up for teacher",
   "Select teacher": "Select teacher",
+  "No teacher yet": "No have teacher yet",
+  "Have teacher": "Alreadt have teacher",
 
   "Recruitment News": "Recruitment News",
   "Our partners": "Our partners",
@@ -75,7 +77,7 @@
   "N.O": "Number ordered",
   "Last name": "Last name",
   "First name": "First name",
-  "Indetity number": "Indetity number",
+  "Identity number": "Identity number",
   "Full name": "Full name",
   "Password": "Password",
   "Email": "Email",
@@ -114,6 +116,7 @@
   "Deactivate": "Deactivate",
   "Send": "Send",
 
+  "Create New CV": "Create New CV",
   "Searching job": "Searching job",
   "Choose your city": "Choose your city",
   "Choose level": "Choose level",
@@ -128,6 +131,7 @@
   "Identity number has existed": "Identity number has existed",
   "Class must be exactly 6 characters": "Class must be exactly 6 characters",
   "Class is invalid": "Class is invalid",
+  "You don't have any CVs yet": "You don't have any CVs yet",
 
   "Accept corporation": "Accept corporation account",
   "Accept corporation content": "Do you accept this corporation account?",
