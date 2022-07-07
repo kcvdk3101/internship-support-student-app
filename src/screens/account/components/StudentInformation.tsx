@@ -1,4 +1,5 @@
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Image, Linking, StyleSheet, Text, View } from 'react-native'
 import { StudentModel } from '../../../models/student.model'
 import Theme from '../../../utils/Theme'
@@ -8,6 +9,8 @@ type StudentInformationProps = {
 }
 
 const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
+  const { t } = useTranslation()
+
   const openContact = (phoneNumber: string) => {
     Linking.openURL(`tel:${phoneNumber}`)
   }
@@ -36,28 +39,40 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
             >
               {student.status}
             </Text>
+            <Text
+              style={{
+                marginTop: 8,
+                fontStyle: 'italic',
+                ...Theme.fonts.body.body1,
+                color: Theme.palette.paragraph.primary,
+              }}
+            >
+              {student.nameTeacher === '' ? 'Chưa có Giảng viên' : 'Đã có Giảng viên'}
+            </Text>
           </View>
 
           <View style={styles.container}>
-            <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>Student Information</Text>
+            <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>
+              {t('Student information')}
+            </Text>
 
             <View style={styles.row}>
-              <Text style={styles.title}>Student ID:</Text>
+              <Text style={styles.title}>{t('Indetity number')}:</Text>
               <Text style={styles.content}>{student.identityNumber}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.title}>Phone number:</Text>
+              <Text style={styles.title}>{t('Phone')}:</Text>
 
               <Text style={styles.phone} onPress={() => openContact(student.phoneNumber)}>
                 {student.phoneNumber}
               </Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.title}>Class:</Text>
+              <Text style={styles.title}>{t('Class')}:</Text>
               <Text style={styles.content}>{student.class}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.title}>School year:</Text>
+              <Text style={styles.title}>{t('Academic year')}:</Text>
               <Text style={styles.content}>{student.term}</Text>
             </View>
           </View>

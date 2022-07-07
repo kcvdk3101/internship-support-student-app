@@ -3,6 +3,7 @@ import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
@@ -43,17 +44,20 @@ const LoginForm: React.FC<LoginFormProps> = ({
   navigation,
   handleCloseModal,
 }) => {
+  const { t } = useTranslation()
+
   const {
     control,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm({
+  } = useForm<FieldProps>({
     defaultValues: {
       email: '18dh110815@st.huflit.edu.vn',
       password: '31012000',
     },
     resolver: yupResolver(loginSchema),
   })
+
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
 
@@ -84,15 +88,15 @@ const LoginForm: React.FC<LoginFormProps> = ({
   return (
     <View style={styles.content}>
       <View>
-        <Text style={styles.title}>Welcome!</Text>
+        <Text style={styles.title}>{t('Welcome')}</Text>
       </View>
-      <Text style={styles.subtitle}>Sign in to your account</Text>
+      <Text style={styles.subtitle}>{t('Sign in to your account')}</Text>
 
       <VerticalInput
-        label="Email"
+        label={t('Email')}
         type="email"
         inputName="email"
-        placeholder="Enter student email"
+        placeholder={t('Enter student email')}
         autoCapitalize="none"
         returnKeyType="next"
         keyboardType="email-address"
@@ -102,10 +106,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
       />
 
       <VerticalInput
-        label="Password"
+        label={t('Password')}
         type="password"
         inputName="password"
-        placeholder="Enter password"
+        placeholder={t('Enter password')}
         autoCapitalize="none"
         returnKeyType="done"
         keyboardType="ascii-capable"
@@ -116,7 +120,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
       <View style={styles.forgotPasswordContainer}>
         <Pressable onPress={!loading ? handleDisplayFPScreen : () => {}}>
-          <Text style={styles.textButton}>Forgot password?</Text>
+          <Text style={styles.textButton}>{t('Forgot password')}?</Text>
         </Pressable>
       </View>
 
@@ -124,7 +128,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         bgColor={Theme.palette.main.primary}
         txtColor={Theme.palette.white.primary}
         onPress={handleSubmit(onSubmit)}
-        label="Sign in"
+        label={t('Sign in')}
         isLoading={loading}
         isAlignCenter={false}
       />
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
     ...Theme.fonts.body.body1,
   },
   title: {
-    color: Theme.palette.main.fourth,
+    color: Theme.palette.main.primary,
     ...Theme.fonts.headline.h5,
   },
 })

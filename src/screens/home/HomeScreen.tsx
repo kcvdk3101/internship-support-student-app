@@ -93,6 +93,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   }, [navigation])
 
+  useEffect(() => {
+    init()
+    return () => {
+      setRecommendedJobs([])
+      setPopularCompanies([])
+    }
+  }, [navigation])
+
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (

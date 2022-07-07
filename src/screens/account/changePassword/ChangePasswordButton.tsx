@@ -2,17 +2,21 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { Ionicons } from '@expo/vector-icons'
 import Theme from '../../../utils/Theme'
+import { useTranslation } from 'react-i18next'
 
 type ChangePasswordButtonProps = {
-  handleOpenForm: (action: string) => void
+  handleOpenForm: (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => void
 }
 
 const ChangePasswordButton: React.FC<ChangePasswordButtonProps> = ({ handleOpenForm }) => {
+  const { t } = useTranslation()
   return (
     <View style={styles.changePasswordContainer}>
       <TouchableOpacity style={styles.btnChangePassword} onPress={() => handleOpenForm('openForm')}>
         <Ionicons name="lock-closed" size={24} color="black" />
-        <Text style={styles.changePasswordText}>Change password</Text>
+        <Text style={styles.changePasswordText}>{t('Change password')}</Text>
       </TouchableOpacity>
     </View>
   )

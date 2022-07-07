@@ -5,6 +5,8 @@
   "Preferences": "Preferences",
   "Dark mode": "Dark mode",
   "Change language": "Change language",
+  "Change password": "Change password",
+
   "Welcome": "Welcome",
   "Find Your": "Find Your",
   "Dream Job": "Dream Job",
@@ -13,6 +15,13 @@
   "Popular comapanies": "Popular comapanies",
   "Show more": "Show more",
   "Discover Job/Company": "Discover Job/Company",
+  "Login to create or edit your CV": "Login to create or edit your CV",
+  "Sign in to your account": "Sign in to your account",
+  "Forgot password": "Forgot password",
+  "Sent us your student email": "Sent us your student email",
+  "We will reset your password": "We will reset your password",
+  "Sign up for teacher": "Sign up for teacher",
+  "Select teacher": "Select teacher",
 
   "Recruitment News": "Recruitment News",
   "Our partners": "Our partners",
@@ -46,6 +55,8 @@
 
   "Sign in": "Sign in",
   "Sign out": "Sign out",
+  "Register": "Register",
+  "Register teacher": "Register teacher",
 
   "Generate account": "Create account",
   "Generate student account": "Create account for students",
@@ -64,9 +75,9 @@
   "N.O": "Number ordered",
   "Last name": "Last name",
   "First name": "First name",
+  "Indetity number": "Indetity number",
   "Full name": "Full name",
   "Password": "Password",
-  "Identity number": "Identity number",
   "Email": "Email",
   "Address": "Address",
   "Class": "Class",
@@ -101,10 +112,14 @@
   "Close": "Close",
   "Activate": "Activate",
   "Deactivate": "Deactivate",
+  "Send": "Send",
 
   "Searching job": "Searching job",
   "Choose your city": "Choose your city",
   "Choose level": "Choose level",
+
+  "Enter student email": "Enter student email",
+  "Enter password": "Enter password",
 
   "This field is required": "This field is required",
   "Phone number is invalid": "Phone number is invalid",

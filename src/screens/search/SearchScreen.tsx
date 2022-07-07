@@ -97,8 +97,8 @@ const SearchScreen: React.FC<SearchScreenProps> = ({ navigation }) => {
   async function searching() {
     setLoading(true)
     try {
+      let jobs
       if (index === 0) {
-        let jobs
         if (searchInput === '') {
           jobs = await jobApi.getAllJobs({ limit: 10, offset })
         } else {

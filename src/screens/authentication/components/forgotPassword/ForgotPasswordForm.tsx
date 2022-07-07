@@ -10,6 +10,7 @@ import { logout, resetPassword } from '../../../../features/authenticationSlice'
 import { useAppDispatch } from '../../../../hooks/redux'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
+import { useTranslation } from 'react-i18next'
 
 type ForgotPasswordFormProps = {
   loading: boolean
@@ -23,11 +24,13 @@ type FieldProps = {
 }
 
 const forgotPasswordSchema = yup.object({
-  email: yup.string().required('Mail is required'),
-  // .matches(
-  //   /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-  //   'Please enter correct format',
-  // ),
+  email: yup
+    .string()
+    .required('Mail is required')
+    .matches(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@st.huflit.edu.vn/,
+      'Please enter correct format',
+    ),
 })
 
 const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
@@ -36,6 +39,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   setLoading,
   handleCloseModal,
 }) => {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const {
     control,
@@ -84,8 +88,8 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   return (
     <View style={styles.content}>
       <View>
-        <Text style={styles.title}>Sent us your school email</Text>
-        <Text style={styles.subtitle}>We will reset your password</Text>
+        <Text style={styles.title}>{t('Sent us your student email')}</Text>
+        <Text style={styles.subtitle}>{t('We will reset your password')}</Text>
       </View>
 
       <View
@@ -94,10 +98,10 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         }}
       >
         <VerticalInput
-          label="Email"
+          label={t('Email')}
           type="email"
           inputName="email"
-          placeholder="Enter email"
+          placeholder={t('Enter email')}
           autoCapitalize="none"
           returnKeyType="next"
           keyboardType="email-address"
@@ -109,7 +113,7 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
 
       <GeneralButton
         bgColor={Theme.palette.main.primary}
-        label="Send"
+        label={t('Send')}
         onPress={handleSubmit(onSubmit)}
         isAlignCenter={false}
         txtColor={Theme.palette.white.primary}

@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons'
 import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   ActivityIndicator,
   Alert,
@@ -34,11 +35,14 @@ type AccountScreenProps = {
 }
 
 const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
+
   const dispatch = useAppDispatch()
   const {
     isAuthenticated,
     user: { studentId, id, student },
   } = useAppSelector((state) => state.auth)
+  const user = useAppSelector((state) => state.auth.user)
   const CVs = useAppSelector((state) => state.cv.CVs)
 
   const [loadingTeacher, setLoadingTeacher] = useState(false)
@@ -48,6 +52,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     openForm: false,
     openRegisterForm: false,
     openReportForm: false,
+    openSendEmailTeacher: false,
   })
   const [teacher, setTeacher] = useState<TeacherModel>({
     id: '',
@@ -80,25 +85,25 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     })()
   }, [isAuthenticated])
 
-  useEffect(() => {
-    ;(async () => {
-      setLoadingTeacher(true)
-      try {
-        let teacherId = await AsyncStorageLib.getItem('@teacherId')
-        if (teacherId === null) return
+  // useEffect(() => {
+  //   ;(async () => {
+  //     setLoadingTeacher(true)
+  //     try {
+  //       let teacherId = await AsyncStorageLib.getItem('@teacherId')
+  //       if (teacherId === null) return
 
-        const response = await teacherApi.getTeacherById(teacherId)
-        if (response.teacher.length > 0) {
-          setTeacher(response.teacher[0])
-          setLoadingTeacher(false)
-        }
-      } catch (error) {
-        Alert.alert('Cannot load teacher information')
-      } finally {
-        setLoadingTeacher(false)
-      }
-    })()
-  }, [actions.openRegisterForm])
+  //       const response = await teacherApi.getTeacherById(teacherId)
+  //       if (response.teacher.length > 0) {
+  //         setTeacher(response.teacher[0])
+  //         setLoadingTeacher(false)
+  //       }
+  //     } catch (error) {
+  //       Alert.alert('Cannot load teacher information')
+  //     } finally {
+  //       setLoadingTeacher(false)
+  //     }
+  //   })()
+  // }, [actions.openRegisterForm])
 
   useEffect(() => {
     if ((typeof id !== 'string' && id === undefined) || '' || null) {
@@ -106,11 +111,15 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     }
   }, [id])
 
-  const handleActionOpenForm = (action: string) => {
+  const handleActionOpenForm = (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => {
     setActions({ ...actions, [action]: true })
   }
 
-  const handleActionCloseForm = (action: string) => {
+  const handleActionCloseForm = (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => {
     setActions({ ...actions, [action]: false })
   }
 
@@ -179,8 +188,19 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
         {/* Logout Button */}
         <LogOutButton navigation={navigation} />
         {actions.openForm && <ChangePasswordScreen handleCloseForm={handleActionCloseForm} />}
+
         {actions.openRegisterForm && (
-          <RegisterTeacherScreen handleCloseForm={handleActionCloseForm} />
+          <RegisterTeacherScreen
+            handleOpenForm={handleActionOpenForm}
+            handleCloseForm={handleActionCloseForm}
+          />
+        )}
+
+        {actions.openSendEmailTeacher && (
+          <RegisterTeacherScreen
+            handleOpenForm={handleActionOpenForm}
+            handleCloseForm={handleActionCloseForm}
+          />
         )}
       </ScrollView>
     </SafeAreaView>
@@ -192,7 +212,7 @@ export default AccountScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Theme.palette.main.primary,
+    backgroundColor: Theme.palette.main.third,
   },
   headingContainer: {
     flexDirection: 'row',

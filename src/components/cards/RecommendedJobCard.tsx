@@ -54,8 +54,8 @@ const RecommendedJobCard: React.FC<RecommendedJobCardProps> = ({
             <Image style={styles.image} source={{ uri: 'https://picsum.photos/200' }} />
           </View>
           <View style={{ marginLeft: 8 }}>
-            <Text style={{ color: Theme.palette.white.secondary }}>{corpName}</Text>
-            <Text style={{ color: Theme.palette.background.modal }}>{city}</Text>
+            <Text style={{ color: Theme.palette.white.primary }}>{corpName}</Text>
+            <Text style={{ color: Theme.palette.paragraph.primary }}>{city}</Text>
           </View>
         </View>
       </View>

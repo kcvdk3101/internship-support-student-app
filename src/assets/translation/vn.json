@@ -5,6 +5,7 @@
   "Preferences": "Tùy chỉnh",
   "Dark mode": "Chế độ tối",
   "Change language": "Thay đổi ngôn ngữ",
+  "Change password": "Đổi mật khẩu",
   "Welcome": "Xin chào",
   "Find Your": "Tìm kiếm",
   "Dream Job": "công việc mơ ước",
@@ -13,6 +14,13 @@
   "Popular comapanies": "Công ty nổi bật",
   "Show more": "Xem thêm",
   "Discover Job/Company": "Khám phá Công việc/Công ty",
+  "Login to create or edit your CV": "Đăng nhập để tạo/chỉnh sửa CV của bạn",
+  "Sign in to your account": "Hãy đăng nhập vào tài khoản của bạn",
+  "Forgot password": "Quên mật khẩu",
+  "Sent us your student email": "Hãy gửi email sinh viên của bạn",
+  "We will reset your password": "Chúng tôi sẽ thiết lập lại mật khẩu mặc định",
+  "Sign up for teacher": "Đăng ký Giảng viên",
+  "Select teacher": "Chọn Giảng viên",
 
   "Recruitment News": "Tin tức tuyển dụng",
   "Our partners": "Đối tác của chúng tôi",
@@ -39,6 +47,8 @@
 
   "Sign in": "Đăng nhập",
   "Sign out": "Đăng xuất",
+  "Register": "Đăng ký",
+  "Register teacher": "Đăng ký Giảng viên",
 
   "Generate account": "Tạo tài khoản",
   "Generate student account": "Tạo tài khoản cho tất cả sinh viên",
@@ -101,10 +111,14 @@
   "Close": "Đóng",
   "Activate": "Kích hoạt",
   "Deactivate": "Hủy kích hoạt",
+  "Send": "Gửi",
 
   "Searching job": "Tìm kiếm công việc",
   "Choose your city": "Chọn địa điểm",
   "Choose level": "Chọn cấp độ",
+
+  "Enter student email": "Nhập email sinh viên",
+  "Enter password": "Nhập mật khẩu",
 
   "This field is required": "Trường này bắt buộc",
   "Phone number is invalid": "Số điện thoại không hợp lệ",

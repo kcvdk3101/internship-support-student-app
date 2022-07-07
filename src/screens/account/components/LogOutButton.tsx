@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React from 'react'
+import { useTranslation } from 'react-i18next'
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { logout } from '../../../features/authenticationSlice'
 import { useAppDispatch } from '../../../hooks/redux'
@@ -11,6 +12,7 @@ type LogOutButtonProps = {
 }
 
 const LogOutButton: React.FC<LogOutButtonProps> = ({ navigation }) => {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
 
   function handleLogout() {
@@ -38,7 +40,7 @@ const LogOutButton: React.FC<LogOutButtonProps> = ({ navigation }) => {
     <View style={styles.signOutContainer}>
       <TouchableOpacity style={styles.btnLogOut} onPress={() => handleLogout()}>
         <Ionicons name="log-out" size={28} color="black" />
-        <Text style={styles.logOutText}>Log out</Text>
+        <Text style={styles.logOutText}>{t('Sign out')}</Text>
       </TouchableOpacity>
     </View>
   )

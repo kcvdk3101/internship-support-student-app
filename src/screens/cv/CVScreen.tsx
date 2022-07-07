@@ -98,7 +98,7 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
         </View>
       ) : (
         <View style={styles.loginContainer}>
-          <Text style={styles.logoContent}>Login to create or edit your CV</Text>
+          <Text style={styles.logoContent}>{t('Login to create or edit your CV')}</Text>
           <GeneralButton
             bgColor={Theme.palette.main.primary}
             onPress={handleShowModal}

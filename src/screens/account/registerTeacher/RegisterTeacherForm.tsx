@@ -1,30 +1,42 @@
-import { Alert, Platform, StyleSheet, Text, View } from 'react-native'
+import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState } from 'react'
-import Theme from '../../../utils/Theme'
+import { useTranslation } from 'react-i18next'
+import { Alert, Platform, StyleSheet, Text, View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
-import { TeacherModel } from '../../../models/teacher.model'
 import studentApi from '../../../api/university/studentApi'
-import { string } from 'yup'
 import GeneralButton from '../../../components/buttons/GeneralButton'
 import { useAppSelector } from '../../../hooks/redux'
-import AsyncStorageLib from '@react-native-async-storage/async-storage'
+import { TeacherModel } from '../../../models/teacher.model'
+import Theme from '../../../utils/Theme'
 
 type RegisterTeacherFormProps = {
-  handleCloseForm: (action: string) => void
+  handleCloseForm: (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => void
+  handleOpenForm: (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => void
 }
 
-const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseForm }) => {
+const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
+  handleCloseForm,
+  handleOpenForm,
+}) => {
+  const { t } = useTranslation()
   const user = useAppSelector((state) => state.auth.user)
   const placeholder = {
-    label: 'Select teacher',
+    label: t('Select teacher'),
     value: '',
     color: Theme.palette.white.primary,
   }
+  const date = new Date()
+  let year = date.getFullYear()
   let filterTeachers: { label: string; value: string }[] = []
 
   const [loading, setLoading] = useState(false)
   const [teachers, setTeachers] = useState<TeacherModel[]>([])
   const [selectedTeacher, setSelectedTeacher] = useState<string>('')
+  const [errorMessage, setErrorMessage] = useState<string>('')
 
   teachers.map((teacher) => {
     filterTeachers.push({ label: teacher.fullName, value: teacher.id })
@@ -37,7 +49,7 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await studentApi.getAllTeacher()
+        const response = await studentApi.getAllTeacher(year)
         if (response.data.length > 0) {
           setTeachers(response.data)
         } else {
@@ -53,18 +65,23 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
   }, [])
 
   const registerTeacher = async () => {
-    setLoading(true)
     try {
-      const response = await studentApi.registerTeacher([
-        {
-          studentId: user.studentId,
-          teacherId: selectedTeacher,
-        },
-      ])
-      if (response[0].register.isActive) {
-        await AsyncStorageLib.setItem('@teacherId', selectedTeacher)
-        setLoading(false)
-        Alert.alert(response[0].message)
+      if (selectedTeacher === '') {
+        setErrorMessage('This field is required')
+      } else {
+        setLoading(true)
+        const response = await studentApi.registerTeacher([
+          {
+            studentId: user.studentId,
+            teacherId: selectedTeacher,
+          },
+        ])
+        if (response[0].register.isActive) {
+          // await AsyncStorageLib.setItem('@teacherId', selectedTeacher)
+          setLoading(false)
+          Alert.alert(response[0].message)
+          handleOpenForm('openSendEmailTeacher')
+        }
       }
     } catch (error) {
       console.log(error)
@@ -76,8 +93,8 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
   }
 
   return (
-    <View>
-      <Text style={styles.heading}>Select teacher</Text>
+    <View style={{ marginVertical: 8 }}>
+      <Text style={styles.heading}>{t('Sign up for teacher')}</Text>
       <RNPickerSelect
         items={filterTeachers}
         onValueChange={handleOnChange}
@@ -86,9 +103,10 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({ handleCloseFo
         useNativeAndroidPickerStyle={Platform.OS === 'ios' ? false : true}
         disabled={loading}
       />
+      <Text style={styles.errorText}>{errorMessage}</Text>
       <View style={styles.button}>
         <GeneralButton
-          label="Register"
+          label={t('Register')}
           bgColor={Theme.palette.main.primary}
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}
@@ -110,6 +128,10 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 16,
   },
+  errorText: {
+    ...Theme.fonts.body.body2,
+    color: Theme.palette.red.error,
+  },
 })
 
 const pickerSelectStyles = StyleSheet.create({
@@ -117,7 +139,7 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginVertical: 4,
+    marginTop: 8,
     color: Theme.palette.white.primary,
     ...Theme.fonts.body.body1,
   },
@@ -125,7 +147,7 @@ const pickerSelectStyles = StyleSheet.create({
     backgroundColor: Theme.palette.black.primary,
     borderRadius: 8,
     padding: 16,
-    marginVertical: 4,
+    marginTop: 8,
     color: Theme.palette.white.primary,
     ...Theme.fonts.body.body1,
   },

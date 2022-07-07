@@ -6,7 +6,9 @@ import ChangePasswordForm from './ChangePasswordForm'
 import Theme from '../../../utils/Theme'
 
 type ChangePasswordScreenProps = {
-  handleCloseForm: (action: string) => void
+  handleCloseForm: (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => void
 }
 
 const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ handleCloseForm }) => {

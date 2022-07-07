@@ -28,6 +28,9 @@ export const login = createAsyncThunk(
   'auth/login',
   async ({ email, password }: { email: string; password: string }) => {
     const user = await userApi.login(email, password)
+    if (user.user.role === 'student') {
+      AsyncStorageLib.setItem('@password', password)
+    }
     return user.user
   },
 )
@@ -73,8 +76,7 @@ const authenticationSlice = createSlice({
 
     builder.addCase(login.fulfilled, (state, action) => {
       state.user = action.payload
-      AsyncStorageLib.setItem('student_id', JSON.stringify(action.payload.id))
-
+      AsyncStorageLib.setItem('@email', action.payload.email)
       state.isAuthenticated = true
     })
     builder.addCase(login.rejected, (state, action) => {

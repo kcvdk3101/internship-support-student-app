@@ -3,11 +3,14 @@ import React from 'react'
 import GeneralButton from '../../../components/buttons/GeneralButton'
 import Theme from '../../../utils/Theme'
 import { TeacherModel } from '../../../models/teacher.model'
+import { useTranslation } from 'react-i18next'
 
 type TeacherInformationProps = {
   teacher: TeacherModel
   loading: boolean
-  handleActionOpenForm: (action: string) => void
+  handleActionOpenForm: (
+    action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
+  ) => void
 }
 
 const TeacherInformation: React.FC<TeacherInformationProps> = ({
@@ -15,6 +18,8 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
   loading,
   handleActionOpenForm,
 }) => {
+  const { t } = useTranslation()
+
   const openContact = (phoneNumber: string) => {
     Linking.openURL(`tel:${phoneNumber}`)
   }
@@ -25,7 +30,9 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
 
   return (
     <View style={styles.container}>
-      <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>Teacher Information</Text>
+      <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>
+        {t('Lecturer information')}
+      </Text>
       {loading ? (
         <View style={{ marginVertical: 8 }}>
           <ActivityIndicator size="large" color={Theme.palette.background.modal} />
@@ -35,29 +42,29 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
           {teacher.id !== '' ? (
             <>
               <View style={styles.row}>
-                <Text style={styles.title}>Fullname: </Text>
+                <Text style={styles.title}>{t('Full name')}: </Text>
                 <Text style={styles.content}>{teacher.fullName}</Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.title}>Email:</Text>
+                <Text style={styles.title}>{t('Email')}:</Text>
                 <Text style={styles.content} selectable={true}>
                   {teacher.email}
                 </Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.title}>Phone number:</Text>
+                <Text style={styles.title}>{t('Phone')}:</Text>
                 <Text style={styles.phone} onPress={() => openContact(teacher.phoneNumber)}>
                   {teacher.phoneNumber}
                 </Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.title}>Zalo contact:</Text>
+                <Text style={styles.title}>Zalo:</Text>
                 <Text style={styles.phone} onPress={() => openZalo(teacher.phoneNumber)}>
                   {teacher.phoneNumber}
                 </Text>
               </View>
               <View style={styles.row}>
-                <Text style={styles.title}>Department:</Text>
+                <Text style={styles.title}>{t('Department')}:</Text>
                 <Text style={styles.content}>{teacher.department}</Text>
               </View>
             </>
@@ -65,7 +72,7 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
             <GeneralButton
               bgColor={Theme.palette.main.third}
               isAlignCenter={true}
-              label="Register Teacher"
+              label={t('Register teacher')}
               txtColor={Theme.palette.white.primary}
               isLoading={false}
               onPress={() => handleActionOpenForm('openRegisterForm')}

@@ -11,8 +11,10 @@ const studentApi = {
     })
   },
 
-  getAllTeacher() {
-    return axiosUniversity.get<string, { data: TeacherModel[] }>(`${url}/teacher/all`)
+  getAllTeacher(academicYear: number) {
+    return axiosUniversity.get<string, { data: TeacherModel[] }>(
+      `${url}/teacher/all?academicYear=${academicYear}`,
+    )
   },
 
   getTeacherById(teacherId: string) {

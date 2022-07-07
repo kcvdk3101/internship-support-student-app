@@ -169,7 +169,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           <DrawerItem
             onPress={() => handleLogout(props)}
             icon={() => <Ionicons name="exit" color={Theme.palette.red.signOut} size={24} />}
-            label="Sign out"
+            label={t('Sign out')}
             labelStyle={{
               ...Theme.fonts.body.body1,
               color: Theme.palette.red.signOut,
