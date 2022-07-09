@@ -1,7 +1,6 @@
 {
   "Home": "Trang chủ",
   "Company": "Công ty",
-  "CV": "Sơ yếu lý lịch",
   "Preferences": "Tùy chỉnh",
   "Dark mode": "Chế độ tối",
   "Change language": "Thay đổi ngôn ngữ",
@@ -22,6 +21,7 @@
   "Sign up for teacher": "Đăng ký Giảng viên",
   "Select teacher": "Chọn Giảng viên",
   "No teacher yet": "Chưa có Giảng viên",
+  "Wait for teacher acceptance": "Đang chờ Giảng viên chấp nhận",
   "Have teacher": "Đã có Giảng viên",
 
   "Recruitment News": "Tin tức tuyển dụng",

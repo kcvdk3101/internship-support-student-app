@@ -16,10 +16,24 @@ export interface StudentModel extends Common {
   term?: string
   status: string
   academicYear?: string
-  nameTeacher: string
+  nameTeacher?: string
   slug?: string
-  internshipCertification?: string
-  internshipReport?: string
+  internshipCertification?: boolean
+  internshipReport?: boolean
+  internshipFeedback?: boolean
+  internshipSurvey?: boolean
+  internshipFirstGrade?: number
+  internshipSecondGrade?: number
+  internshipThirdGrade?: number
+  internshipFinalGrade?: number
+  cv?: CVModel[]
   teacher?: TeacherModel[]
-  cv: CVModel[]
+  detail?: [
+    {
+      studentId: string
+      teacherId: string
+      isRegistered: string
+      isAccepted: string
+    },
+  ]
 }

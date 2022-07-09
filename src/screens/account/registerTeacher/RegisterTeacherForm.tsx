@@ -1,4 +1,3 @@
-import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Alert, Platform, StyleSheet, Text, View } from 'react-native'
@@ -16,11 +15,13 @@ type RegisterTeacherFormProps = {
   handleOpenForm: (
     action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
   ) => void
+  handeOpenOutlookMailModal: () => void
 }
 
 const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
   handleCloseForm,
   handleOpenForm,
+  handeOpenOutlookMailModal,
 }) => {
   const { t } = useTranslation()
   const user = useAppSelector((state) => state.auth.user)
@@ -76,17 +77,18 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
             teacherId: selectedTeacher,
           },
         ])
-        if (response[0].register.isActive) {
-          setLoading(false)
-          Alert.alert('Resgitered teacher successfully!')
+        if (response[0].register) {
           handleCloseForm('openRegisterForm')
-          // handleOpenForm('openSendEmailTeacher')
+          setTimeout(() => {
+            setLoading(false)
+            handeOpenOutlookMailModal()
+          }, 500)
+        } else {
+          Alert.alert('Cannot register this teacher')
         }
       }
     } catch (error) {
       Alert.alert('Something wrong!')
-    } finally {
-      setLoading(false)
     }
   }
 

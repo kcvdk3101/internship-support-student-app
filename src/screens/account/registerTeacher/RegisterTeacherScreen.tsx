@@ -14,21 +14,25 @@ import Theme from '../../../utils/Theme'
 import RegisterTeacherForm from './RegisterTeacherForm'
 
 type RegisterTeacherScreenProps = {
+  visible: boolean
   handleCloseForm: (
     action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
   ) => void
   handleOpenForm: (
     action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
   ) => void
+  handeOpenOutlookMailModal: () => void
 }
 
 const RegisterTeacherScreen: React.FC<RegisterTeacherScreenProps> = ({
+  visible,
   handleOpenForm,
   handleCloseForm,
+  handeOpenOutlookMailModal,
 }) => {
   return (
     <View>
-      <Modal animationType="slide" transparent={true} visible={true}>
+      <Modal animationType="slide" transparent={true} visible={visible}>
         <SafeAreaView>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -47,6 +51,7 @@ const RegisterTeacherScreen: React.FC<RegisterTeacherScreenProps> = ({
               <RegisterTeacherForm
                 handleOpenForm={handleOpenForm}
                 handleCloseForm={handleCloseForm}
+                handeOpenOutlookMailModal={handeOpenOutlookMailModal}
               />
             </View>
           </KeyboardAvoidingView>
@@ -62,7 +67,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'flex-start',
     backgroundColor: Theme.palette.white.primary,
-    height: screenHeight * 0.5,
+    height: screenHeight * 0.45,
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderTopLeftRadius: 30,

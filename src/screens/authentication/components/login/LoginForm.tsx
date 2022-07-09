@@ -72,6 +72,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
         }),
       )
       if (response.meta.requestStatus === 'fulfilled') {
+        handleCloseModal()
         Alert.alert('Login successfully!')
       } else {
         Alert.alert('Email or password is wrong! Please check again')
@@ -79,7 +80,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
     } catch (error) {
       Alert.alert('Something wrong! Try again later')
     } finally {
-      handleCloseModal()
       setLoading(false)
       handleGetLoading(false)
     }

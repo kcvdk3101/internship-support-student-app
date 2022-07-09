@@ -6,15 +6,19 @@ import ChangePasswordForm from './ChangePasswordForm'
 import Theme from '../../../utils/Theme'
 
 type ChangePasswordScreenProps = {
+  visible: boolean
   handleCloseForm: (
     action: 'openForm' | 'openRegisterForm' | 'openReportForm' | 'openSendEmailTeacher',
   ) => void
 }
 
-const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({ handleCloseForm }) => {
+const ChangePasswordScreen: React.FC<ChangePasswordScreenProps> = ({
+  visible,
+  handleCloseForm,
+}) => {
   return (
     <View>
-      <Modal animationType="slide" transparent={true} visible={true}>
+      <Modal animationType="slide" transparent={true} visible={visible}>
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{

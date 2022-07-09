@@ -1,12 +1,10 @@
 {
   "Home": "Home",
   "Company": "Company",
-  "CV": "CV",
   "Preferences": "Preferences",
   "Dark mode": "Dark mode",
   "Change language": "Change language",
   "Change password": "Change password",
-
   "Welcome": "Welcome",
   "Find Your": "Find Your",
   "Dream Job": "Dream Job",
@@ -23,6 +21,8 @@
   "Sign up for teacher": "Sign up for teacher",
   "Select teacher": "Select teacher",
   "No teacher yet": "No have teacher yet",
+  "Wait for teacher acceptance": "Wait for teacher acceptance",
+
   "Have teacher": "Alreadt have teacher",
 
   "Recruitment News": "Recruitment News",

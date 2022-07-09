@@ -4,9 +4,9 @@
     "slug": "supported-internship-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/small-logo.png",
+    "icon": "./src/assets/images/huflit-square.png",
     "splash": {
-      "image": "./src/assets/images/small-logo.png",
+      "image": "./src/assets/images/huflit-square.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,12 +20,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/assets/images/small-logo.png",
+        "foregroundImage": "./src/assets/images/huflit-square.png",
         "backgroundColor": "#FFFFFF"
       }
     },
     "web": {
-      "favicon": "./src/assets/images/small-logo.png"
+      "favicon": "./src/assets/images/huflit-square.png"
     },
 
     "plugins": [

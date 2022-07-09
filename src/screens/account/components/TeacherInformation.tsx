@@ -39,7 +39,7 @@ const TeacherInformation: React.FC<TeacherInformationProps> = ({
         </View>
       ) : (
         <View>
-          {teacher[0].id !== '' ? (
+          {teacher && teacher[0].id !== '' ? (
             <>
               <View style={styles.row}>
                 <Text style={styles.title}>{t('Full name')}: </Text>

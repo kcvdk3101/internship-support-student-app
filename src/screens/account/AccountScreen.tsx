@@ -7,15 +7,13 @@ import {
   ActivityIndicator,
   Alert,
   Pressable,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   View,
-  RefreshControl,
 } from 'react-native'
-import studentApi from '../../api/university/studentApi'
-import teacherApi from '../../api/university/teacherApi'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { login } from '../../features/authenticationSlice'
@@ -29,6 +27,7 @@ import SkeletonComponentScreen from '../company/components/SkeletonComponentScre
 import ChangePasswordButton from './changePassword/ChangePasswordButton'
 import ChangePasswordScreen from './changePassword/ChangePasswordScreen'
 import LogOutButton from './components/LogOutButton'
+import SendOutlookMail from './components/SendOutlookMail'
 import StudentInformation from './components/StudentInformation'
 import TeacherInformation from './components/TeacherInformation'
 import RegisterTeacherScreen from './registerTeacher/RegisterTeacherScreen'
@@ -55,8 +54,9 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     openForm: false,
     openRegisterForm: false,
     openReportForm: false,
-    openSendEmailTeacher: false,
   })
+
+  const [openSendEmailTeacher, setOpenSendEmailTeacher] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -88,26 +88,6 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     }
   }, [])
 
-  // useEffect(() => {
-  //   ;(async () => {
-  //     setLoadingTeacher(true)
-  //     try {
-  //       let teacherId = await AsyncStorageLib.getItem('@teacherId')
-  //       if (teacherId === null) return
-
-  //       const response = await teacherApi.getTeacherById(teacherId)
-  //       if (response.teacher.length > 0) {
-  //         setTeacher(response.teacher[0])
-  //         setLoadingTeacher(false)
-  //       }
-  //     } catch (error) {
-  //       Alert.alert('Cannot load teacher information')
-  //     } finally {
-  //       setLoadingTeacher(false)
-  //     }
-  //   })()
-  // }, [actions.openRegisterForm])
-
   useEffect(() => {
     if ((typeof id !== 'string' && id === undefined) || '' || null) {
       navigation.navigate('HomeTab')
@@ -126,6 +106,13 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
     setActions({ ...actions, [action]: false })
   }
 
+  const handeOpenOutlookMailModal = () => {
+    setOpenSendEmailTeacher(true)
+  }
+  const handeCloseOutlookMailModal = () => {
+    setOpenSendEmailTeacher(false)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       {loading ? (
@@ -140,17 +127,14 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
               <Ionicons name="arrow-back" size={28} style={styles.icon} />
             </Pressable>
           </View>
-
           <StudentInformation student={student as StudentModel} />
-
           <TeacherInformation
             teacher={student?.teacher as TeacherModel[]}
             loading={loading}
             handleActionOpenForm={handleActionOpenForm}
           />
-
           <View style={styles.cvContainer}>
-            <Text style={styles.cvHeading}>{t('CV')}</Text>
+            <Text style={styles.cvHeading}>CV</Text>
 
             {/* CV List */}
             <ScrollView scrollEnabled style={{ height: CVs.length > 0 ? 400 : 'auto' }}>
@@ -187,7 +171,6 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
               isLoading={false}
             />
           </View>
-
           {/* Report Button */}
           {/* <ReportButton handleOpenForm={handleActionOpenForm} /> */}
 
@@ -196,21 +179,22 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
 
           {/* Logout Button */}
           <LogOutButton navigation={navigation} />
-          {actions.openForm && <ChangePasswordScreen handleCloseForm={handleActionCloseForm} />}
 
-          {actions.openRegisterForm && (
-            <RegisterTeacherScreen
-              handleOpenForm={handleActionOpenForm}
-              handleCloseForm={handleActionCloseForm}
-            />
-          )}
+          <SendOutlookMail
+            visible={openSendEmailTeacher}
+            handleCloseForm={handeCloseOutlookMailModal}
+          />
 
-          {actions.openSendEmailTeacher && (
-            <RegisterTeacherScreen
-              handleOpenForm={handleActionOpenForm}
-              handleCloseForm={handleActionCloseForm}
-            />
-          )}
+          <RegisterTeacherScreen
+            visible={actions.openRegisterForm}
+            handleOpenForm={handleActionOpenForm}
+            handleCloseForm={handleActionCloseForm}
+            handeOpenOutlookMailModal={handeOpenOutlookMailModal}
+          />
+          <ChangePasswordScreen
+            visible={actions.openForm}
+            handleCloseForm={handleActionCloseForm}
+          />
         </ScrollView>
       )}
     </SafeAreaView>
@@ -247,7 +231,6 @@ const styles = StyleSheet.create({
   },
   cvHeading: {
     ...Theme.fonts.headline.h6,
-    color: Theme.palette.main.fourth,
     marginBottom: 10,
   },
   notFound: { ...Theme.fonts.body.body1, marginBottom: 16 },

@@ -48,10 +48,19 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
                 marginTop: 8,
                 fontStyle: 'italic',
                 ...Theme.fonts.body.body1,
-                color: Theme.palette.paragraph.primary,
+                color:
+                  student.teacher === undefined
+                    ? Theme.palette.black.primary
+                    : student.detail && student.detail[0].isAccepted === 'false'
+                    ? Theme.palette.paragraph.primary
+                    : Theme.palette.green.success,
               }}
             >
-              {student.nameTeacher === '' ? t('No teacher yet') : t('Have teacher')}
+              {student.teacher === undefined
+                ? t('No teacher yet')
+                : student.detail && student.detail[0].isAccepted === 'false'
+                ? t('Wait for teacher acceptance')
+                : t('Have teacher')}
             </Text>
           </View>
 
