@@ -61,13 +61,12 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
               bgColor={Theme.palette.main.third}
               txtColor={Theme.palette.white.primary}
               isAlignCenter={true}
-              label="CREATE NEW CV"
+              label={t('Create New CV')}
               onPress={() => navigation.navigate('CVForm')}
               isLoading={false}
             />
           </View>
           <ScrollView style={styles.cvList}>
-            <Text style={styles.heading}>CV / Cover Letter</Text>
             <ScrollView>
               {loading ? (
                 <View style={{ marginVertical: 8 }}>
@@ -88,7 +87,9 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
                     </View>
                   ) : (
                     <View>
-                      <Text>You don't have any CVs yet</Text>
+                      <Text style={{ ...Theme.fonts.body.body1 }}>
+                        {t("You don't have any CVs yet")}
+                      </Text>
                     </View>
                   )}
                 </View>
@@ -125,10 +126,6 @@ export default CVScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  heading: {
-    ...Theme.fonts.headline.h5,
-    color: Theme.palette.black.primary,
   },
   cvList: {
     paddingHorizontal: 16,

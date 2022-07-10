@@ -4,6 +4,7 @@ import { ParamListBase } from '@react-navigation/native'
 import * as ImagePicker from 'expo-image-picker'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../components/buttons/GeneralButton'
@@ -26,6 +27,7 @@ const cvFormSchema = yup.object({
 })
 
 const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
   const {
     control,
     handleSubmit,
@@ -81,30 +83,26 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
       }),
     )
     navigation.navigate('GeneralInformationScreen')
-    // try {
-    // } catch (error) {
-    //   navigation.navigate('CVScreen')
-    // }
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.innnerContainer}>
         <View>
-          <Text style={styles.introductHeading}>Start create CV on FITSI</Text>
           <Text style={styles.introductContent}>
-            Create a CV quickly and free, exclusively for all students. Make your career more
-            interesting with FITSI from today.
+            {t(
+              'Create a CV quickly and free, exclusively for all students. Make your career more interesting with FITSI from today.',
+            )}
           </Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.form}
           >
             <VerticalInput
-              label="CV Name"
+              label={t('CV name')}
               type="name"
               inputName="cvName"
-              placeholder="Name"
+              placeholder={t('Enter CV name')}
               autoCapitalize="none"
               returnKeyType="next"
               keyboardType="ascii-capable"
@@ -117,7 +115,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
         </View>
         <View>
           <GeneralButton
-            label="Start Making CV"
+            label={t('Start create CV')}
             bgColor={Theme.palette.main.primary}
             txtColor={Theme.palette.white.primary}
             isAlignCenter={true}
@@ -126,7 +124,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
           />
           <View style={{ height: 10 }} />
           <GeneralButton
-            label="Cancel"
+            label={t('Cancel')}
             bgColor={Theme.palette.paragraph.primary}
             txtColor={Theme.palette.black.primary}
             isAlignCenter={true}

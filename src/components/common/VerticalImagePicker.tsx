@@ -1,5 +1,6 @@
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import Theme from '../../utils/Theme'
 
@@ -10,11 +11,13 @@ type VerticalImagePickerProps = {
 }
 
 const VerticalImagePicker: React.FC<VerticalImagePickerProps> = ({ image, error, pickImage }) => {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.contaier}>
-      <Text>Image</Text>
+      <Text>{t('Image')}</Text>
       <Pressable style={styles.inputContainer} onPress={pickImage}>
-        <Text style={styles.inputText}>Pick an image from gallery</Text>
+        <Text style={styles.inputText}>{t('Pick an image from gallery')}</Text>
       </Pressable>
       {error !== '' && <Text style={styles.error}>{error}</Text>}
       {image !== '' && (

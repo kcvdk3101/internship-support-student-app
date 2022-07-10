@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { DrawerHeaderProps } from '@react-navigation/drawer'
 import { createStackNavigator } from '@react-navigation/stack'
+import { useTranslation } from 'react-i18next'
 import { Image, Pressable, StyleSheet } from 'react-native'
 import AccountScreen from '../../screens/account/AccountScreen'
 import AdditionalInformationScreen from '../../screens/additionalInformation/AdditionalInformationScreen'
@@ -96,120 +97,108 @@ export const CVStackScreen = () => (
 
 // CV Form Stack
 const CVFormStack = createStackNavigator()
-export const CVFormStackScreen = () => (
-  <CVFormStack.Navigator
-    screenOptions={({ navigation }) => ({
-      headerLeft: () => (
-        <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-          <Ionicons name="close" size={28} color={Theme.palette.black.primary} />
-        </Pressable>
-      ),
-    })}
-  >
-    <CVFormStack.Screen
-      name="CVFormScreen"
-      component={CVFormScreen}
-      options={{
-        headerTitle: 'Create FITSI CV',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
-      }}
-    />
-    <CVFormStack.Screen
-      name="GeneralInformationScreen"
-      component={GeneralInformationScreen}
-      options={{
-        headerTitle: 'General Information',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
-      }}
-    />
-    <CVFormStack.Screen
-      name="AdditionalInformationScreen"
-      component={AdditionalInformationScreen}
-      options={({ navigation }) => ({
-        headerTitle: 'Additional Information',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
+export const CVFormStackScreen = () => {
+  const { t } = useTranslation()
+
+  return (
+    <CVFormStack.Navigator
+      screenOptions={({ navigation }) => ({
         headerLeft: () => (
           <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            <Ionicons name="close" size={28} color={Theme.palette.black.primary} />
           </Pressable>
         ),
       })}
-    />
-    <CVFormStack.Screen
-      name="TechnicalSkillsScreen"
-      component={TechnicalSkillsScreen}
-      options={({ navigation }) => ({
-        headerTitle: 'Technical Skills',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
-        headerLeft: () => (
-          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
-          </Pressable>
-        ),
-      })}
-    />
-    {/* <CVFormStack.Screen
-      name="LanguagesScreen"
-      component={LanguagesScreen}
-      options={({ navigation }) => ({
-        headerTitle: 'Languages',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
-        headerLeft: () => (
-          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
-          </Pressable>
-        ),
-      })}
-    /> */}
-    <CVFormStack.Screen
-      name="ProjectScreen"
-      component={ProjectScreen}
-      options={({ navigation }) => ({
-        headerTitle: 'Project',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
-        headerLeft: () => (
-          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
-          </Pressable>
-        ),
-      })}
-    />
-    <CVFormStack.Screen
-      name="CertificationScreen"
-      component={CertificationScreen}
-      options={({ navigation }) => ({
-        headerTitle: 'CertificationScreen',
-        headerStyle: {
-          height: 80,
-          backgroundColor: Theme.palette.white.primary,
-        },
-        headerLeft: () => (
-          <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
-            <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
-          </Pressable>
-        ),
-      })}
-    />
-  </CVFormStack.Navigator>
-)
+    >
+      <CVFormStack.Screen
+        name="CVFormScreen"
+        component={CVFormScreen}
+        options={{
+          headerTitle: t('Create New CV'),
+          headerStyle: {
+            height: 80,
+            backgroundColor: Theme.palette.white.primary,
+          },
+        }}
+      />
+      <CVFormStack.Screen
+        name="GeneralInformationScreen"
+        component={GeneralInformationScreen}
+        options={{
+          headerTitle: t('General information'),
+          headerStyle: {
+            height: 80,
+            backgroundColor: Theme.palette.white.primary,
+          },
+        }}
+      />
+      <CVFormStack.Screen
+        name="AdditionalInformationScreen"
+        component={AdditionalInformationScreen}
+        options={({ navigation }) => ({
+          headerTitle: t('Additional information'),
+          headerStyle: {
+            height: 80,
+            backgroundColor: Theme.palette.white.primary,
+          },
+          headerLeft: () => (
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            </Pressable>
+          ),
+        })}
+      />
+      <CVFormStack.Screen
+        name="TechnicalSkillsScreen"
+        component={TechnicalSkillsScreen}
+        options={({ navigation }) => ({
+          headerTitle: t('Technical skills'),
+          headerStyle: {
+            height: 80,
+            backgroundColor: Theme.palette.white.primary,
+          },
+          headerLeft: () => (
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={28} color={Theme.palette.black.primary} />
+            </Pressable>
+          ),
+        })}
+      />
+      <CVFormStack.Screen
+        name="ProjectScreen"
+        component={ProjectScreen}
+        options={({ navigation }) => ({
+          headerTitle: t('Project'),
+          headerStyle: {
+            height: 80,
+            backgroundColor: Theme.palette.white.primary,
+          },
+          headerLeft: () => (
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
+            </Pressable>
+          ),
+        })}
+      />
+      <CVFormStack.Screen
+        name="CertificationScreen"
+        component={CertificationScreen}
+        options={({ navigation }) => ({
+          headerTitle: t('Certification'),
+          headerStyle: {
+            height: 80,
+            backgroundColor: Theme.palette.white.primary,
+          },
+          headerLeft: () => (
+            <Pressable style={styles.positionLeft} onPress={() => navigation.goBack()}>
+              <Ionicons name="arrow-back" size={24} color={Theme.palette.black.primary} />
+            </Pressable>
+          ),
+        })}
+      />
+    </CVFormStack.Navigator>
+  )
+}
 
 // Account Stack
 const AccountStack = createStackNavigator()
@@ -221,18 +210,6 @@ export const AccountStackScreen = () => (
   >
     <AccountStack.Screen name="AccountScreen" component={AccountScreen} />
   </AccountStack.Navigator>
-)
-
-// Contact Stack
-const ContactStack = createStackNavigator()
-export const ContactStackScreen = () => (
-  <ContactStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}
-  >
-    <ContactStack.Screen name="ContactScreen" component={ContactScreen} />
-  </ContactStack.Navigator>
 )
 
 const styles = StyleSheet.create({

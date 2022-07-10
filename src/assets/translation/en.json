@@ -5,6 +5,9 @@
   "Dark mode": "Dark mode",
   "Change language": "Change language",
   "Change password": "Change password",
+  "Summary": "Summary",
+  "Profile information": "Profile Information",
+  "Skill": "Skill",
   "Welcome": "Welcome",
   "Find Your": "Find Your",
   "Dream Job": "Dream Job",
@@ -22,6 +25,7 @@
   "Select teacher": "Select teacher",
   "No teacher yet": "No have teacher yet",
   "Wait for teacher acceptance": "Wait for teacher acceptance",
+  "Write something about yourself": "Write something about yourself",
 
   "Have teacher": "Alreadt have teacher",
 
@@ -70,13 +74,17 @@
 
   "Add new student": "Add new student",
   "Add new teacher": "Add new teacher",
+  "Add skill": "Add skill",
 
   "Search by": "Search by",
   "Search fullname": "Search fullname...",
 
+  "CV name": "CV name",
+  "Image": "Image",
   "N.O": "Number ordered",
   "Last name": "Last name",
   "First name": "First name",
+  "Position to apply": "Position to apply",
   "Identity number": "Identity number",
   "Full name": "Full name",
   "Password": "Password",
@@ -117,12 +125,22 @@
   "Send": "Send",
 
   "Create New CV": "Create New CV",
+  "Start create CV": "Start create CV",
+  "Create a CV quickly and free, exclusively for all students. Make your career more interesting with FITSI from today.": "Create a CV quickly and free, exclusively for all students. Make your career more interesting with FITSI from today.",
+  "General information": "General Information",
+  "Additional information": "Additional Information",
+  "Technical skills": "Technical Skills",
+  "Project": "Project",
+  "Certification": "Certification",
   "Searching job": "Searching job",
   "Choose your city": "Choose your city",
   "Choose level": "Choose level",
 
   "Enter student email": "Enter student email",
   "Enter password": "Enter password",
+  "Enter CV name": "Enter CV name",
+  "Enter the position to apply": "Enter the position to apply",
+  "Pick an image from gallery": "Pick an image from gallery",
 
   "This field is required": "This field is required",
   "Phone number is invalid": "Phone number is invalid",

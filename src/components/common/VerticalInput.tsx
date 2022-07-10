@@ -1,5 +1,6 @@
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import {
   KeyboardTypeOptions,
   ReturnKeyTypeOptions,
@@ -56,10 +57,12 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
   control,
   errors,
 }) => {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }}>
-        <Text>{label}</Text>
+        <Text>{t(`${label}`)}</Text>
         <Text style={{ color: Theme.palette.red.error, marginLeft: 8 }}>*</Text>
       </View>
       <Controller
@@ -78,22 +81,22 @@ const VerticalInput: React.FC<VerticalInputProps> = ({
             keyboardType={keyboardType}
             returnKeyType={returnKeyType}
             style={[styles.textInput, { height: multiline ? 120 : 'auto' }]}
-            placeholder={placeholder}
+            placeholder={t(`${placeholder}`)}
             placeholderTextColor={Theme.palette.paragraph.primary}
             value={value}
             secureTextEntry={type === 'password'}
             clearButtonMode="always"
             onChangeText={onChange}
             multiline={multiline}
-            numberOfLines={multiline ? 4 : 0}
-            blurOnSubmit={multiline}
+            numberOfLines={multiline ? 5 : 0}
+            blurOnSubmit={!multiline}
             editable={editable}
           />
         )}
       />
-      {errors?.[inputName] && (
-        <Text style={{ color: Theme.palette.red.error }}>{errors?.[inputName].message}</Text>
-      )}
+      <Text style={{ color: Theme.palette.red.error }}>
+        {errors?.[inputName] ? t(`${errors?.[inputName].message}`) : ''}
+      </Text>
     </View>
   )
 }

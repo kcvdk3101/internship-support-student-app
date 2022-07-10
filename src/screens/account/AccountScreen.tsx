@@ -169,6 +169,7 @@ const AccountScreen: React.FC<AccountScreenProps> = ({ navigation }) => {
               label={t('Create New CV')}
               txtColor={Theme.palette.white.primary}
               isLoading={false}
+              onPress={() => navigation.navigate('CVTab')}
             />
           </View>
           {/* Report Button */}

@@ -25,14 +25,15 @@ import { saveCVId } from '../../features/cvSlice'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import { StudentModel } from '../../models/student.model'
+import { useTranslation } from 'react-i18next'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
 }
 
 type FieldProps = {
-  firstName: string
   lastName: string
+  firstName: string
   position: string
   email: string
   phone: string
@@ -40,38 +41,44 @@ type FieldProps = {
 }
 
 const generalInformationSchema = yup.object({
-  firstName: yup.string().required('This field is required'),
   lastName: yup.string().required('This field is required'),
+  firstName: yup.string().required('This field is required'),
   position: yup.string().required('This field is required'),
   email: yup.string().email('Invalid email format').required('This field is required'),
-  phone: yup.string().matches(phoneRegExp, 'Phone number is not valid').required('This field is required'),
+  phone: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .required('This field is required'),
   content: yup.string().required('This field is required'),
 })
 
 const generalInformation = [
   {
-    label: 'First Name',
-    type: 'name',
-    inputName: 'firstName',
-    placeholder: 'Enter your first name',
-    returnKeyType: 'next',
-    keyboardType: 'default',
-  },
-  {
-    label: 'Last Name',
+    label: 'Last name',
     type: 'name',
     inputName: 'lastName',
     placeholder: 'Enter your last name',
     returnKeyType: 'next',
     keyboardType: 'default',
+    multi: false,
   },
   {
-    label: 'Position to Apply',
+    label: 'First name',
     type: 'name',
-    inputName: 'position',
-    placeholder: 'Enter position',
+    inputName: 'firstName',
+    placeholder: 'Enter your first name',
     returnKeyType: 'next',
     keyboardType: 'default',
+    multi: false,
+  },
+  {
+    label: 'Position to apply',
+    type: 'name',
+    inputName: 'position',
+    placeholder: 'Enter the position to apply',
+    returnKeyType: 'next',
+    keyboardType: 'default',
+    multi: false,
   },
   {
     label: 'Email',
@@ -80,6 +87,7 @@ const generalInformation = [
     placeholder: '',
     returnKeyType: 'next',
     keyboardType: 'default',
+    multi: false,
   },
   {
     label: 'Phone',
@@ -88,10 +96,12 @@ const generalInformation = [
     placeholder: '',
     returnKeyType: 'done',
     keyboardType: 'default',
+    multi: false,
   },
 ]
 
 const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
   const { firstName, lastName, email, phoneNumber, studentId, student } = useAppSelector(
     (state) => state.auth.user,
   )
@@ -106,8 +116,8 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
   } = useForm<FieldProps>({
     resolver: yupResolver(generalInformationSchema),
     defaultValues: {
-      firstName,
       lastName,
+      firstName,
       email,
       phone: phoneNumber,
     },
@@ -173,7 +183,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
             },
           ]}
         >
-          <Text style={styles.heading}>Profile Information</Text>
+          <Text style={styles.heading}>{t('Profile information')}</Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.form}
@@ -190,13 +200,14 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                 control={control}
                 errors={errors}
                 editable={!loading}
+                multiline={info.multi}
               />
             ))}
           </KeyboardAvoidingView>
         </View>
 
         <View style={styles.block}>
-          <Text style={styles.heading}>Summary</Text>
+          <Text style={styles.heading}>{t('Summary')}</Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={styles.form}
@@ -207,7 +218,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
               inputName="content"
               placeholder="Write something about yourself"
               autoCapitalize="none"
-              returnKeyType="next"
+              returnKeyType="previous"
               keyboardType="ascii-capable"
               multiline={true}
               editable={!loading}
@@ -218,7 +229,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
         </View>
 
         <View style={styles.block}>
-          <Text style={styles.heading}>Skills</Text>
+          <Text style={styles.heading}>{t('Skill')}</Text>
           <View style={styles.form}>
             <View style={styles.skillContainer}>
               {curCV.details.skills && curCV.details.skills.length > 0 ? (
@@ -240,7 +251,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
                   onPress={loading ? () => {} : () => navigation.navigate('TechnicalSkillsScreen')}
                 >
                   <View style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>Add new skill</Text>
+                    <Text style={styles.buttonText}>{t('Add skill')}</Text>
                     <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
                   </View>
                 </TouchableOpacity>
