@@ -17,15 +17,17 @@ import ForgotPasswordScreen from './components/forgotPassword/ForgotPasswordScre
 import LoginScreen from './components/login/LoginScreen'
 
 type AuthenticationScreenProps = {
+  visible: boolean
+  navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
   handleShowModal: () => void
   handleCloseModal: () => void
-  navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
 }
 
 const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
   handleShowModal,
   handleCloseModal,
   navigation,
+  visible,
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0)
   const [displayFPScreen, setDisplayFPScreen] = useState<boolean>(false)
@@ -57,7 +59,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
 
   return (
     <View>
-      <Modal animationType="slide" transparent={true} visible={true}>
+      <Modal animationType="slide" transparent={true} visible={visible}>
         <ScrollView
           ref={scrollRef}
           style={{ backgroundColor: Theme.palette.background.modal }}

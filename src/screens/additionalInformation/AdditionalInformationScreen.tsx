@@ -20,7 +20,7 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
   const dispatch = useAppDispatch()
   const projects = useAppSelector((state) => state.cv.curCV.details.project)
   const certificates = useAppSelector((state) => state.cv.curCV.details.certificated)
-  const cvId = useAppSelector((state) => state.cv.cvId)
+  const curCV = useAppSelector((state) => state.cv.curCV)
 
   const [checkedProject, setCheckedProject] = useState(false)
   const [checkedCertificate, setCheckedertificate] = useState(false)
@@ -69,8 +69,8 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
     let project = projects.map((p) => ({ ...p, technology: [] }))
     setLoading(true)
     try {
-      const responseProject = await cvApi.addNewProject(cvId, project)
-      const responseCertificated = await cvApi.addNewCertificated(cvId, certificates)
+      const responseProject = await cvApi.addNewProject(curCV.id as string, project)
+      const responseCertificated = await cvApi.addNewCertificated(curCV.id as string, certificates)
 
       if (responseProject.data && responseCertificated.data) {
         Alert.alert('Create successfully')

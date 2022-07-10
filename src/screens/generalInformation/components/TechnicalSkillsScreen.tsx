@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import RNPickerSelect from 'react-native-picker-select'
@@ -16,8 +17,10 @@ type TechnicalSkillsScreenProps = {
 }
 
 const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
+
   const placeholder = {
-    label: 'Select skill',
+    label: t('Select skill'),
     value: '',
     color: Theme.palette.white.primary,
   }
@@ -37,7 +40,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>List of Skills</Text>
+      <Text style={styles.heading}>{t('List of Skills')}</Text>
       {[...Array(total).keys()].map((item, index) => (
         <RNPickerSelect
           key={index}
@@ -64,7 +67,7 @@ const TechnicalSkillsScreen: React.FC<TechnicalSkillsScreenProps> = ({ navigatio
         }}
       >
         <View style={styles.buttonAddInnerContainer}>
-          <Text style={styles.buttonAddText}>Add new</Text>
+          <Text style={styles.buttonAddText}>{t('Add skill')}</Text>
           <Ionicons name="add" size={24} color={Theme.palette.main.primary} />
         </View>
       </TouchableOpacity>

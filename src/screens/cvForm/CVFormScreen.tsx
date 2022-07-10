@@ -31,6 +31,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
   const {
     control,
     handleSubmit,
+    resetField,
     formState: { errors, isSubmitting },
   } = useForm<FieldProps>({
     mode: 'onSubmit',
@@ -46,6 +47,15 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     return () => {
+      resetField('cvName')
+      setImage('')
+      setErrorImage('')
+    }
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      resetField('cvName')
       setImage('')
       setErrorImage('')
     }
@@ -122,7 +132,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
             isLoading={false}
             onPress={handleSubmit(onSubmit)}
           />
-          <View style={{ height: 10 }} />
+          <View style={{ height: 20 }} />
           <GeneralButton
             label={t('Cancel')}
             bgColor={Theme.palette.paragraph.primary}

@@ -20,12 +20,14 @@ import cvApi from '../../api/university/cvApi'
 import ChipButton from '../../components/buttons/ChipButton'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import VerticalInput from '../../components/common/VerticalInput'
-import { phoneRegExp } from '../../constant'
-import { saveCVId } from '../../features/cvSlice'
+import { phoneRegExp, screenWidth } from '../../constant'
 import { useAppDispatch, useAppSelector } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
 import { StudentModel } from '../../models/student.model'
 import { useTranslation } from 'react-i18next'
+import { addNewContact, addNewCV, addNewSkill } from '../../features/cvSlice'
+import { Skill } from '../../models/skill.model'
+import axios from 'axios'
 
 type GeneralInformationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -136,7 +138,10 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
     formData.append('name', curCV.name)
 
     try {
-      let skills = curCV.details.skills.map((s) => ({ ...s, rating: 4 }))
+      let skills: {
+        name: string
+        rating: number
+      }[] = curCV.details.skills.map((s) => ({ ...s, rating: 4 }))
       let contacts = [
         {
           title: 'Phone Number',
@@ -152,13 +157,16 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
         },
       ]
 
-      const response = await cvApi.addNewCV(studentId, formData)
-      if (response.data.length > 0) {
-        dispatch(saveCVId(response.data[0].id))
-        const responseSkill = await cvApi.addSkill(response.data[0].id, skills)
-        const responseContact = await cvApi.addContact(response.data[0].id, contacts)
-
-        if (responseSkill.data.length > 0 && responseContact.data.length > 0) {
+      const response: any = await dispatch(addNewCV({ studentId, formData }))
+      if (response.payload.length > 0) {
+        const responseSkill = await dispatch(addNewSkill({ cvId: response.payload[0].id, skills }))
+        const responseContact = await dispatch(
+          addNewContact({ cvId: response.payload[0].id, contacts }),
+        )
+        if (
+          responseSkill.meta.requestStatus === 'fulfilled' &&
+          responseContact.meta.requestStatus === 'fulfilled'
+        ) {
           navigation.navigate('AdditionalInformationScreen')
         } else {
           navigation.navigate('CVForm')
@@ -174,102 +182,105 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <View
-          style={[
-            styles.block,
-            {
-              marginTop: 12,
-            },
-          ]}
-        >
-          <Text style={styles.heading}>{t('Profile information')}</Text>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.form}
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        <ScrollView>
+          <View
+            style={[
+              styles.block,
+              {
+                marginTop: 12,
+              },
+            ]}
           >
-            {generalInformation.map((info, index) => (
-              <VerticalInput
-                key={index}
-                label={info.label}
-                type={info.type}
-                inputName={info.inputName}
-                placeholder={info.placeholder}
-                returnKeyType={info.returnKeyType as ReturnKeyTypeOptions}
-                keyboardType={info.keyboardType as KeyboardTypeOptions}
-                control={control}
-                errors={errors}
-                editable={!loading}
-                multiline={info.multi}
-              />
-            ))}
-          </KeyboardAvoidingView>
-        </View>
-
-        <View style={styles.block}>
-          <Text style={styles.heading}>{t('Summary')}</Text>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={styles.form}
-          >
-            <VerticalInput
-              label="Content"
-              type="name"
-              inputName="content"
-              placeholder="Write something about yourself"
-              autoCapitalize="none"
-              returnKeyType="previous"
-              keyboardType="ascii-capable"
-              multiline={true}
-              editable={!loading}
-              control={control}
-              errors={errors}
-            />
-          </KeyboardAvoidingView>
-        </View>
-
-        <View style={styles.block}>
-          <Text style={styles.heading}>{t('Skill')}</Text>
-          <View style={styles.form}>
-            <View style={styles.skillContainer}>
-              {curCV.details.skills && curCV.details.skills.length > 0 ? (
-                <View style={styles.list}>
-                  {curCV.details.skills.map((skill, index) => (
-                    <ChipButton
-                      key={index}
-                      name={skill.name}
-                      bgColor={Theme.palette.black.primary}
-                      txtColor={Theme.palette.white.primary}
-                      fsize={14}
-                    />
-                  ))}
-                </View>
-              ) : (
-                <TouchableOpacity
-                  style={styles.button}
-                  activeOpacity={0.8}
-                  onPress={loading ? () => {} : () => navigation.navigate('TechnicalSkillsScreen')}
-                >
-                  <View style={styles.buttonContainer}>
-                    <Text style={styles.buttonText}>{t('Add skill')}</Text>
-                    <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
-                  </View>
-                </TouchableOpacity>
-              )}
+            <Text style={styles.heading}>{t('Profile information')}</Text>
+            <View style={styles.form}>
+              {generalInformation.map((info, index) => (
+                <VerticalInput
+                  key={index}
+                  label={info.label}
+                  type={info.type}
+                  inputName={info.inputName}
+                  placeholder={info.placeholder}
+                  returnKeyType={info.returnKeyType as ReturnKeyTypeOptions}
+                  keyboardType={info.keyboardType as KeyboardTypeOptions}
+                  control={control}
+                  errors={errors}
+                  editable={!loading}
+                  multiline={info.multi}
+                />
+              ))}
             </View>
           </View>
-        </View>
-      </ScrollView>
-      <View style={{ marginHorizontal: 32, marginBottom: 36 }}>
-        <GeneralButton
-          label="Finish to continue"
-          bgColor={Theme.palette.main.primary}
-          txtColor={Theme.palette.white.primary}
-          isAlignCenter={true}
-          onPress={handleSubmit(onSubmit)}
-          isLoading={loading}
-        />
-      </View>
+
+          <View style={styles.block}>
+            <Text style={styles.heading}>{t('Summary')}</Text>
+            <View style={styles.form}>
+              <VerticalInput
+                label="Content"
+                type="name"
+                inputName="content"
+                placeholder="Write something about yourself"
+                autoCapitalize="none"
+                returnKeyType="previous"
+                keyboardType="ascii-capable"
+                multiline={true}
+                editable={!loading}
+                control={control}
+                errors={errors}
+              />
+            </View>
+          </View>
+
+          <View style={styles.block}>
+            <Text style={styles.heading}>{t('Skill')}</Text>
+            <View style={styles.form}>
+              <View style={styles.skillContainer}>
+                {curCV.details.skills && curCV.details.skills.length > 0 ? (
+                  <View style={styles.list}>
+                    {curCV.details.skills.map((skill, index) => (
+                      <ChipButton
+                        key={index}
+                        name={skill.name}
+                        bgColor={Theme.palette.black.primary}
+                        txtColor={Theme.palette.white.primary}
+                        fsize={14}
+                      />
+                    ))}
+                  </View>
+                ) : (
+                  <TouchableOpacity
+                    style={styles.button}
+                    activeOpacity={0.8}
+                    onPress={
+                      loading ? () => {} : () => navigation.navigate('TechnicalSkillsScreen')
+                    }
+                  >
+                    <View style={styles.buttonContainer}>
+                      <Text style={styles.buttonText}>{t('Add skill')}</Text>
+                      <Ionicons name="add" size={24} color={Theme.palette.white.primary} />
+                    </View>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              marginHorizontal: 32,
+              marginBottom: 36,
+            }}
+          >
+            <GeneralButton
+              label={t('Continue')}
+              bgColor={Theme.palette.main.primary}
+              txtColor={Theme.palette.white.primary}
+              isAlignCenter={true}
+              onPress={handleSubmit(onSubmit)}
+              isLoading={loading}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   )
 }

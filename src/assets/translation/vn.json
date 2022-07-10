@@ -8,6 +8,8 @@
   "Summary": "Tóm tắt",
   "Profile information": "Thông tin cá nhân",
   "Skill": "Kỹ năng",
+  "List of Skills": "Danh sách các kỹ năng",
+  "Select skill": "Chọn kỹ năng",
   "Welcome": "Xin chào",
   "Find Your": "Tìm kiếm",
   "Dream Job": "công việc mơ ước",
@@ -103,6 +105,7 @@
   "Action": "Tác vụ",
   "Title": "Tiêu đề",
   "Content": "Nội dung",
+  "Continue": "Tiếp tục",
 
   "Haven't practiced": "Chưa thực tập",
   "Practicing": "Đang thực tập",

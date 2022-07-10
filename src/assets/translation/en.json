@@ -8,6 +8,8 @@
   "Summary": "Summary",
   "Profile information": "Profile Information",
   "Skill": "Skill",
+  "List of Skills": "List of Skills",
+  "Select skill": "Select skill",
   "Welcome": "Welcome",
   "Find Your": "Find Your",
   "Dream Job": "Dream Job",
@@ -105,6 +107,7 @@
   "Action": "Action",
   "Title": "Title",
   "Content": "Content",
+  "Continue": "Continue",
 
   "Haven't practiced": "Haven't practiced",
   "Practicing": "Practicing",

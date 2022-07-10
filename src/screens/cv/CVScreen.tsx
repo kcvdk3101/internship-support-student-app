@@ -1,7 +1,15 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native'
+import {
+  ActivityIndicator,
+  Alert,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
@@ -25,6 +33,22 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
 
   const [showModal, setShowModal] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const onRefresh = useCallback(async () => {
+    if (studentId !== '') {
+      setLoading(true)
+      try {
+        const response = await dispatch(getCVByStudentId({ studentId, limit: 10, offset: 0 }))
+        if (response.meta.requestStatus === 'fulfilled') {
+          setLoading(false)
+        }
+      } catch (error) {
+        Alert.alert('Something wrong!')
+      } finally {
+        setLoading(false)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -53,9 +77,9 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       {isAuthenticated ? (
-        <View>
+        <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
           <View style={styles.buttonCreateCV}>
             <GeneralButton
               bgColor={Theme.palette.main.third}
@@ -66,37 +90,31 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
               isLoading={false}
             />
           </View>
-          <ScrollView style={styles.cvList}>
-            <ScrollView>
-              {loading ? (
-                <View style={{ marginVertical: 8 }}>
-                  <ActivityIndicator size="large" color={Theme.palette.background.modal} />
-                </View>
-              ) : (
-                <View style={{ marginVertical: 8 }}>
-                  {CVs && CVs.length > 0 ? (
-                    <View>
-                      {CVs.map((cv, index) => (
-                        <CVCard
-                          key={index}
-                          name={cv.name}
-                          position={`Position: ${cv.position}`}
-                          createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
-                        />
-                      ))}
-                    </View>
-                  ) : (
-                    <View>
-                      <Text style={{ ...Theme.fonts.body.body1 }}>
-                        {t("You don't have any CVs yet")}
-                      </Text>
-                    </View>
-                  )}
-                </View>
-              )}
-            </ScrollView>
-          </ScrollView>
-        </View>
+          <View style={styles.cvList}>
+            <View>
+              <View style={{ marginVertical: 8 }}>
+                {CVs && CVs.length > 0 ? (
+                  <View>
+                    {CVs.map((cv, index) => (
+                      <CVCard
+                        key={index}
+                        name={cv.name}
+                        position={`Position: ${cv.position}`}
+                        createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
+                      />
+                    ))}
+                  </View>
+                ) : (
+                  <View>
+                    <Text style={{ ...Theme.fonts.body.body1 }}>
+                      {t("You don't have any CVs yet")}
+                    </Text>
+                  </View>
+                )}
+              </View>
+            </View>
+          </View>
+        </ScrollView>
       ) : (
         <View style={styles.loginContainer}>
           <Text style={styles.logoContent}>{t('Login to create or edit your CV')}</Text>
@@ -110,14 +128,14 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
           />
         </View>
       )}
-      {showModal && (
-        <AuthenticationScreen
-          handleShowModal={handleShowModal}
-          handleCloseModal={handleCloseModal}
-          navigation={navigation}
-        />
-      )}
-    </SafeAreaView>
+
+      <AuthenticationScreen
+        visible={showModal}
+        handleShowModal={handleShowModal}
+        handleCloseModal={handleCloseModal}
+        navigation={navigation}
+      />
+    </View>
   )
 }
 
@@ -126,14 +144,14 @@ export default CVScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: 20,
   },
   cvList: {
     paddingHorizontal: 16,
   },
   buttonCreateCV: {
     marginHorizontal: 16,
-    marginTop: -28,
-    marginBottom: 8,
+    marginBottom: 16,
   },
   loginContainer: {
     flex: 1,
