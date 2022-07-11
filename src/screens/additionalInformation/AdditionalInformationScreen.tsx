@@ -87,7 +87,7 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
         responseCertificated.meta.requestStatus === 'fulfilled'
       ) {
         setLoading(false)
-        dispatch(clearCurrentCV())
+        // dispatch(clearCurrentCV())
         navigation.navigate('MenuTab')
         Alert.alert('Create successfully')
       }

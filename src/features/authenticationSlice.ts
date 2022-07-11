@@ -8,8 +8,10 @@ type AuthenticationSliceStateProps = {
   user: UserModel
   isAuthenticated: boolean
   isFirstTimeOpen: boolean
+  hasResetPasswordCode: boolean
+  resetPasswordCode: number
+  isValid: boolean
   hasChangedPassword: boolean
-  hasResetPassword: boolean
 }
 
 const initialState: AuthenticationSliceStateProps = {
@@ -20,8 +22,10 @@ const initialState: AuthenticationSliceStateProps = {
   },
   isAuthenticated: false,
   isFirstTimeOpen: false,
+  hasResetPasswordCode: false,
+  resetPasswordCode: 0,
+  isValid: false,
   hasChangedPassword: false,
-  hasResetPassword: false,
 }
 
 export const login = createAsyncThunk(
@@ -54,10 +58,29 @@ export const changePassword = createAsyncThunk(
   },
 )
 
-export const resetPassword = createAsyncThunk('auth/resetPassword', async (email: string) => {
-  const response = await userApi.resetPassword(email)
-  return response
-})
+export const resetPasswordCode = createAsyncThunk(
+  'auth/resetPasswordCode',
+  async (email: string) => {
+    const response = await userApi.resetPasswordCode(email)
+    return response
+  },
+)
+
+export const checkIsValidResetPassword = createAsyncThunk(
+  'auth/checkIsValidResetPassword',
+  async ({ email, resetPasswordCode }: { email: string; resetPasswordCode: number }) => {
+    const response = await userApi.checkValidResetPasswordCode(email, resetPasswordCode)
+    return response
+  },
+)
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async ({ email, password }: { email: string; password: string }) => {
+    const response = await userApi.resetPassword(email, password)
+    return response
+  },
+)
 
 const authenticationSlice = createSlice({
   name: 'auth',
@@ -100,6 +123,31 @@ const authenticationSlice = createSlice({
       state.isAuthenticated = true
     })
 
+    // Has Reset Password Code
+    builder.addCase(resetPasswordCode.pending, (state) => {
+      state.hasResetPasswordCode = false
+    })
+
+    builder.addCase(resetPasswordCode.fulfilled, (state, action) => {
+      state.hasResetPasswordCode = action.payload.result
+      state.resetPasswordCode = action.payload.resetPasswordCode
+    })
+    builder.addCase(resetPasswordCode.rejected, (state) => {
+      state.hasResetPasswordCode = false
+    })
+
+    // Check isValid Reset Password
+    builder.addCase(checkIsValidResetPassword.pending, (state) => {
+      state.isValid = false
+    })
+
+    builder.addCase(checkIsValidResetPassword.fulfilled, (state, action) => {
+      state.isValid = action.payload.isValid
+    })
+    builder.addCase(checkIsValidResetPassword.rejected, (state) => {
+      state.isValid = false
+    })
+
     // Change password
     builder.addCase(changePassword.pending, (state) => {
       state.hasChangedPassword = false
@@ -110,18 +158,6 @@ const authenticationSlice = createSlice({
     })
     builder.addCase(changePassword.rejected, (state) => {
       state.hasChangedPassword = false
-    })
-
-    // Reset password
-    builder.addCase(resetPassword.pending, (state) => {
-      state.hasResetPassword = false
-    })
-
-    builder.addCase(resetPassword.fulfilled, (state, action) => {
-      state.hasResetPassword = action.payload.result
-    })
-    builder.addCase(resetPassword.rejected, (state) => {
-      state.hasResetPassword = false
     })
   },
 })

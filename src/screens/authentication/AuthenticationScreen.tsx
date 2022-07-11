@@ -15,6 +15,8 @@ import { screenWidth } from '../../constant'
 import Theme from '../../utils/Theme'
 import ForgotPasswordScreen from './components/forgotPassword/ForgotPasswordScreen'
 import LoginScreen from './components/login/LoginScreen'
+import PasswordCodeScreen from './components/passwordCode/PasswordCodeScreen'
+import ResetPasswordScreen from './components/resetPassword/ResetPasswordScreen'
 
 type AuthenticationScreenProps = {
   visible: boolean
@@ -29,6 +31,7 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
   navigation,
   visible,
 }) => {
+  const [currentEmail, setCurrentEmail] = useState('')
   const [currentSlideIndex, setCurrentSlideIndex] = useState<number>(0)
   const [displayFPScreen, setDisplayFPScreen] = useState<boolean>(false)
 
@@ -37,6 +40,10 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
   const handleDisplayFPScreen = () => {
     setDisplayFPScreen(!displayFPScreen)
     goToNextSlide()
+  }
+
+  const handleCurrentEmail = (email: string) => {
+    setCurrentEmail(email)
   }
 
   const updateCurrentSlideIndex = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -89,11 +96,31 @@ const AuthenticationScreen: React.FC<AuthenticationScreenProps> = ({
             }}
           >
             <ForgotPasswordScreen
+              navigation={navigation}
               goBackSlide={goBackSlide}
+              goToNextSlide={goToNextSlide}
               handleShowModal={handleShowModal}
               handleCloseModal={handleCloseModal}
-              navigation={navigation}
+              handleCurrentEmail={handleCurrentEmail}
             />
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{
+              width: screenWidth,
+              justifyContent: 'flex-end',
+            }}
+          >
+            <PasswordCodeScreen currentEmail={currentEmail} goToNextSlide={goToNextSlide} />
+          </KeyboardAvoidingView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={{
+              width: screenWidth,
+              justifyContent: 'flex-end',
+            }}
+          >
+            <ResetPasswordScreen currentEmail={currentEmail} handleCloseModal={handleCloseModal} />
           </KeyboardAvoidingView>
         </ScrollView>
       </Modal>

@@ -17,11 +17,23 @@ const userApi = {
       data,
     )
   },
-  resetPassword(email: string) {
-    return axiosUser.post<string, { password: string; message: string; result: boolean }>(
-      `${url}/resetPassword`,
+  resetPasswordCode(email: string) {
+    return axiosUser.post<string, { resetPasswordCode: number; message: string; result: boolean }>(
+      `${url}/resetPasswordCode`,
       { email },
     )
+  },
+  checkValidResetPasswordCode(email: string, resetPasswordCode: number) {
+    return axiosUser.post<string, { isValid: boolean }>(`${url}/checkResetPasswordCode`, {
+      email,
+      resetPasswordCode,
+    })
+  },
+  resetPassword(email: string, password: string) {
+    return axiosUser.patch<string, { message: string }>(`${url}/resetPassword`, {
+      email,
+      password,
+    })
   },
 }
 

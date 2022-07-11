@@ -6,7 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
 import VerticalInput from '../../../../components/common/VerticalInput'
-import { logout, resetPassword } from '../../../../features/authenticationSlice'
+import { logout, resetPasswordCode } from '../../../../features/authenticationSlice'
 import { useAppDispatch } from '../../../../hooks/redux'
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import { DrawerNavigationHelpers } from '@react-navigation/drawer/lib/typescript/src/types'
@@ -16,7 +16,9 @@ type ForgotPasswordFormProps = {
   loading: boolean
   navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
+  goToNextSlide: () => void
   handleCloseModal: () => void
+  handleCurrentEmail: (email: string) => void
 }
 
 type FieldProps = {
@@ -37,7 +39,9 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
   loading,
   navigation,
   setLoading,
+  goToNextSlide,
   handleCloseModal,
+  handleCurrentEmail,
 }) => {
   const { t } = useTranslation()
   const dispatch = useAppDispatch()
@@ -63,21 +67,17 @@ const ForgotPasswordForm: React.FC<ForgotPasswordFormProps> = ({
         onPress: async () => {
           setLoading(true)
           try {
-            const response = await dispatch(resetPassword(data.email))
+            const response = await dispatch(resetPasswordCode(data.email))
             if (response.meta.requestStatus === 'fulfilled') {
-              const result = await dispatch(logout())
-              if (result.meta.requestStatus === 'fulfilled') {
-                setLoading(false)
-                navigation.navigate('HomeTab')
-                Alert.alert('Login again with password is your phone number')
-              }
+              setLoading(false)
+              handleCurrentEmail(data.email)
             } else {
-              Alert.alert('Something wrong!')
+              Alert.alert('Send password code fail')
             }
           } catch (error) {
             Alert.alert('Something wrong!')
           } finally {
-            handleCloseModal()
+            goToNextSlide()
             setLoading(false)
           }
         },
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    color: Theme.palette.main.fourth,
+    color: Theme.palette.main.primary,
     ...Theme.fonts.headline.h5,
   },
   subtitle: {

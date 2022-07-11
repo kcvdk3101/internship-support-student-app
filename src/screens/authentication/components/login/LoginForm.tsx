@@ -87,9 +87,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
   return (
     <View style={styles.content}>
-      <View>
-        <Text style={styles.title}>{t('Welcome')}</Text>
-      </View>
+      <Text style={styles.title}>{t('Welcome')}</Text>
       <Text style={styles.subtitle}>{t('Sign in to your account')}</Text>
 
       <VerticalInput
@@ -141,6 +139,7 @@ export default LoginForm
 const styles = StyleSheet.create({
   content: {
     justifyContent: 'flex-end',
+    marginTop: 16,
   },
   forgotPasswordContainer: {
     alignItems: 'flex-end',

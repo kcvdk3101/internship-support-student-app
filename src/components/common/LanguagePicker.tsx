@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   innerContainer: {
-    width: screenWidth * 0.6,
+    width: screenWidth * 0.7,
     height: screenHeight * 0.5,
     borderRadius: 8,
     backgroundColor: Theme.palette.white.primary,

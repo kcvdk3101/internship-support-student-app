@@ -1,21 +1,13 @@
-import {
-  StyleSheet,
-  View,
-  Modal,
-  SafeAreaView,
-  TouchableOpacity,
-  Text,
-  Linking,
-} from 'react-native'
-import React from 'react'
-import { screenHeight, screenWidth } from '../../../constant'
-import Theme from '../../../utils/Theme'
 import { Ionicons } from '@expo/vector-icons'
-import GeneralButton from '../../../components/buttons/GeneralButton'
-import qs from 'qs'
 import AsyncStorageLib from '@react-native-async-storage/async-storage'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import qs from 'qs'
+import React from 'react'
+import { Linking, Modal, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import GeneralButton from '../../../components/buttons/GeneralButton'
+import { screenHeight, screenWidth } from '../../../constant'
 import { login } from '../../../features/authenticationSlice'
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux'
+import Theme from '../../../utils/Theme'
 
 type SendOutlookMailProps = {
   visible: boolean

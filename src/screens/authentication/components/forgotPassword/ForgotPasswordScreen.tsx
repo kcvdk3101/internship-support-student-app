@@ -13,15 +13,19 @@ import ForgotPasswordForm from './ForgotPasswordForm'
 type ForgotPasswordScreenProps = {
   navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
   goBackSlide: () => void
+  goToNextSlide: () => void
   handleShowModal: () => void
   handleCloseModal: () => void
+  handleCurrentEmail: (email: string) => void
 }
 
 const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
   navigation,
   goBackSlide,
+  goToNextSlide,
   handleShowModal,
   handleCloseModal,
+  handleCurrentEmail,
 }) => {
   const [loading, setLoading] = useState(false)
 
@@ -35,7 +39,9 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordScreenProps> = ({
         loading={loading}
         setLoading={setLoading}
         navigation={navigation}
+        goToNextSlide={goToNextSlide}
         handleCloseModal={handleCloseModal}
+        handleCurrentEmail={handleCurrentEmail}
       />
     </View>
   )

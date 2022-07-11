@@ -15,7 +15,7 @@ const NotificationScreen: React.FC<NotificationScreenProps> = () => {
   useEffect(() => {
     ;(async () => {
       try {
-        const response = await postApi.getAllPosts(ADMIN, offset)
+        const response = await postApi.getAllPosts(1, offset)
         if (response.data.length > 0) {
           setData(response.data)
         }
