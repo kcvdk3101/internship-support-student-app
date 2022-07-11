@@ -1,6 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup'
+import AsyncStorageLib from '@react-native-async-storage/async-storage'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import { Alert, StyleSheet, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../../components/buttons/GeneralButton'
@@ -19,11 +21,23 @@ type FieldProps = {
 }
 
 const cpSchema = yup.object({
-  currentPassword: yup.string().required('This field is required'),
-  newPassword: yup.string().required('This field is required'),
+  currentPassword: yup
+    .string()
+    .required('This field is required')
+    .test('checkCurrentPassword', 'Not match with current password', async (value) => {
+      let currentPassword = await AsyncStorageLib.getItem('@password')
+      if (value === currentPassword) return true
+      return false
+    }),
+  newPassword: yup
+    .string()
+    .required('This field is required')
+    .min(8, 'Min length is 8')
+    .max(15, 'Max length is 15'),
 })
 
 const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModal }) => {
+  const { t } = useTranslation()
   const dispatch = useAppDispatch()
   const { id } = useAppSelector((state) => state.auth.user)
   const hasChangedPassword = useAppSelector((state) => state.auth.hasChangedPassword)
@@ -33,17 +47,17 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<FieldProps>({
+    mode: 'onChange',
     resolver: yupResolver(cpSchema),
   })
 
   const onSubmit = async (data: FieldProps) => {
-    console.log(data)
     try {
-      await dispatch(changePassword({ userId: id, data }))
-      if (hasChangedPassword) {
+      const response = await dispatch(changePassword({ userId: id, data }))
+      if (response.meta.requestStatus === 'fulfilled') {
         Alert.alert('Password changed successfully!')
       } else {
-        Alert.alert('Cannot change your password')
+        Alert.alert('Cannot change your password! Please try again')
       }
     } catch (error) {
       Alert.alert('Something wrong')
@@ -56,14 +70,15 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
     <View
       style={{
         justifyContent: 'flex-end',
+        marginTop: 8,
       }}
     >
       <View style={styles.form}>
         <VerticalInput
-          label="Current password"
+          label={t('Current password')}
           type="password"
           inputName="currentPassword"
-          placeholder="Enter current password"
+          placeholder={t('Enter current password')}
           autoCapitalize="none"
           returnKeyType="next"
           keyboardType="ascii-capable"
@@ -72,13 +87,13 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
           editable={!isSubmitting}
         />
         <VerticalInput
-          label="New password"
+          label={t('New password')}
           type="password"
           inputName="newPassword"
-          placeholder="Enter new password"
+          placeholder={t('Enter new password')}
           autoCapitalize="none"
           returnKeyType="done"
-          keyboardType="numeric"
+          keyboardType="ascii-capable"
           control={control}
           errors={errors}
           editable={!isSubmitting}
@@ -89,7 +104,7 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ handleCloseModa
         bgColor={Theme.palette.main.primary}
         txtColor={Theme.palette.white.primary}
         onPress={handleSubmit(onSubmit)}
-        label="Change"
+        label={t('Change')}
         isLoading={isSubmitting}
         isAlignCenter={false}
       />
@@ -101,6 +116,6 @@ export default ChangePasswordForm
 
 const styles = StyleSheet.create({
   form: {
-    marginBottom: 32,
+    marginBottom: 8,
   },
 })

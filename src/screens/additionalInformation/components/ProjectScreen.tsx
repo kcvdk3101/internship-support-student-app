@@ -17,6 +17,7 @@ import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { t } from 'i18next'
 
 type ProjectScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -37,7 +38,11 @@ const projectSchema = yup.object({
   projectName: yup.string().required('This field is required'),
   startDate: yup.string().required('This field is required'),
   endDate: yup.string().required('This field is required'),
-  teamSize: yup.number().integer().required('This field is required'),
+  teamSize: yup
+    .number()
+    .typeError('This field must be a number')
+    .integer()
+    .required('This field is required'),
   role: yup.string().required('This field is required'),
   responsibilities: yup.string().required('This field is required'),
   sourceLink: yup.string().required('This field is required'),
@@ -46,7 +51,7 @@ const projectSchema = yup.object({
 
 const projectInformation = [
   {
-    label: 'Project Name',
+    label: 'Project name',
     type: 'name',
     inputName: 'projectName',
     placeholder: '',
@@ -54,18 +59,18 @@ const projectInformation = [
     keyboardType: 'default',
   },
   {
-    label: 'Start Date',
+    label: 'Start date',
     type: 'name',
     inputName: 'startDate',
-    placeholder: '',
+    placeholder: 'dd/mm/yyyy',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
   {
-    label: 'End Date',
+    label: 'End date',
     type: 'name',
     inputName: 'endDate',
-    placeholder: '',
+    placeholder: 'dd/mm/yyyy',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
@@ -75,7 +80,7 @@ const projectInformation = [
     inputName: 'teamSize',
     placeholder: '',
     returnKeyType: 'next',
-    keyboardType: 'default',
+    keyboardType: 'number-pad',
   },
   {
     label: 'Role',
@@ -122,8 +127,8 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
     resolver: yupResolver(projectSchema),
     defaultValues: {
       projectName: 'project',
-      startDate: '2022-02-23',
-      endDate: '2022-04-23',
+      startDate: '21/04/2022',
+      endDate: '20/04/2023',
       teamSize: 4,
       role: 'Frontend',
       responsibilities: 'Response to build backend server in e-commercial application',
@@ -167,12 +172,11 @@ const ProjectScreen: React.FC<ProjectScreenProps> = ({ navigation }) => {
           </View>
           <View
             style={{
-              marginTop: 8,
-              marginBottom: 20,
+              marginBottom: 16,
             }}
           >
             <GeneralButton
-              label="Done"
+              label={t('Done')}
               bgColor={Theme.palette.main.primary}
               txtColor={Theme.palette.white.primary}
               isAlignCenter={true}

@@ -1,16 +1,7 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  ActivityIndicator,
-  Alert,
-  RefreshControl,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native'
 import GeneralButton from '../../components/buttons/GeneralButton'
 import CVCard from '../../components/cards/CVCard'
 import { getCVByStudentId } from '../../features/cvSlice'
@@ -79,7 +70,15 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {isAuthenticated ? (
-        <ScrollView refreshControl={<RefreshControl refreshing={loading} onRefresh={onRefresh} />}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={onRefresh}
+              tintColor={Theme.palette.black.primary}
+            />
+          }
+        >
           <View style={styles.buttonCreateCV}>
             <GeneralButton
               bgColor={Theme.palette.main.third}
@@ -91,27 +90,19 @@ const CVScreen: React.FC<CVScreenProps> = ({ navigation }) => {
             />
           </View>
           <View style={styles.cvList}>
-            <View>
-              <View style={{ marginVertical: 8 }}>
-                {CVs && CVs.length > 0 ? (
-                  <View>
-                    {CVs.map((cv, index) => (
-                      <CVCard
-                        key={index}
-                        name={cv.name}
-                        position={`Position: ${cv.position}`}
-                        createdAt={`Created at : ${Utils.convertDateString(cv.createdAt)}`}
-                      />
-                    ))}
-                  </View>
-                ) : (
-                  <View>
-                    <Text style={{ ...Theme.fonts.body.body1 }}>
-                      {t("You don't have any CVs yet")}
-                    </Text>
-                  </View>
-                )}
-              </View>
+            <View style={{ marginVertical: 8 }}>
+              {CVs && CVs.length > 0 && (
+                <View>
+                  {CVs.map((cv, index) => (
+                    <CVCard
+                      key={index}
+                      name={cv.name}
+                      position={`${t('Position')}: ${cv.position}`}
+                      createdAt={`${t('Created at')} : ${Utils.convertDateString(cv.createdAt)}`}
+                    />
+                  ))}
+                </View>
+              )}
             </View>
           </View>
         </ScrollView>

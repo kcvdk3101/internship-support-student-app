@@ -122,6 +122,24 @@ const cvSlice = createSlice({
       let findIndex = state.curCV.details.certificated.findIndex((p) => p.name === action.payload)
       state.curCV.details.certificated.splice(findIndex, 1)
     },
+
+    clearCurrentCV(state) {
+      state.curCV = {
+        id: '',
+        name: '',
+        studentName: '',
+        position: '',
+        content: '',
+        details: {
+          student: [],
+          contacts: [],
+          skills: [],
+          certificated: [],
+          project: [],
+        },
+        images: [],
+      }
+    },
   },
   extraReducers: (builder) => {
     // Get CVs by student Id
@@ -183,6 +201,7 @@ export const {
   addCertification,
   deleteProject,
   deleteCertification,
+  clearCurrentCV,
 } = cvSlice.actions
 
 export default cvSlice.reducer

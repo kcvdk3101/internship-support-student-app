@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     backgroundColor: Theme.palette.white.primary,
-    height: screenHeight * 0.45,
+    height: screenHeight * 0.5,
     paddingHorizontal: 20,
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,

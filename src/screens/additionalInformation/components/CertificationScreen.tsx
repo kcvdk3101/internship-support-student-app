@@ -17,6 +17,7 @@ import { useAppDispatch } from '../../../hooks/redux'
 import Theme from '../../../utils/Theme'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useTranslation } from 'react-i18next'
 
 type CertificationScreenProps = {
   navigation: NavigationProp<ParamListBase>
@@ -30,7 +31,7 @@ type FieldProps = {
 
 const certificationInformation = [
   {
-    label: 'Certification Name',
+    label: 'Certification name',
     type: 'name',
     inputName: 'name',
     placeholder: '',
@@ -38,10 +39,10 @@ const certificationInformation = [
     keyboardType: 'default',
   },
   {
-    label: 'Issue Date',
+    label: 'Issue date',
     type: 'number',
     inputName: 'issueDate',
-    placeholder: '',
+    placeholder: 'dd/mm/yyyy',
     returnKeyType: 'next',
     keyboardType: 'default',
   },
@@ -62,6 +63,8 @@ const certiSchema = yup.object({
 })
 
 const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation }) => {
+  const { t } = useTranslation()
+
   const {
     control,
     handleSubmit,
@@ -71,7 +74,7 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
     resolver: yupResolver(certiSchema),
     defaultValues: {
       name: 'TOEIC',
-      issueDate: '2022-07-22',
+      issueDate: '22/07/2022',
       organizer: 'IIG VietNam',
     },
   })
@@ -116,7 +119,7 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
         }}
       >
         <GeneralButton
-          label="Done"
+          label={t('Done')}
           bgColor={Theme.palette.main.primary}
           txtColor={Theme.palette.white.primary}
           isAlignCenter={true}

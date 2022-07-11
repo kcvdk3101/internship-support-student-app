@@ -120,7 +120,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           </Drawer.Section>
           <Drawer.Section style={{ marginVertical: 8 }}>
             <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>{t('Preferences')}</Text>
-            <View style={styles.darkmodeContainer}>
+            {/* <View style={styles.darkmodeContainer}>
               <Text style={styles.darkmodeText}>{t('Dark mode')}</Text>
               <Switch
                 trackColor={{
@@ -132,7 +132,7 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
                 onValueChange={toggleSwitch}
                 value={isEnabled}
               />
-            </View>
+            </View> */}
             <DrawerItem
               labelStyle={{
                 ...Theme.fonts.body.body1,
