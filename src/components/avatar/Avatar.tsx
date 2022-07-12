@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 import Theme from '../../utils/Theme'
+import { useTranslation } from 'react-i18next'
 
 type AvatarProps = {
   firstName: string
@@ -8,12 +9,13 @@ type AvatarProps = {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ firstName, lastName }) => {
+  const { t } = useTranslation()
   return (
     <View style={styles.container}>
       <Text style={styles.name}>
         {lastName} {firstName}
       </Text>
-      <Text style={styles.seemore}>See your profile</Text>
+      <Text style={styles.seemore}>{t('See your profile')}</Text>
     </View>
   )
 }

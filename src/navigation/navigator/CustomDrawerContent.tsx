@@ -18,6 +18,7 @@ import GeneralButton from '../../components/buttons/GeneralButton'
 import AuthenticationScreen from '../../screens/authentication/AuthenticationScreen'
 import LanguagePicker from '../../components/common/LanguagePicker'
 import { useTranslation } from 'react-i18next'
+import { message } from '../../constant/message'
 
 const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   const { t } = useTranslation()
@@ -27,8 +28,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
 
   const [showModal, setShowModal] = useState(false)
   const [showLanguagePicker, setShowLanguagePicker] = useState(false)
-  const [isEnabled, setIsEnabled] = useState(false)
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState)
 
   const handleShowModal = () => {
     setShowModal(!showModal)
@@ -51,21 +50,21 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
   }
 
   function handleLogout(props: DrawerContentComponentProps) {
-    return Alert.alert('Logout', 'Are you sure ?', [
+    return Alert.alert(t('Sign out'), t('Are you sure ?'), [
       {
-        text: 'Cancel',
+        text: t('Cancel'),
         style: 'cancel',
       },
       {
-        text: 'Confirm',
+        text: t('Confirm'),
         onPress: async () => {
           const response = await dispatch(logout())
           if (response.meta.requestStatus === 'fulfilled') {
             props.navigation.navigate('HomeTab')
             props.navigation.closeDrawer()
-            Alert.alert('Logout successfully')
+            Alert.alert(t(message.LOGOUT_SUCCESSFULLY))
           } else {
-            Alert.alert('Something wrong!')
+            Alert.alert(t(message.ERROR_CATCH_EXCEPTION))
           }
         },
       },
@@ -120,19 +119,6 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           </Drawer.Section>
           <Drawer.Section style={{ marginVertical: 8 }}>
             <Text style={{ ...Theme.fonts.headline.h6, marginBottom: 8 }}>{t('Preferences')}</Text>
-            {/* <View style={styles.darkmodeContainer}>
-              <Text style={styles.darkmodeText}>{t('Dark mode')}</Text>
-              <Switch
-                trackColor={{
-                  false: Theme.palette.paragraph.primary,
-                  true: Theme.palette.main.primary,
-                }}
-                thumbColor={Theme.palette.white.primary}
-                ios_backgroundColor={Theme.palette.black.primary}
-                onValueChange={toggleSwitch}
-                value={isEnabled}
-              />
-            </View> */}
             <DrawerItem
               labelStyle={{
                 ...Theme.fonts.body.body1,
@@ -181,20 +167,17 @@ const CustomDrawerContent = (props: DrawerContentComponentProps) => {
           />
         )}
       </Drawer.Section>
-      {showModal && (
-        <AuthenticationScreen
-          handleShowModal={handleShowModal}
-          handleCloseModal={handleCloseModal}
-          navigation={props.navigation}
-        />
-      )}
+      <AuthenticationScreen
+        handleShowModal={handleShowModal}
+        handleCloseModal={handleCloseModal}
+        navigation={props.navigation}
+        visible={showModal}
+      />
 
-      {showLanguagePicker && (
-        <LanguagePicker
-          showLanguagePicker={showLanguagePicker}
-          handleCloseLanguagePicker={handleCloseLanguagePicker}
-        />
-      )}
+      <LanguagePicker
+        showLanguagePicker={showLanguagePicker}
+        handleCloseLanguagePicker={handleCloseLanguagePicker}
+      />
     </SafeAreaView>
   )
 }

@@ -45,13 +45,13 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
   }, [projects, certificated])
 
   function hanldeDeleteProject(name: string) {
-    return Alert.alert('Delete Project', 'Are you sure ?', [
+    return Alert.alert(t('Delete Project'), t('Are you sure ?'), [
       {
-        text: 'Cancel',
+        text: t('Cancel'),
         style: 'cancel',
       },
       {
-        text: 'Confirm',
+        text: t('Confirm'),
         onPress: () => {
           dispatch(deleteProject(name))
         },
@@ -60,13 +60,13 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
   }
 
   function hanldeDeleteCertification(name: string) {
-    return Alert.alert('Delete Certification', 'Are you sure ?', [
+    return Alert.alert(t('Delete Certification'), t('Are you sure ?'), [
       {
-        text: 'Cancel',
+        text: t('Cancel'),
         style: 'cancel',
       },
       {
-        text: 'Confirm',
+        text: t('Confirm'),
         onPress: () => {
           dispatch(deleteCertification(name))
         },
@@ -87,8 +87,8 @@ const AdditionalInformationScreen: React.FC<AdditionalInformationScreenProps> = 
         responseCertificated.meta.requestStatus === 'fulfilled'
       ) {
         setLoading(false)
-        // dispatch(clearCurrentCV())
-        navigation.navigate('MenuTab')
+        navigation.navigate('AccountScreen')
+        dispatch(clearCurrentCV())
         Alert.alert('Create successfully')
       }
     } catch (error) {

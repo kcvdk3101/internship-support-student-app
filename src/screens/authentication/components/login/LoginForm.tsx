@@ -8,6 +8,7 @@ import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
 import * as yup from 'yup'
 import GeneralButton from '../../../../components/buttons/GeneralButton'
 import VerticalInput from '../../../../components/common/VerticalInput'
+import { message } from '../../../../constant/message'
 import { login } from '../../../../features/authenticationSlice'
 import { useAppDispatch } from '../../../../hooks/redux'
 import Theme from '../../../../utils/Theme'
@@ -16,7 +17,6 @@ type LoginFormProps = {
   handleGetLoading: (loading: boolean) => void
   handleDisplayFPScreen: () => void
   handleCloseModal: () => void
-  navigation: NavigationProp<ParamListBase> | DrawerNavigationHelpers
 }
 
 type FieldProps = {
@@ -41,7 +41,6 @@ const loginSchema = yup.object({
 const LoginForm: React.FC<LoginFormProps> = ({
   handleGetLoading,
   handleDisplayFPScreen,
-  navigation,
   handleCloseModal,
 }) => {
   const { t } = useTranslation()
@@ -73,12 +72,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
       )
       if (response.meta.requestStatus === 'fulfilled') {
         handleCloseModal()
-        Alert.alert('Login successfully!')
+        Alert.alert(t(message.LOGIN_SUCCESSFULLY))
       } else {
-        Alert.alert('Email or password is wrong! Please check again')
+        Alert.alert(t(message.ERROR_EMAIL_PASSWORD))
       }
     } catch (error) {
-      Alert.alert('Something wrong! Try again later')
+      Alert.alert(t(message.ERROR_CATCH_EXCEPTION))
     } finally {
       setLoading(false)
       handleGetLoading(false)

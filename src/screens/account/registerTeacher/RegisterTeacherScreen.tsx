@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'flex-start',
     backgroundColor: Theme.palette.white.primary,
-    height: screenHeight * 0.45,
+    height: screenHeight * 0.5,
     paddingVertical: 16,
     paddingHorizontal: 20,
     borderTopLeftRadius: 30,

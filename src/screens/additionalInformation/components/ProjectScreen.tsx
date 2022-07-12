@@ -80,7 +80,7 @@ const projectInformation = [
     inputName: 'teamSize',
     placeholder: '',
     returnKeyType: 'next',
-    keyboardType: 'number-pad',
+    keyboardType: 'numeric',
   },
   {
     label: 'Role',

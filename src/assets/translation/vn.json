@@ -180,5 +180,16 @@
   "Accept corporation content": "Bạn có chấp nhận tài khoản Doanh nghiệp này không ?",
 
   "Create account heading": "Tạo tài khoản cho người sử dụng",
-  "Create account content": "Vui lòng tạo tài khoản cho tất cả các người sử dụng để có thể truy cập vào ứng dụng hoặc trang web"
+  "Create account content": "Vui lòng tạo tài khoản cho tất cả các người sử dụng để có thể truy cập vào ứng dụng hoặc trang web",
+
+  "Are you sure ?": "Bạn có chắc không ?",
+  "See your profile": "Xem hồ sơ của bạn",
+
+  "Delete Project": "Xóa dự án",
+  "Delete Certification": "Xóa chứng chỉ",
+  "Confirm": "Xác nhận",
+  "Login successfully": "Đăng nhập thành công",
+  "Logout successfully": "Đăng xuất thành công",
+  "Email or password is wrong! Please check again": "Email hoặc mật khẩu không đúng! Vui lòng kiểm tra lại",
+  "Something wrong! Try again": "Có gì đó không đúng! Thử lại sau"
 }

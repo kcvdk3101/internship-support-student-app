@@ -60,9 +60,6 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
         Alert.alert('Cannot load list teacher')
       }
     })()
-    return () => {
-      setTeachers([])
-    }
   }, [])
 
   const registerTeacher = async () => {
@@ -78,11 +75,9 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
           },
         ])
         if (response[0].register) {
+          setLoading(false)
           handleCloseForm('openRegisterForm')
-          setTimeout(() => {
-            setLoading(false)
-            handeOpenOutlookMailModal()
-          }, 500)
+          handeOpenOutlookMailModal()
         } else {
           Alert.alert('Cannot register this teacher')
         }
@@ -93,7 +88,7 @@ const RegisterTeacherForm: React.FC<RegisterTeacherFormProps> = ({
   }
 
   return (
-    <View style={{ marginVertical: 8 }}>
+    <View style={{ marginVertical: 16, flex: 1 }}>
       <Text style={styles.heading}>{t('Sign up for teacher')}</Text>
       <RNPickerSelect
         items={filterTeachers}

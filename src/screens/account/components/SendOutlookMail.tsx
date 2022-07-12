@@ -16,7 +16,7 @@ type SendOutlookMailProps = {
 
 const SendOutlookMail: React.FC<SendOutlookMailProps> = ({ visible, handleCloseForm }) => {
   const dispatch = useAppDispatch()
-  const user = useAppSelector((state) => state.auth.user)
+  // const user = useAppSelector((state) => state.auth.user)
 
   async function init() {
     try {
@@ -32,30 +32,30 @@ const SendOutlookMail: React.FC<SendOutlookMailProps> = ({ visible, handleCloseF
     }
   }
 
-  async function sendEmail(to: string, subject: string, body: string) {
-    let url = `mailto:${to}`
+  // async function sendEmail(to: string, subject: string, body: string) {
+  //   let url = `mailto:${to}`
 
-    // Create email link query
-    const query = qs.stringify({
-      subject: subject,
-      body: body,
-    })
+  //   // Create email link query
+  //   const query = qs.stringify({
+  //     subject: subject,
+  //     body: body,
+  //   })
 
-    if (query.length) {
-      url += `?${query}`
-    }
+  //   if (query.length) {
+  //     url += `?${query}`
+  //   }
 
-    // check if we can use this link
-    const canOpen = await Linking.canOpenURL(url)
+  //   // check if we can use this link
+  //   const canOpen = await Linking.canOpenURL(url)
 
-    if (!canOpen) {
-      throw new Error('Provided URL can not be handled')
-    } else {
-      init()
-    }
+  //   if (!canOpen) {
+  //     throw new Error('Provided URL can not be handled')
+  //   } else {
+  //     init()
+  //   }
 
-    return Linking.openURL(url)
-  }
+  //   return Linking.openURL(url)
+  // }
 
   return (
     <View>
@@ -69,12 +69,13 @@ const SendOutlookMail: React.FC<SendOutlookMailProps> = ({ visible, handleCloseF
           >
             <View style={styles.container}>
               <Ionicons name="close" onPress={async () => init()} size={30} style={{ width: 50 }} />
-              <Text style={styles.heading}>Đăng ký giảng viên thành công</Text>
+              <Text style={styles.heading}>Đăng ký Giảng viên thành công</Text>
               <Text style={styles.subheading}>
-                Vui lòng gửi mail cho Giảng viên để được xác nhận đồng ý hướng dẫn
+                Thư đăng ký Giảng viên hướng dẫn của bạn đã được gửi đến hộp thư thoại của Giảng
+                viên.
               </Text>
 
-              <GeneralButton
+              {/* <GeneralButton
                 bgColor={Theme.palette.main.primary}
                 onPress={async () =>
                   sendEmail(
@@ -92,7 +93,7 @@ const SendOutlookMail: React.FC<SendOutlookMailProps> = ({ visible, handleCloseF
                 label="Send by outlook"
                 isAlignCenter={true}
                 txtColor={Theme.palette.white.primary}
-              />
+              /> */}
             </View>
           </View>
         </SafeAreaView>
