@@ -74,7 +74,7 @@ const CertificationScreen: React.FC<CertificationScreenProps> = ({ navigation })
     resolver: yupResolver(certiSchema),
     defaultValues: {
       name: 'TOEIC',
-      issueDate: '22/07/2022',
+      issueDate: '2022-07-22',
       organizer: 'IIG VietNam',
     },
   })

@@ -13,6 +13,7 @@ import VerticalInput from '../../components/common/VerticalInput'
 import { addCVName } from '../../features/cvSlice'
 import { useAppDispatch } from '../../hooks/redux'
 import Theme from '../../utils/Theme'
+import Buffer from 'buffer';
 
 type CVFormScreenProps = {
   navigation: DrawerNavigationProp<ParamListBase>
@@ -68,6 +69,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
       aspect: [4, 3],
       quality: 1,
     })
+
     if (!result.cancelled) {
       setImage(result.uri)
       setErrorImage('')
@@ -86,6 +88,7 @@ const CVFormScreen: React.FC<CVFormScreenProps> = ({ navigation }) => {
     // Infer the type of the image
     let match = /\.(\w+)$/.exec(filename)
     let type = match ? `image/${match[1]}` : `image`
+
     dispatch(
       addCVName({
         name: data.cvName,

@@ -21,7 +21,13 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
         <>
           <View style={styles.profile}>
             <View style={styles.avatarContainer}>
-              <Image style={styles.avatar} source={{ uri: 'https://picsum.photos/200/300' }} />
+              <Image style={styles.avatar} source={require('../../../assets/images/avatar.jpg')} />
+              {/* <View style={styles.avatar}>
+                <Text style={styles.avatarText}>
+                  {student.lastName.split('')[0]}
+                  {student.firstName.split('')[0]}
+                </Text>
+              </View> */}
             </View>
             <Text style={styles.profileText}>{student.fullName}</Text>
             <Text
@@ -85,7 +91,7 @@ const StudentInformation: React.FC<StudentInformationProps> = ({ student }) => {
               <Text style={styles.content}>{student.class}</Text>
             </View>
             <View style={styles.row}>
-              <Text style={styles.title}>{t('Academic year')}:</Text>
+              <Text style={styles.title}>{t('Term')}:</Text>
               <Text style={styles.content}>{student.term}</Text>
             </View>
           </View>
@@ -135,9 +141,16 @@ const styles = StyleSheet.create({
     ...Theme.shadow.depth3,
   },
   avatar: {
-    width: 165,
-    height: 165,
+    // display: 'flex',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    width: 160,
+    height: 160,
     borderRadius: 100,
+    // backgroundColor: Theme.palette.paragraph.primary,
+  },
+  avatarText: {
+    ...Theme.fonts.headline.h4,
   },
   notFound: { ...Theme.fonts.body.body1, marginBottom: 16 },
 })

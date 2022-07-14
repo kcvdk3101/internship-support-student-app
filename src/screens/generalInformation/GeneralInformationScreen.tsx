@@ -131,13 +131,16 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
     setloading(true)
 
     let formData = new FormData()
-    formData.append('files', JSON.stringify({ files: curCV.images }))
+    console.log('formDat: >>>>', { files: curCV.images })
+    console.log('json formDat: >>>>', JSON.stringify({ files: curCV.images }))
+
     formData.append('studentName', `${data.lastName} ${data.firstName}`)
     formData.append('position', data.position)
     formData.append('content', data.content)
     formData.append('name', curCV.name)
 
     try {
+      curCV?.images?.forEach((i) => formData.append('files', i))
       let skills: {
         name: string
         rating: number
@@ -158,7 +161,7 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
       ]
 
       const response: any = await dispatch(addNewCV({ studentId, formData }))
-      if (response.payload.length > 0) {
+      if (response?.payload?.length > 0) {
         const responseSkill = await dispatch(addNewSkill({ cvId: response.payload[0].id, skills }))
         const responseContact = await dispatch(
           addNewContact({ cvId: response.payload[0].id, contacts }),
@@ -172,8 +175,9 @@ const GeneralInformationScreen: React.FC<GeneralInformationScreenProps> = ({ nav
           navigation.navigate('CVForm')
         }
       }
-    } catch (error) {
-      Alert.alert('Something wrong !')
+    } catch (error: any) {
+      // Alert.alert('Something wrong !')
+      console.log(error)
       navigation.navigate('CVForm')
     } finally {
       setloading(false)

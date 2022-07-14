@@ -42,9 +42,8 @@ const CompanyInformation: React.FC<CompanyInformationProps> = ({
       <View style={styles.companyLogoContainer}>
         <Image
           style={styles.companyLogo}
-          source={{
-            uri: 'https://picsum.photos/200',
-          }}
+          source={require('../../../assets/images/nashtech.png')}
+          resizeMode="contain"
         />
         <Text style={styles.companyName}>{name}</Text>
       </View>
